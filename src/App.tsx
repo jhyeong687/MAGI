@@ -18,12 +18,13 @@ import { copies, phaseLabels, type Copy } from './i18n.ts';
 import MagiScreen from './MagiScreen.tsx';
 import FinalAnswer from './FinalAnswer.tsx';
 import AuthPanel from './AuthPanel.tsx';
-import { corePresentation, screenPhases, playbackTimeline } from './process.ts';
+import { corePresentation, playbackTimeline } from './process.ts';
 import { useReplay } from './useReplay.ts';
 import { useCouncil } from './useCouncil.ts';
 import { request } from './api.ts';
 import { useSound } from './useSound.ts';
 import { serviceCopies } from './serviceCopy.ts';
+import { displayCopies, localeNames, coreLabel } from './displayCopy.ts';
 
 const phases: Phase[] = [
   'independent',
@@ -39,11 +40,13 @@ function Modal({
   onClose,
   children,
   wide = false,
+  closeLabel = 'Close',
 }: {
   title: string;
   onClose: () => void;
   children: ReactNode;
   wide?: boolean;
+  closeLabel?: string;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
@@ -74,7 +77,7 @@ function Modal({
     >
       <div className="modal-heading">
         <span id={titleId}>{title}</span>
-        <button className="icon-button" aria-label="Close" onClick={onClose}>
+        <button className="icon-button" aria-label={closeLabel} onClick={onClose}>
           ×
         </button>
       </div>
@@ -82,14 +85,15 @@ function Modal({
     </dialog>
   );
 }
-function Boot({ close, skip }: { close: () => void; skip: string }) {
+function Boot({ close, skip, locale }: { close: () => void; skip: string; locale: Locale }) {
+  const dc = displayCopies[locale];
   const lines = [
-    'MAGI SYSTEM BOOT SEQUENCE',
-    'MELCHIOR-1 · PERSONALITY LOADED',
-    'BALTHASAR-2 · PERSONALITY LOADED',
-    'CASPER-3 · PERSONALITY LOADED',
-    'TRINITY INTERFACE INITIALIZED',
-    'OPERATOR CONSOLE READY',
+    `MAGI / ${dc.bootTitle}`,
+    `MELCHIOR-1 · ${dc.bootPersonality}`,
+    `BALTHASAR-2 · ${dc.bootPersonality}`,
+    `CASPER-3 · ${dc.bootPersonality}`,
+    dc.bootInterface,
+    dc.bootReady,
   ];
   const [step, setStep] = useState(0);
   useEffect(() => {
@@ -102,11 +106,12 @@ function Boot({ close, skip }: { close: () => void; skip: string }) {
   return (
     <div className="boot-screen">
       <div className="boot-mark">
-        MAGI<span>SUPERCOMPUTER SYSTEM</span>
+        MAGI<span>{dc.system}</span>
       </div>
       <div className="boot-terminal">
         <p>
-          SYSTEM INITIALIZING<span className="cursor">_</span>
+          {dc.bootTitle}
+          <span className="cursor">_</span>
         </p>
         {lines.slice(0, step).map((line, i) => (
           <div key={line}>
@@ -115,7 +120,7 @@ function Boot({ close, skip }: { close: () => void; skip: string }) {
         ))}
       </div>
       <button onClick={close}>{skip} ↗</button>
-      <small>INTERFACE BOOT / MODEL SESSIONS START ON SUBMISSION</small>
+      <small>{dc.bootHint}</small>
     </div>
   );
 }
@@ -184,7 +189,7 @@ function Configuration({
     }
   }
   return (
-    <Modal title={`SYSTEM CONFIGURATION / ${t.settings}`} onClose={onClose} wide>
+    <Modal title={`MAGI_SYS / ${t.settings}`} onClose={onClose} closeLabel={t.close} wide>
       <form onSubmit={save} className="config-form">
         <div className="config-grid">
           <label>
@@ -217,9 +222,11 @@ function Configuration({
               value={draft.locale}
               onChange={(e) => setDraft({ ...draft, locale: e.target.value as Locale })}
             >
-              <option value="ko">한국어</option>
-              <option value="en">English</option>
-              <option value="ja">日本語</option>
+              {Object.entries(localeNames).map(([value, label]) => (
+                <option value={value} key={value}>
+                  {label}
+                </option>
+              ))}
             </select>
           </label>
           <label className="toggle-label">
@@ -347,6 +354,7 @@ export default function App() {
   );
   const [historyQuery, setHistoryQuery] = useState('');
   const [stopping, setStopping] = useState(false);
+  const [switchingLocale, setSwitchingLocale] = useState(false);
   const [notice, setNotice] = useState('');
   const [tab, setTab] = useState<'command' | 'archive'>('command');
   const [showConfig, setShowConfig] = useState(false);
@@ -378,9 +386,10 @@ export default function App() {
   const logRef = useRef<HTMLDivElement>(null);
   const proposalRef = useRef<HTMLTextAreaElement>(null);
   const [followLog, setFollowLog] = useState(true);
-  const locale = copies[settings.locale] ? settings.locale : 'ko';
+  const locale = copies[settings.locale] ? settings.locale : 'en';
   const t = copies[locale];
   const ui = serviceCopies[locale];
+  const dc = displayCopies[locale];
   const filteredHistory = history.filter((item) =>
     item.question.toLocaleLowerCase(locale).includes(historyQuery.trim().toLocaleLowerCase(locale)),
   );
@@ -405,7 +414,7 @@ export default function App() {
     return () => clearInterval(timer);
   }, []);
   useEffect(() => {
-    document.documentElement.lang = locale;
+    document.documentElement.lang = locale === 'zh' ? 'zh-Hans' : locale;
     localStorage.setItem('magi-locale', locale);
     localStorage.setItem('magi-animation', settings.animations ? 'on' : 'off');
   }, [locale, settings.animations]);
@@ -461,7 +470,7 @@ export default function App() {
 
   async function submit(event?: FormEvent) {
     event?.preventDefault();
-    if (!question.trim() || busy || sending || !ready) return;
+    if (!question.trim() || busy || sending || !ready || switchingLocale) return;
     setSending(true);
     setError('');
     try {
@@ -525,6 +534,17 @@ export default function App() {
     setSettings(saved);
     setNotice(copies[saved.locale].saved);
   }
+  async function changeLocale(next: Locale) {
+    if (switchingLocale || next === locale) return;
+    setSwitchingLocale(true);
+    try {
+      await saveSettings({ ...settings, locale: next });
+    } catch (err) {
+      setError(String(err));
+    } finally {
+      setSwitchingLocale(false);
+    }
+  }
   function showFinalAnswer() {
     setCinema(false);
     requestAnimationFrame(() =>
@@ -575,16 +595,13 @@ export default function App() {
     <div
       className={`app-shell anime-terminal ${cinema ? 'cinema-mode' : ''} ${result ? 'has-final-answer' : ''} ${!motion ? 'motion-off' : ''} ${replay.enabled && !replay.playing ? 'motion-paused' : ''}`}
       data-sound={settings.sound ? 'on' : 'off'}
+      data-locale={locale}
     >
       {cinema && (
         <nav className="cinema-dock" aria-label="Cinema controls">
           <span className="dock-phase">
-            {answerGenerating
-              ? t.answerPhase
-              : view
-                ? screenPhases[view.phase].japanese
-                : '提訴待機'}{' '}
-            · {view?.records.length || 0} RESPONSES
+            {answerGenerating ? t.answerPhase : view ? phaseLabels[locale][view.phase] : t.standby}{' '}
+            · {view?.records.length || 0} {dc.responses}
           </span>
           {active && active.id !== run?.id && (
             <button onClick={() => void openRun(active.id)}>● {t.active}</button>
@@ -638,8 +655,14 @@ export default function App() {
       {motion && <div className="crt-overlay" aria-hidden="true" />}
       {motion && reveal && (
         <div className={`decision-reveal ${reveal.toLowerCase()}`} aria-hidden="true">
-          <span>MAGI SYSTEM / 決議終了</span>
-          <b>{reveal === 'APPROVED' ? '可決' : reveal === 'DENIED' ? '否決' : '保留'}</b>
+          <span>MAGI SYSTEM / {t.completed}</span>
+          <b className={locale === 'en' ? 'latin-reveal' : ''}>
+            {reveal === 'APPROVED'
+              ? dc.approved
+              : reveal === 'DENIED'
+                ? dc.denied
+                : dc.inconclusive}
+          </b>
           <strong>{reveal}</strong>
         </div>
       )}
@@ -650,7 +673,7 @@ export default function App() {
           </span>
           <div>
             <strong>MAGI</strong>
-            <span>三賢人合議システム</span>
+            <span>{dc.system}</span>
           </div>
           <p>
             OPERATIONS CONTROL
@@ -659,18 +682,36 @@ export default function App() {
             </small>
           </p>
         </div>
-        <div className={`link-status ${ready ? 'connected' : ''}`} role="status">
-          <i />
-          <span>MAGI_SYS</span>
-          <small>
-            {environment
-              ? !environment.ready
-                ? t.offline
-                : streamConnected
-                  ? t.online
-                  : t.linkError
-              : t.checking}
-          </small>
+        <div className="toolbar-side">
+          <div className={`link-status ${ready ? 'connected' : ''}`} role="status">
+            <i />
+            <span>MAGI_SYS</span>
+            <small>
+              {environment
+                ? !environment.ready
+                  ? t.offline
+                  : streamConnected
+                    ? t.online
+                    : t.linkError
+                : t.checking}
+            </small>
+          </div>
+          <label className="language-control" title={dc.languageHint}>
+            <span>{dc.language}</span>
+            <select
+              data-testid="locale-select"
+              aria-label={dc.language}
+              value={locale}
+              disabled={switchingLocale || sending}
+              onChange={(event) => void changeLocale(event.target.value as Locale)}
+            >
+              {Object.entries(localeNames).map(([value, label]) => (
+                <option value={value} key={value}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
         <nav className="tabs" aria-label="MAGI controls">
           {result && (
@@ -716,7 +757,7 @@ export default function App() {
       </header>
       {error && (
         <div className="alert" role="alert">
-          <b>SYSTEM NOTICE</b>
+          <b>{dc.notice}</b>
           <span>{error}</span>
           <button className="icon-button" aria-label={t.close} onClick={() => setError('')}>
             ×
@@ -736,10 +777,12 @@ export default function App() {
       {environment && !environment.ready && (
         <AuthPanel environment={environment} locale={locale} onReady={setEnvironment} busy={busy} />
       )}
+      {run && run.settings.locale !== locale && <p className="language-note">{dc.languageHint}</p>}
       <main className="operator-main">
         <section className="screen-stage" aria-label="MAGI display">
           <MagiScreen
             run={view}
+            locale={locale}
             replay={replay.enabled}
             position={replay.enabled ? replay.position : undefined}
             motion={motion}
@@ -747,28 +790,24 @@ export default function App() {
           />
           <div className="process-monitor" aria-live="polite" data-testid="process-monitor">
             <span>
-              {replay.enabled
-                ? '記録再生'
-                : view?.status === 'running'
-                  ? 'LIVE / 実行中'
-                  : 'MAGI 01'}
+              {replay.enabled ? dc.recorded : view?.status === 'running' ? t.live : 'MAGI 01'}
             </span>
             <strong>
               {view
                 ? view.status === 'cancelled'
-                  ? '審議中止'
+                  ? dc.stopped
                   : view.status === 'error'
-                    ? '通信障害'
+                    ? dc.error
                     : answerGenerating
                       ? t.answerPhase
-                      : screenPhases[view.phase].japanese
-                : '提訴待機'}
+                      : phaseLabels[locale][view.phase]
+                : t.standby}
             </strong>
             <span>
               {view
                 ? `${view.records.length} / ${personaCallCount(view.settings.discussionRounds)}`
                 : '0 / 0'}{' '}
-              RESPONSES
+              {dc.responses}
             </span>
           </div>
           <ol className="sequence-strip" aria-label={ui.steps}>
@@ -793,7 +832,7 @@ export default function App() {
                   className={status.pending ? 'core-working' : ''}
                 >
                   <span>{personaInfo[persona].name}</span>
-                  <b>{status.japanese}</b>
+                  <b>{coreLabel(status.label, locale)}</b>
                 </button>
               );
             })}
@@ -851,7 +890,7 @@ export default function App() {
               aria-live="polite"
             >
               <b>
-                <small>FINAL DECISION</small>
+                <small>{t.report}</small>
                 {
                   ui[
                     result.result === 'APPROVED'
@@ -867,7 +906,7 @@ export default function App() {
                 {t.votes}: <strong>{result.ratio} / 3</strong>
               </span>
               <small>
-                {result.approve} APPROVE / {result.deny} DENY / {result.abstain} ABSTAIN
+                {result.approve} {t.approve} / {result.deny} {t.deny} / {result.abstain} {t.abstain}
               </small>
             </div>
           )}
@@ -948,7 +987,7 @@ export default function App() {
               <button
                 className="primary"
                 type="submit"
-                disabled={!question.trim() || !ready || busy || sending}
+                disabled={!question.trim() || !ready || busy || sending || switchingLocale}
               >
                 {sending ? 'CONNECTING…' : t.execute} ↵
               </button>
@@ -983,7 +1022,7 @@ export default function App() {
             </span>
             <span>
               {view
-                ? `${currentPhase + 1}/5 · ${answerGenerating ? t.answerPhase : screenPhases[view.phase].english}`
+                ? `${currentPhase + 1}/5 · ${answerGenerating ? t.answerPhase : phaseLabels[locale][view.phase]}`
                 : 'EX_MODE:OFF'}
             </span>
           </div>
@@ -1001,7 +1040,7 @@ export default function App() {
           )}
         </section>
       </main>
-      {boot && <Boot close={dismissBoot} skip={t.bootSkip} />}
+      {boot && <Boot close={dismissBoot} skip={t.bootSkip} locale={locale} />}
       {showConfig && (
         <Configuration
           settings={settings}
@@ -1013,7 +1052,12 @@ export default function App() {
         />
       )}
       {tab === 'archive' && (
-        <Modal title={`MAGI_SYS / ${t.history}`} onClose={() => setTab('command')} wide>
+        <Modal
+          title={`MAGI_SYS / ${t.history}`}
+          onClose={() => setTab('command')}
+          closeLabel={t.close}
+          wide
+        >
           <section className="archive-panel">
             <input
               className="archive-search"
@@ -1048,15 +1092,22 @@ export default function App() {
         </Modal>
       )}
       {showTranscript && (
-        <Modal title={`MAGI_SYS / ${t.stream}`} onClose={() => setShowTranscript(false)} wide>
+        <Modal
+          title={`MAGI_SYS / ${t.stream}`}
+          onClose={() => setShowTranscript(false)}
+          closeLabel={t.close}
+          wide
+        >
           <div className="transcript-panel">
             <div className="transcript-meta">
               <span>{replay.enabled ? t.replayLabel : t.publicOnly}</span>
-              <span>{view?.records.length || 0} ENTRIES</span>
+              <span>
+                {view?.records.length || 0} {dc.entries}
+              </span>
             </div>
             {view && (
               <div className="submitted-proposal">
-                <small>PROPOSAL</small>
+                <small>{t.question}</small>
                 <p>{view.question}</p>
               </div>
             )}
@@ -1123,6 +1174,7 @@ export default function App() {
         <Modal
           title={`${personaInfo[selected].name} / ${personaInfo[selected].role}`}
           onClose={() => setSelected(null)}
+          closeLabel={t.close}
         >
           <div className="core-details">
             <p className="persona-context">

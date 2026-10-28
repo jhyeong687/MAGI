@@ -1,8 +1,9 @@
 import { useEffect, useId, useState } from 'react';
-import { PERSONAS, personaInfo, type Persona, type Run } from '../shared/domain.ts';
+import { PERSONAS, personaInfo, type Persona, type Run, type Locale } from '../shared/domain.ts';
 import { corePresentation, resolution } from './process.ts';
 import { coreGeometry, diagnosticGeometry, pixelAspect, pointsText } from './screenGeometry.ts';
 import { processingLight } from './processingLight.ts';
+import { displayCopies, coreLabel, resolutionLabel } from './displayCopy.ts';
 
 function useSceneClock(run: Run | null, position: number | undefined, motion: boolean) {
   const [now, setNow] = useState(Date.now());
@@ -27,14 +28,18 @@ export default function MagiScreen({
   replay,
   position,
   motion,
+  locale = 'en',
 }: {
   run: Run | null;
   onSelect: (p: Persona) => void;
   replay: boolean;
   position?: number;
   motion: boolean;
+  locale?: Locale;
 }) {
   const stamp = resolution(run);
+  const dc = displayCopies[locale];
+  const stampText = resolutionLabel(run, stamp.tone, locale);
   const diagnostics = run?.status === 'running' && run.phase === 'independent';
   const clock = useSceneClock(run, position, motion);
   const id = useId().replaceAll(':', '');
@@ -53,7 +58,7 @@ export default function MagiScreen({
         role="group"
         aria-label="MAGI three persona decision screen"
       >
-        <title>MAGI — 三賢人</title>
+        <title>MAGI — {dc.system}</title>
         <rect className="screen-background" width="640" height="480" />
         <g
           transform={`scale(${pixelAspect} 1)`}
@@ -77,16 +82,26 @@ export default function MagiScreen({
                 y="108"
                 textLength={diagnostics ? 158 : 138}
                 lengthAdjust="spacingAndGlyphs"
+                style={
+                  locale === 'en'
+                    ? { fontSize: 29, fontFamily: 'Arial, Helvetica, sans-serif' }
+                    : undefined
+                }
               >
-                提訴
+                {dc.proposal}
               </text>
               <text
                 x={diagnostics ? 469 : 489}
                 y="108"
                 textLength={diagnostics ? 155 : 138}
                 lengthAdjust="spacingAndGlyphs"
+                style={
+                  locale === 'en'
+                    ? { fontSize: 29, fontFamily: 'Arial, Helvetica, sans-serif' }
+                    : undefined
+                }
               >
-                決議
+                {dc.decision}
               </text>
             </g>
             <g className="screen-metadata">
@@ -110,19 +125,27 @@ export default function MagiScreen({
               transform="translate(519 143)"
               className={`screen-stamp ${stamp.tone}`}
               role="status"
-              aria-label={stamp.text}
+              aria-label={stampText}
               data-testid="resolution-stamp"
             >
               <rect width="115" height="44" />
               <rect x="4" y="4" width="107" height="36" />
               <text
                 x="57.5"
-                y="33"
+                y={locale === 'en' ? 29 : 33}
                 textAnchor="middle"
-                textLength={stamp.text.length === 3 ? 99 : 82}
+                textLength={locale === 'en' || stampText.length >= 3 ? 99 : 82}
                 lengthAdjust="spacingAndGlyphs"
+                style={
+                  locale === 'en'
+                    ? {
+                        fontSize: stampText.length > 10 ? 17 : 21,
+                        fontFamily: 'Arial, Helvetica, sans-serif',
+                      }
+                    : undefined
+                }
               >
-                {stamp.text}
+                {stampText}
               </text>
             </g>
             <g className="screen-connections">
@@ -167,7 +190,7 @@ export default function MagiScreen({
                 data-lit={lit}
                 role="button"
                 tabIndex={0}
-                aria-label={`${personaInfo[persona].name} ${status.label}`}
+                aria-label={`${personaInfo[persona].name} ${coreLabel(status.label, locale)}`}
                 onClick={() => onSelect(persona)}
                 onKeyDown={(event) => {
                   if (event.key === 'Enter' || event.key === ' ') {
@@ -177,7 +200,7 @@ export default function MagiScreen({
                 }}
               >
                 <title>
-                  {personaInfo[persona].name} · {status.label}
+                  {personaInfo[persona].name} · {coreLabel(status.label, locale)}
                 </title>
                 {diagnostics ? (
                   <g
@@ -242,7 +265,7 @@ export default function MagiScreen({
           </text>
           {replay && (
             <text className="screen-replay" x="352" y="471" textAnchor="middle">
-              記録再生 / RECORDED SESSION
+              {dc.recorded}
             </text>
           )}
         </g>

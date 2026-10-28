@@ -47,7 +47,7 @@ export function createScenario(kind: keyof typeof fixtureIds): Run {
     status: 'running',
     phase: 'independent',
     round: 0,
-    settings: structuredClone(defaultSettings),
+    settings: { ...structuredClone(defaultSettings), locale: 'ko' },
     cores: { melchior: fresh(), balthasar: fresh(), casper: fresh() },
     records: [],
     events: [],

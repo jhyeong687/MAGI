@@ -3,6 +3,17 @@ import type { Environment, Locale, LoginState } from '../shared/domain.ts';
 import { request } from './api.ts';
 
 const text = {
+  zh: {
+    title: '连接你的 CHATGPT 账户',
+    description: '每个人使用自己的账户登录。MAGI 使用此电脑上的 CODEX 认证，不收集密码或令牌。',
+    action: '使用 CHATGPT 登录',
+    pending: '请在浏览器中完成登录…',
+    cancel: '取消登录',
+    check: '重新检查连接',
+    terminal: '如果浏览器未打开，请在项目文件夹的终端中运行。',
+    limits: '需要具有 CODEX 使用权限的账户或工作区。使用量及限额计入登录的账户。',
+    missing: '未找到 CODEX，请运行 npm ci 后重试。',
+  },
   ko: {
     title: '사용자의 ChatGPT 계정을 연결하라',
     description:

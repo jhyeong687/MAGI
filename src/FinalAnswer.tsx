@@ -10,6 +10,7 @@ import type { Copy } from './i18n.ts';
 import { useEffect, useState } from 'react';
 import { serviceCopies } from './serviceCopy.ts';
 import { reportText } from './report.ts';
+import { displayCopies } from './displayCopy.ts';
 export default function FinalAnswer({
   run,
   t,
@@ -58,7 +59,7 @@ export default function FinalAnswer({
     >
       <header>
         <div>
-          <small>MAGI / DECISION DOCUMENT</small>
+          <small>MAGI / {displayCopies[locale].document}</small>
           <h2 id="final-answer-title">{t.finalAnswer}</h2>
         </div>
         <span>{t.councilSynthesis}</span>

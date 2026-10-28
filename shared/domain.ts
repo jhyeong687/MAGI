@@ -13,7 +13,7 @@ export type { Persona, Locale } from './personas.ts';
 export const settingsSchema = z.object({
   discussionRounds: z.number().int().min(1).max(3),
   timeoutSeconds: z.number().int().min(15).max(300),
-  locale: z.enum(['ko', 'en', 'ja']),
+  locale: z.enum(['en', 'ko', 'ja', 'zh']),
   animations: z.boolean(),
   sound: z.boolean().default(false),
   prompts: z.object({
@@ -26,7 +26,7 @@ export type Settings = z.infer<typeof settingsSchema>;
 export const defaultSettings: Settings = {
   discussionRounds: 1,
   timeoutSeconds: 120,
-  locale: 'ko',
+  locale: 'en',
   animations: true,
   sound: false,
   prompts: defaultPrompts,

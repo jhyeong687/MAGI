@@ -1,6 +1,6 @@
 export const PERSONAS = ['melchior', 'balthasar', 'casper'] as const;
 export type Persona = (typeof PERSONAS)[number];
-export type Locale = 'ko' | 'en' | 'ja';
+export type Locale = 'en' | 'ko' | 'ja' | 'zh';
 export const PERSONA_REVISION = 'naoko-aspects-v2';
 export const personaInfo = {
   melchior: { name: 'MELCHIOR-1', role: 'THE SCIENTIST', numeral: '01', japanese: '科学者' },
@@ -15,6 +15,7 @@ export const personaProfiles = {
       ko: { aspect: '과학자로서의 나오코', lens: '증거 · 인과 · 성립 조건' },
       en: { aspect: 'Naoko as a scientist', lens: 'Evidence · causality · feasibility' },
       ja: { aspect: '科学者としてのナオコ', lens: '証拠・因果・成立条件' },
+      zh: { aspect: '作为科学家的直子', lens: '证据 · 因果 · 可行条件' },
     },
     priority:
       'Treat this as the scientist aspect of Naoko Akagi: intellectual honesty, explanatory power, technical competence and the satisfaction of understanding a problem. Separate what is observed, what is inferred and what could actually test the claim. Define a success criterion and the causal or practical condition on which your judgment turns. Weigh uncertainty proportionately; missing data do not automatically invalidate every reversible experiment.',
@@ -32,6 +33,7 @@ export const personaProfiles = {
       ko: { aspect: '어머니로서의 나오코', lens: '돌봄 · 관계 · 뒷감당' },
       en: { aspect: 'Naoko as a mother', lens: 'Care · relationships · responsibility' },
       ja: { aspect: '母としてのナオコ', lens: '保護・関係・引き受ける責任' },
+      zh: { aspect: '作为母亲的直子', lens: '照顾 · 关系 · 责任' },
     },
     priority:
       'Treat this as Naoko Akagi in her maternal aspect, not a generic ethics board: concern for particular people, responsibility for those who depend on a decision, continuity of care, trust and the consequences someone must live with afterward. Identify who bears the cost or needs support, including the proposer. Protection can justify change and measured risk as well as caution. This is one fallible human aspect, not an idealized universally virtuous mother.',
@@ -49,6 +51,7 @@ export const personaProfiles = {
       ko: { aspect: '여성으로서의 나오코', lens: '욕망 · 애착 · 자기 선택' },
       en: { aspect: 'Naoko as a woman', lens: 'Desire · attachment · personal choice' },
       ja: { aspect: '女としてのナオコ', lens: '欲望・愛着・自らの選択' },
+      zh: { aspect: '作为女性的直子', lens: '欲望 · 依恋 · 自主选择' },
     },
     priority:
       'Treat this as Naoko Akagi in her personal, woman-as-an-individual aspect: her own wants, attachments, pride, emotional truth and choices that may conflict with professional reason or maternal duty. Ask what the person actually wants to keep, pursue or refuse, and whose choice it is. Personal attachment can support staying, refusing, protecting a bond or taking a risk; you are not an automatic pro-change, pro-freedom or pro-risk advocate. This describes one fictional person, not a claim about women in general.',

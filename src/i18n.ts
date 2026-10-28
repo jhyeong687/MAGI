@@ -1,4 +1,5 @@
 import type { Locale, Phase } from '../shared/domain.ts';
+import { zh } from './zh.ts';
 
 const en = {
   finalAnswer: 'FINAL ANSWER',
@@ -87,6 +88,11 @@ const en = {
 export type Copy = typeof en;
 const ko: Copy = {
   ...en,
+  approve: '찬성',
+  deny: '반대',
+  abstain: '기권',
+  pending: '대기',
+  live: '실행 중',
   finalAnswer: '최종 답변',
   councilSynthesis: '세 인격 의견 종합',
   answerGenerating: '투표가 끝났습니다. 세 인격의 최종 의견을 종합해 답변을 작성하고 있습니다…',
@@ -168,6 +174,11 @@ const ko: Copy = {
 };
 const ja: Copy = {
   ...en,
+  approve: '賛成',
+  deny: '反対',
+  abstain: '棄権',
+  pending: '待機',
+  live: '実行中',
   finalAnswer: '最終回答',
   councilSynthesis: '三人格の意見を総合',
   answerGenerating: '投票が完了しました。三人格の最終意見を総合しています…',
@@ -246,8 +257,15 @@ const ja: Copy = {
   replaySeek: '記録再生の位置',
   replaySpeed: '再生速度',
 };
-export const copies = { en, ko, ja };
+export const copies = { en, ko, ja, zh };
 export const phaseLabels: Record<Locale, Record<Phase, string>> = {
+  zh: {
+    independent: '独立分析',
+    'cross-examination': '相互质询',
+    reconsideration: '重新审视',
+    'final-vote': '最终投票',
+    report: '最终报告',
+  },
   en: {
     independent: 'INDEPENDENT ANALYSIS',
     'cross-examination': 'CROSS EXAMINATION',

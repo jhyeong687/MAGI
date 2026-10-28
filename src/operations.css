@@ -732,3 +732,71 @@
     width: 100%;
   }
 }
+
+.toolbar-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 9px;
+}
+.language-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font:
+    10px 'SFMono-Regular',
+    Consolas,
+    monospace;
+  color: #c8ab7d;
+}
+.language-control select {
+  width: 115px;
+  min-height: 32px;
+  padding: 5px 8px;
+  font-size: 12px;
+  border-color: #8c6533;
+}
+.language-note {
+  width: min(100%, 1100px);
+  margin: 12px auto 0;
+  font-size: 11px;
+  color: #c1a879;
+}
+.decision-reveal > b.latin-reveal {
+  font:
+    900 clamp(36px, 12vw, 180px)/1.5 Georgia,
+    serif;
+  letter-spacing: 0.02em;
+  padding: 0;
+}
+[data-locale='en'] .process-monitor strong {
+  font:
+    700 clamp(12px, 1.7vw, 20px)/1.5 'SFMono-Regular',
+    Consolas,
+    monospace;
+  letter-spacing: 0.02em;
+}
+[data-locale='en'] .core-status-strip button {
+  flex-wrap: wrap;
+}
+@media (max-width: 600px) {
+  .toolbar-side {
+    gap: 7px;
+  }
+  .language-control {
+    gap: 5px;
+    font-size: 9px;
+  }
+  .language-control select {
+    width: 98px;
+    font-size: 11px;
+    min-height: 32px;
+  }
+  .command-masthead div > span {
+    max-width: 130px;
+  }
+  [data-locale='en'] .tabs button {
+    font-size: 9px;
+    letter-spacing: 0;
+  }
+}

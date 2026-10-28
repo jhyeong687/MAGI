@@ -16,6 +16,7 @@ if (process.env.MAGI_BROWSER_TEST !== '1')
   throw new Error('This server is exclusively for isolated browser tests.');
 const directory = mkdtempSync(join(tmpdir(), 'magi-isolated-browser-'));
 const store = new Store(directory);
+store.saveSettings({ ...store.settings, locale: process.env.MAGI_SHOWCASE === '1' ? 'en' : 'ko' });
 for (const kind of Object.keys(fixtureIds) as (keyof typeof fixtureIds)[])
   store.save(createScenario(kind));
 if (process.env.MAGI_SHOWCASE === '1') store.save(createShowcase());

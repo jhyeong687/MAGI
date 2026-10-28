@@ -6,7 +6,7 @@
 
 **A working Evangelion-inspired terminal, powered by your own ChatGPT account.**
 
-[Quick start](#quick-start) · [Screens](#inside-the-console) · [How it works](#three-perspectives-one-recorded-decision) · [한국어](./README.ko.md)
+[Quick start](#quick-start) · [Screens](#inside-the-console) · [How it works](#three-perspectives-one-recorded-decision) · [한국어](./README.ko.md) · [日本語](./README.ja.md) · [中文](./README.zh-CN.md)
 
 ![MAGI processing](./docs/screenshots/processing.gif)
 
@@ -37,7 +37,7 @@ npm run setup
 
 Setup checks the bundled official Codex CLI, opens the official ChatGPT sign-in when needed, builds the UI, and starts the local server. Open **[127.0.0.1:5173](http://127.0.0.1:5173)**.
 
-Already connected? Use `npm start` next time. You can also start the app first and click **Sign in with ChatGPT**. Choose English, Korean or Japanese in **System configuration**.
+Already connected? Use `npm start` next time. You can also start the app first and click **Sign in with ChatGPT**. Use the **Language** selector at the top: **English / 한국어 / 日本語 / 中文**. Fresh installs start in English. Menus, console labels and new deliberations follow your selection; saved questions and responses keep their original language.
 
 ```sh
 npm start                 # Start; builds the UI if no build exists
@@ -72,6 +72,7 @@ npm run doctor            # Check CLI/auth/capabilities; no model call
 - Five visible stages, public assessments, a searchable decision archive, and saved drafts.
 - A direct synthesized answer alongside the voting result; copy it or save a Markdown report.
 - Replay the recorded process with pause, seek and speed controls. **No new model calls.**
+- English, Korean, Japanese and Simplified Chinese from the top language control.
 - Optional synthesized audio, animations OFF, reduced motion, keyboard focus and Escape controls.
 
 The original work informs the visuals and persona mapping. Exact fonts, every animation frame and original sounds are not reproduced. [Reference and reconstruction notes](./docs/ANIME_REFERENCE.md)

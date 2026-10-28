@@ -80,4 +80,30 @@ const ja: ServiceCopy = {
   inconclusive: '保留',
   sample: 'サークルの新入会員を増やすため、一学期間は面接をせず希望者全員を受け入れるべき？',
 };
-export const serviceCopies: Record<Locale, ServiceCopy> = { en, ko, ja };
+const zh: ServiceCopy = {
+  operations: '中央管制',
+  proposal: '输入审议提案',
+  draft: '草稿已保存在此浏览器',
+  shortcut: '⌘ / Ctrl + Enter 提交',
+  example: '载入示例提案',
+  clear: '清除草稿',
+  search: '按提案搜索决议记录',
+  noMatches: '没有匹配的记录。',
+  copy: '复制答复与决议',
+  copied: '答复与决议已复制。',
+  copyFailed: '复制失败，请保存报告。',
+  download: '保存报告',
+  refresh: '更新答复文体 · CODEX 1次',
+  prepareRetry: '修改提案并重试',
+  stopping: '正在中止…',
+  steps: '审议进度',
+  received: '已收到应答',
+  standby: '待命',
+  round: '讨论轮次',
+  selected: '选择人格面板以查看判断依据。',
+  approved: '通过',
+  denied: '否决',
+  inconclusive: '暂缓判断',
+  sample: '为了增加社团新成员，是否应在一个学期内取消面试并接受所有报名者？',
+};
+export const serviceCopies: Record<Locale, ServiceCopy> = { en, ko, ja, zh };

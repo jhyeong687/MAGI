@@ -1,0 +1,159 @@
+import type { Locale, Run } from '../shared/domain.ts';
+export const localeNames: Record<Locale, string> = {
+  en: 'English',
+  ko: '한국어',
+  ja: '日本語',
+  zh: '中文',
+};
+const en = {
+  proposal: 'PROPOSAL',
+  decision: 'DECISION',
+  standby: 'STANDBY',
+  processing: 'DELIBERATING',
+  approved: 'APPROVED',
+  denied: 'DENIED',
+  inconclusive: 'HOLD',
+  stopped: 'ABORTED',
+  error: 'ERROR',
+  recorded: 'RECORDED SESSION',
+  system: 'TRINITY DECISION SYSTEM',
+  language: 'Language',
+  languageHint: 'New decisions use this language. Saved responses keep their original language.',
+  notice: 'SYSTEM NOTICE',
+  responses: 'RESPONSES',
+  entries: 'ENTRIES',
+  document: 'DECISION DOCUMENT',
+  queued: 'QUEUED',
+  analyzing: 'ANALYZING',
+  debating: 'DELIBERATING',
+  voting: 'VOTING',
+  received: 'RECEIVED',
+  bootTitle: 'SYSTEM INITIALIZING',
+  bootPersonality: 'PERSONALITY LOADED',
+  bootInterface: 'TRINITY INTERFACE INITIALIZED',
+  bootReady: 'OPERATOR CONSOLE READY',
+  bootHint: 'INTERFACE BOOT / MODEL SESSIONS START ON SUBMISSION',
+};
+type DisplayCopy = typeof en;
+const ko: DisplayCopy = {
+  proposal: '제안',
+  decision: '판정',
+  standby: '대기',
+  processing: '심의 중',
+  approved: '승인',
+  denied: '거부',
+  inconclusive: '유보',
+  stopped: '중지',
+  error: '오류',
+  recorded: '기록 재생',
+  system: '삼인격 합의 시스템',
+  language: '언어',
+  languageHint: '새 심의부터 선택한 언어로 응답한다. 저장된 응답은 원문을 유지한다.',
+  notice: '시스템 알림',
+  responses: '응답',
+  entries: '개 기록',
+  document: '판정 보고서',
+  queued: '순서 대기',
+  analyzing: '분석 중',
+  debating: '토론 중',
+  voting: '투표 중',
+  received: '응답 수신',
+  bootTitle: '시스템 초기화 중',
+  bootPersonality: '인격 불러오기 완료',
+  bootInterface: '삼인격 인터페이스 초기화 완료',
+  bootReady: '관제 화면 준비 완료',
+  bootHint: '화면 부팅 / 질문 제출 시 실제 분석 시작',
+};
+const ja: DisplayCopy = {
+  proposal: '提訴',
+  decision: '決議',
+  standby: '待機',
+  processing: '審議中',
+  approved: '可決',
+  denied: '否決',
+  inconclusive: '保留',
+  stopped: '中止',
+  error: '障害',
+  recorded: '記録再生',
+  system: '三賢人合議システム',
+  language: '言語',
+  languageHint: '次の審議から選択した言語で応答する。保存済みの応答は原文を維持する。',
+  notice: 'システム通知',
+  responses: '応答',
+  entries: '件の記録',
+  document: '決議報告書',
+  queued: '待機',
+  analyzing: '解析中',
+  debating: '審議中',
+  voting: '投票中',
+  received: '応答済',
+  bootTitle: 'システム初期化中',
+  bootPersonality: '人格ロード完了',
+  bootInterface: '三人格インターフェース初期化完了',
+  bootReady: '管制画面準備完了',
+  bootHint: '画面の起動 / 質問の送信時に実際の分析を開始',
+};
+const zh: DisplayCopy = {
+  proposal: '提案',
+  decision: '决议',
+  standby: '待命',
+  processing: '审议中',
+  approved: '通过',
+  denied: '否决',
+  inconclusive: '暂缓',
+  stopped: '中止',
+  error: '故障',
+  recorded: '记录回放',
+  system: '三人格合议系统',
+  language: '语言',
+  languageHint: '新审议使用所选语言，已保存的答复保留原文。',
+  notice: '系统通知',
+  responses: '应答',
+  entries: '条记录',
+  document: '决议报告书',
+  queued: '排队中',
+  analyzing: '分析中',
+  debating: '讨论中',
+  voting: '投票中',
+  received: '已收到应答',
+  bootTitle: '正在初始化系统',
+  bootPersonality: '人格载入完成',
+  bootInterface: '三人格界面初始化完成',
+  bootReady: '管制界面准备完成',
+  bootHint: '界面启动 / 提交提案时开始实际分析',
+};
+export const displayCopies: Record<Locale, DisplayCopy> = { en, ko, ja, zh };
+export function coreLabel(label: string, locale: Locale) {
+  const t = displayCopies[locale];
+  return (
+    (
+      {
+        APPROVE: t.approved,
+        DENY: t.denied,
+        ABSTAIN: t.inconclusive,
+        STANDBY: t.standby,
+        QUEUED: t.queued,
+        ANALYZING: t.analyzing,
+        DELIBERATING: t.debating,
+        VOTING: t.voting,
+        'RESPONSE RECEIVED': t.received,
+        ABORTED: t.stopped,
+        ERROR: t.error,
+      } as Record<string, string>
+    )[label] || label
+  );
+}
+export function resolutionLabel(run: Run | null, tone: string, locale: Locale) {
+  const t = displayCopies[locale];
+  return (
+    (
+      {
+        approved: t.approved,
+        denied: t.denied,
+        inconclusive: t.inconclusive,
+        aborted: t.stopped,
+        error: t.error,
+      } as Record<string, string>
+    )[tone] || (run?.status === 'running' ? t.processing : t.standby)
+  );
+}
