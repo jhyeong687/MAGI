@@ -6,7 +6,7 @@
 
 **A working Evangelion-inspired terminal, powered by your own ChatGPT account.**
 
-[Quick start](#quick-start) · [Screens](#inside-the-console) · [How it works](#three-perspectives-one-recorded-decision) · [한국어](./README.ko.md) · [日本語](./README.ja.md) · [中文](./README.zh-CN.md)
+**[▶ Try the public demo](https://jhyeong687.github.io/MAGI/)** · [25-second video](./docs/videos/magi-demo.mp4) · [Quick start](#quick-start) · [Screens](#inside-the-console) · [How it works](#three-perspectives-one-recorded-decision) · [한국어](./README.ko.md) · [日本語](./README.ja.md) · [中文](./README.zh-CN.md)
 
 ![MAGI processing](./docs/screenshots/processing.gif)
 
@@ -23,6 +23,20 @@ It's an unofficial fan project with an actual decision engine behind the console
 > The screenshots and GIF use authored documentation examples. They show the interface, not live model output or measured inference speed. Running MAGI invokes Codex with your own signed-in account.
 
 If this is the kind of terminal you've wanted to use, a **★** helps other fans find it.
+
+## Try it before installing
+
+**[Open the interactive demo →](https://jhyeong687.github.io/MAGI/)** — no login, installation or new model calls. The Japanese MAGI artwork stays fixed while the controls switch between four languages.
+
+Choose three clearly marked, scripted examples to explore approval, denial and no-majority outcomes. A fourth option replays an **actual Codex deliberation recorded specifically for public release**, with its original English public opinions, dissent and final answer. Session identifiers and account usage are removed. The site never connects to your local MAGI server.
+
+[![Watch the recorded demonstration](./docs/videos/magi-demo-poster.png)](./docs/videos/magi-demo.mp4)
+
+**[Landscape MP4](./docs/videos/magi-demo.mp4)** · **[Vertical MP4](./docs/videos/magi-demo-vertical.mp4)** · [Recording and media provenance](./docs/videos/README.md)
+
+The 25-second video opens with a brief TV-frame comparison dissolving into this fan recreation, then shows the actual recorded session with edited timing. It is not a 25-second inference-speed claim.
+
+After a completed answer, use **Share verdict** to preview a 1200×1600 Japanese MAGI card. Exclude the question or answer before saving a PNG; supported browsers also offer native image sharing. MAGI uploads nothing. The copied link points to the public demo, never a private local record.
 
 ## Quick start
 

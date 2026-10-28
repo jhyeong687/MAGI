@@ -72,3 +72,15 @@
 </details>
 
 키보드 포커스, 모달 ESC 종료, `prefers-reduced-motion`, 애니메이션 OFF를 지원한다. 효과음은 기본 OFF다. 기록 재생은 모델을 다시 호출하지 않으며 미래 응답과 최종 답변을 먼저 노출하지 않는다.
+
+## 공개 체험과 판정 공유
+
+[공개 데모](https://jhyeong687.github.io/MAGI/)는 설명용 예시 세 개와 공개용 실제 Codex 기록 한 개를 명확히 구분한다. 로그인 없이 재생·탐색·인격별 의견·토론·최종 답변을 확인한다. 새 질문의 실시간 실행은 로컬 앱에서 진행한다.
+
+![일본어 기본 공개 데모](./screenshots/demo-desktop.png)
+
+완료된 답변에서 **판정 공유**를 누르면 1200×1600 이미지 미리보기가 열린다. 질문과 답변을 제외할 수 있고 PNG 저장 및 지원 브라우저의 기본 공유 기능을 제공한다. 내용은 서버에 업로드하지 않는다. 링크는 공개 체험으로 연결된다.
+
+![공유 전 미리보기](./screenshots/share-preview.png)
+
+[실제 공개 심의의 최종 답변](./screenshots/demo-recorded.png) · [공개 데모 모바일](./screenshots/demo-mobile.png) · [가로 시연 영상](./videos/magi-demo.mp4) · [세로 시연 영상](./videos/magi-demo-vertical.mp4)

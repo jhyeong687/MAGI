@@ -1,0 +1,44 @@
+.share-dialog {
+  max-height: 92dvh;
+  overflow-y: auto;
+}
+.share-privacy {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+.share-options,
+.share-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 16px 0;
+}
+.share-options label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+.share-preview {
+  display: block;
+  width: min(100%, 450px);
+  height: auto;
+  margin: auto;
+  border: 1px solid var(--line);
+}
+.share-render-source {
+  position: fixed;
+  left: -10000px;
+  top: 0;
+  width: 640px;
+  pointer-events: none;
+}
+.share-render-source .magi-screen {
+  width: 640px !important;
+}
+.share-public-link {
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  color: var(--muted);
+}

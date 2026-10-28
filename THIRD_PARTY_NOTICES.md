@@ -29,3 +29,9 @@ Evangelion, MAGI, and NERV names reference the original fictional work. This is 
 ## NERV emblem
 
 `public/assets/nerv-mark.svg` is the unmodified NERV vector artwork downloaded on 2026-10-28 from [Worldvectorlogo / NERV](https://worldvectorlogo.com/logo/nerv-1), [SVG file](https://cdn.worldvectorlogo.com/logos/nerv-1.svg), uploaded there by あーちゅん. It is included at the user's explicit request for this local, unofficial fan interface. The franchise emblem is not covered by the software MIT license above, and no claim of official endorsement or ownership is made. The original SVG fill and geometry are preserved.
+
+## Short TV reference in the demonstration videos
+
+The opening of `docs/videos/magi-demo.mp4` and its vertical version briefly compares frame 71 of the original TV-series MAGI screen with this independently implemented interface. The frame is visible for up to 2.6 seconds, including the dissolve. It comes from the [TV UI capture archive preserved by Gwern](https://gwern.net/doc/anime/eva/2017-10-13-ui99nkgbt-imgur-neongenesisevangelionuserinterfacescreenshots.zip).
+
+Evangelion and the reference image remain the property of their respective rights holders. They are not licensed under this repository’s MIT software license. No affiliation or endorsement is claimed. The original standalone PNG and original audio are not distributed in this repository. See [media provenance](./docs/videos/README.md).

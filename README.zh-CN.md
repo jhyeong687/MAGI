@@ -6,6 +6,14 @@
 
 ![MAGI](./docs/screenshots/desktop.png)
 
+## 公开演示、视频与分享
+
+[公开交互演示](https://jhyeong687.github.io/MAGI/)无需安装或登录，明确区分三个说明用示例和一次为公开展示而运行的实际Codex审议。实际记录保留英文原文，并已移除私人会话标识和账户用量。MAGI主画面始终保留日语。
+
+[25秒横版视频](./docs/videos/magi-demo.mp4) · [竖版视频](./docs/videos/magi-demo-vertical.mp4)。开头从TV参考画面叠化为本项目，再播放经过时间剪辑的实际审议记录。
+
+完成答复后，点击 **分享决议** 预览图片，选择是否包含问题和答复，再保存PNG。支持的浏览器也提供原生图片分享。私人内容不会上传。运行自己的问题仍需本地版及自己的账户认证。
+
 ## 开始使用
 
 需要 Node.js 22 及以上、npm、互联网连接，以及具有 Codex 使用权限的个人 ChatGPT 账户或工作区。支持 macOS/Linux；Windows 用户请在 WSL2 中运行。

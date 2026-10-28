@@ -1,0 +1,351 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  PERSONAS,
+  personaInfo,
+  personaProfiles,
+  type Locale,
+  type Persona,
+  type Phase,
+} from '../../shared/domain.ts';
+import MagiScreen from '../MagiScreen.tsx';
+import FinalAnswer from '../FinalAnswer.tsx';
+import { useReplay } from '../useReplay.ts';
+import { copies, phaseLabels } from '../i18n.ts';
+import { localeNames } from '../displayCopy.ts';
+import { screenCopy } from '../screenCopy.ts';
+import { repoUrl } from '../shareCopy.ts';
+import { demoCopies } from './copy.ts';
+import { recordedRun } from './recording.ts';
+import { createExample, exampleIds, exampleTitle, type ExampleId } from './catalog.ts';
+
+const phases: Phase[] = [
+  'independent',
+  'cross-examination',
+  'reconsideration',
+  'final-vote',
+  'report',
+];
+function initialLocale(): Locale {
+  const value =
+    new URLSearchParams(location.search).get('lang') || localStorage.getItem('magi-demo-locale');
+  return value && value in localeNames ? (value as Locale) : 'ja';
+}
+export default function DemoApp() {
+  const [locale, setLocale] = useState<Locale>(initialLocale);
+  const [selected, setSelected] = useState<ExampleId | 'recording'>(() => {
+    const id = new URLSearchParams(location.search).get('example');
+    if (id === 'recording') return id;
+    return exampleIds.includes(id as ExampleId) ? (id as ExampleId) : 'club';
+  });
+  const [started, setStarted] = useState(false),
+    [persona, setPersona] = useState<Persona>('melchior');
+  const recorded = selected === 'recording';
+  const run = useMemo(
+    () => (selected === 'recording' ? recordedRun() : createExample(selected, locale)),
+    [selected, locale],
+  );
+  const replay = useReplay(run);
+  const view = started ? replay.view : null;
+  const t = demoCopies[locale],
+    copy = copies[locale];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const [reveal, setReveal] = useState(false);
+  const revealed = useRef(false);
+  const stage = useRef<HTMLDivElement>(null);
+  const film = new URLSearchParams(location.search).has('film');
+  useEffect(() => {
+    document.documentElement.lang = locale === 'zh' ? 'zh-Hans' : locale;
+    localStorage.setItem('magi-demo-locale', locale);
+    const url = new URL(location.href);
+    url.searchParams.set('lang', locale);
+    url.searchParams.set('example', selected);
+    history.replaceState(null, '', url);
+  }, [locale, selected]);
+  useEffect(() => {
+    if (!started || !view?.verdict) {
+      revealed.current = false;
+      setReveal(false);
+      return;
+    }
+    if (revealed.current || reduced) return;
+    revealed.current = true;
+    setReveal(true);
+    const timer = setTimeout(() => setReveal(false), 1500);
+    return () => clearTimeout(timer);
+  }, [Boolean(view?.verdict), started, reduced]);
+  function start() {
+    setStarted(true);
+    revealed.current = false;
+    replay.play();
+  }
+  function changeLocale(value: Locale) {
+    setStarted(false);
+    replay.stop();
+    setLocale(value);
+  }
+  function changeExample(value: ExampleId | 'recording') {
+    setStarted(false);
+    replay.stop();
+    setSelected(value);
+  }
+  const record = view?.records.findLast((item) => item.persona === persona);
+  return (
+    <div
+      className={`demo-shell anime-terminal ${film ? 'film-mode' : ''} ${started && !replay.playing ? 'motion-paused' : ''}`}
+      data-locale={locale}
+    >
+      <header className="demo-header">
+        <div className="command-masthead">
+          <span className="nerv-mark">
+            <img src="./assets/nerv-mark.svg" alt="NERV" width="64" height="73" />
+          </span>
+          <div>
+            <strong>MAGI</strong>
+            <span lang="ja">{screenCopy.system}</span>
+          </div>
+        </div>
+        <div className="demo-links">
+          <a href={repoUrl} target="_blank" rel="noreferrer">
+            {t.source} ↗
+          </a>
+          <label className="language-control">
+            {t.language}
+            <select
+              data-testid="locale-select"
+              aria-label={t.language}
+              value={locale}
+              onChange={(event) => changeLocale(event.target.value as Locale)}
+            >
+              {Object.entries(localeNames).map(([value, label]) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+      </header>
+      <div className="demo-notice" data-testid="demo-disclosure">
+        <strong>{recorded ? t.recordedBadge : t.badge}</strong>
+        <span>{recorded ? t.recordedDisclosure : t.disclosure}</span>
+      </div>
+      <main className="demo-main">
+        <section className="demo-stage" ref={stage}>
+          <MagiScreen
+            run={view}
+            locale={locale}
+            replay={started}
+            position={started ? replay.position : undefined}
+            motion={!reduced}
+            onSelect={setPersona}
+          />
+          <ol className="sequence-strip">
+            {phases.map((phase, index) => (
+              <li key={phase} aria-current={view?.phase === phase ? 'step' : undefined}>
+                <small>{String(index + 1).padStart(2, '0')}</small>
+                <span>{phaseLabels[locale][phase]}</span>
+              </li>
+            ))}
+          </ol>
+          <div className="demo-playback">
+            <button
+              data-testid="demo-play"
+              onClick={() => {
+                if (!started) start();
+                else replay.toggle();
+              }}
+            >
+              {!started ? '▶' : replay.playing ? 'Ⅱ' : '▶'}{' '}
+              <span>{!started ? t.start : replay.playing ? t.pause : t.resume}</span>
+            </button>
+            <input
+              type="range"
+              data-testid="demo-seek"
+              aria-label={t.seek}
+              min="0"
+              max={replay.duration}
+              value={started ? replay.position : 0}
+              disabled={!started}
+              onChange={(event) => replay.seek(Number(event.target.value))}
+            />
+            <time>
+              {Math.floor(started ? replay.position / 1000 : 0)} /{' '}
+              {Math.ceil(replay.duration / 1000)}s
+            </time>
+            <select
+              aria-label={t.speed}
+              value={replay.speed}
+              onChange={(event) => replay.setSpeed(Number(event.target.value))}
+            >
+              {[0.5, 1, 2, 4].map((value) => (
+                <option key={value} value={value}>
+                  {value}×
+                </option>
+              ))}
+            </select>
+          </div>
+          <p className="demo-fixed">{t.fixed}</p>
+        </section>
+        <aside className="demo-sidebar">
+          <p className="demo-kicker">{t.choose}</p>
+          <div className="demo-examples">
+            {exampleIds.map((id, index) => (
+              <button
+                key={id}
+                data-testid={`example-${id}`}
+                aria-pressed={selected === id}
+                onClick={() => changeExample(id)}
+              >
+                <small>0{index + 1}</small>
+                {exampleTitle(id, locale)}
+              </button>
+            ))}
+            <button
+              data-testid="example-recording"
+              aria-pressed={recorded}
+              onClick={() => changeExample('recording')}
+            >
+              <small>04</small>
+              {t.recordedTitle}
+            </button>
+          </div>
+          <div className="demo-proposal">
+            <small>{t.question}</small>
+            <h1>{run.question}</h1>
+            <p>{t.intro}</p>
+            <button className="primary" data-testid="demo-start" onClick={start}>
+              ▶ {started ? t.restart : t.start}
+            </button>
+            {started && (
+              <button
+                data-testid="demo-finish"
+                onClick={() => {
+                  replay.seek(replay.duration);
+                }}
+              >
+                {t.finish} ↓
+              </button>
+            )}
+          </div>
+          <div className="demo-inspector">
+            <div className="demo-personas">
+              {PERSONAS.map((p) => (
+                <button key={p} aria-pressed={persona === p} onClick={() => setPersona(p)}>
+                  {personaInfo[p].name}
+                </button>
+              ))}
+            </div>
+            <small>
+              {personaProfiles[persona].labels[locale].aspect} ·{' '}
+              {personaProfiles[persona].labels[locale].lens}
+            </small>
+            <p data-testid="demo-opinion">{record?.assessment.summary || t.waiting}</p>
+            {record?.assessment.responseToOthers && (
+              <p className="demo-reply">{record.assessment.responseToOthers}</p>
+            )}
+          </div>
+          <a className="demo-install-link" href="#install">
+            {t.own} ↗
+          </a>
+        </aside>
+      </main>
+      {view?.verdict && (
+        <section className="demo-result" data-testid="demo-result">
+          <b>
+            {view.verdict.result === 'APPROVED'
+              ? t.approved
+              : view.verdict.result === 'DENIED'
+                ? t.denied
+                : t.noMajority}{' '}
+            <em>{view.verdict.result}</em>
+          </b>
+          <span>{view.verdict.ratio} / 3</span>
+        </section>
+      )}
+      {view?.verdict && (
+        <div className="demo-answer">
+          <FinalAnswer
+            run={view}
+            t={copy}
+            locale={locale}
+            disabled
+            replay
+            onGenerate={() => {}}
+            example={!recorded}
+            recorded={recorded}
+          />
+        </div>
+      )}
+      <details className="demo-transcript">
+        <summary>
+          {t.transcript} · {view?.records.length || 0} / 12
+        </summary>
+        {view?.records.length ? (
+          view.records.map((entry, index) => (
+            <article key={index}>
+              <header>
+                <b>{personaInfo[entry.persona].name}</b>
+                <small>{phaseLabels[locale][entry.phase]}</small>
+                <span>{entry.assessment.vote}</span>
+              </header>
+              <p>{entry.assessment.summary}</p>
+              {entry.assessment.responseToOthers && <p>{entry.assessment.responseToOthers}</p>}
+            </article>
+          ))
+        ) : (
+          <p>{t.empty}</p>
+        )}
+      </details>
+      <section className="demo-video" aria-labelledby="demo-video-title">
+        <h2 id="demo-video-title">{t.watch}</h2>
+        <p>{t.videoNote}</p>
+        <video
+          controls
+          playsInline
+          preload="none"
+          poster="./magi-demo-poster.png"
+          src="./magi-demo.mp4"
+          aria-label={t.watch}
+        />
+        <div>
+          <a href="./magi-demo.mp4" download>
+            {t.landscape} ↓
+          </a>
+          <a href="./magi-demo-vertical.mp4" download>
+            {t.vertical} ↓
+          </a>
+        </div>
+      </section>
+      <section id="install" className="demo-install">
+        <span>MAGI / LOCAL EXECUTION</span>
+        <h2>{t.own}</h2>
+        <p>{t.install}</p>
+        <pre>
+          git clone https://github.com/jhyeong687/MAGI.git{'\n'}cd MAGI{'\n'}npm ci{'\n'}npm run
+          setup
+        </pre>
+        <p>{t.usage}</p>
+        <a href={`${repoUrl}#quick-start`} target="_blank" rel="noreferrer">
+          {t.source} ↗
+        </a>
+      </section>
+      <footer className="demo-footer">
+        <span>{t.privacy}</span>
+        <a href={`${repoUrl}/blob/main/THIRD_PARTY_NOTICES.md`}>UNOFFICIAL FAN PROJECT / CREDITS</a>
+      </footer>
+      {reveal && view?.verdict && (
+        <div className={`decision-reveal ${view.verdict.result.toLowerCase()}`} aria-hidden="true">
+          <span>MAGI SYSTEM / 決議終了</span>
+          <b lang="ja">
+            {view.verdict.result === 'APPROVED'
+              ? '可決'
+              : view.verdict.result === 'DENIED'
+                ? '否決'
+                : '保留'}
+          </b>
+          <strong>{view.verdict.result}</strong>
+        </div>
+      )}
+    </div>
+  );
+}

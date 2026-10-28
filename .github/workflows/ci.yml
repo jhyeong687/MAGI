@@ -20,7 +20,7 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
-      - run: npx prettier --check src server shared tests scripts/*.ts README.md README.en.md docs/*.md .github/workflows/ci.yml
+      - run: npx prettier --check src server shared tests scripts/*.ts README*.md docs/*.md demo/index.html demo/recordings/*.json .github/workflows/*.yml playwright*.ts
       - if: matrix.node == 24
         run: npx playwright install --with-deps chromium
       - if: matrix.node == 24

@@ -1,6 +1,6 @@
 {
   "name": "magi-local-council",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -19,7 +19,11 @@
     "setup": "tsx scripts/setup.ts",
     "login": "tsx scripts/login.ts",
     "screenshots": "tsx scripts/capture-showcase.ts",
-    "social-preview": "tsx scripts/capture-social.ts"
+    "social-preview": "tsx scripts/capture-social.ts",
+    "build:demo": "tsc --noEmit && vite build --mode demo && tsx scripts/package-demo.ts",
+    "preview:demo": "vite preview --mode demo --host 127.0.0.1 --port 5190 --strictPort",
+    "test:demo": "playwright test --config playwright.demo.config.ts",
+    "video:demo": "tsx scripts/capture-video.ts"
   },
   "dependencies": {
     "@openai/codex": "0.165.0",

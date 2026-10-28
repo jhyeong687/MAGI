@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react';
 import { serviceCopies } from './serviceCopy.ts';
 import { reportText } from './report.ts';
 import { displayCopies } from './displayCopy.ts';
+import ShareDecision from './ShareDecision.tsx';
+import './share.css';
 export default function FinalAnswer({
   run,
   t,
@@ -18,6 +20,8 @@ export default function FinalAnswer({
   onGenerate,
   disabled,
   replay,
+  example = false,
+  recorded = false,
 }: {
   run: Run;
   t: Copy;
@@ -25,6 +29,8 @@ export default function FinalAnswer({
   onGenerate: (refresh?: boolean) => void;
   disabled: boolean;
   replay: boolean;
+  example?: boolean;
+  recorded?: boolean;
 }) {
   const generation = run.answer;
   const content =
@@ -135,6 +141,9 @@ export default function FinalAnswer({
           <footer className="report-actions">
             <span>FILE / {run.id.slice(0, 8).toUpperCase()}</span>
             <div>
+              {generation?.status === 'completed' && (
+                <ShareDecision run={run} locale={locale} example={example} recorded={recorded} />
+              )}
               <button data-testid="copy-report" onClick={() => void copyReport()}>
                 {ui.copy}
               </button>

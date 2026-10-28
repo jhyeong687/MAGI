@@ -1,16 +1,19 @@
 # 공유 자료와 소개글
 
+- 공개 데모: https://jhyeong687.github.io/MAGI/
+- 25초 실제 기록 시연: [가로형 MP4](./videos/magi-demo.mp4) · [세로형 MP4](./videos/magi-demo-vertical.mp4)
+- 판정 공유 이미지: [예시 PNG](./videos/share-card-example.png)
 - 저장소: https://github.com/jhyeong687/MAGI
 - 움직이는 처리 예시: [processing.gif](./screenshots/processing.gif)
 - 1200×630 공유 카드: [social-preview.png](./social-preview.png)
 - 상세 화면: [INTERFACE.md](./INTERFACE.md)
 - 한글 설명: [README.ko.md](../README.ko.md)
 
-아래 글은 복사해 쓸 수 있는 **초안**이다. 자동 게시하거나 다른 계정에 메시지를 보내는 기능은 없다. 게시하는 커뮤니티의 자기 홍보·팬 프로젝트 규칙을 확인하고, GIF는 예시 데이터로 촬영했다는 점을 유지하라.
+아래 글은 복사해 쓸 수 있는 **초안**이다. 자동 게시하거나 다른 계정에 메시지를 보내는 기능은 없다. 게시하는 커뮤니티의 자기 홍보·팬 프로젝트 규칙을 확인하고, GIF와 데모의 처음 세 항목은 설명용 예시다. 새 MP4와 네 번째 데모 항목은 공개용 실제 Codex 기록이다. 영상은 처리 시간을 편집했으며, 도입부에 짧은 원작 프레임 대조가 포함된다. 이 구분과 출처를 유지하라.
 
 ## 짧은 영문 소개
 
-> I built a working Evangelion-style MAGI terminal. Three Codex personas independently analyze a question, debate, vote, then deliver one final answer. Runs locally with your own ChatGPT login. Open source. Interface demo uses example data. https://github.com/jhyeong687/MAGI
+> I built a working Evangelion-style MAGI terminal. Three Codex personas independently analyze a question, debate, vote, then deliver one final answer. Runs locally with your own ChatGPT login. Open source. Try the no-login demo: https://jhyeong687.github.io/MAGI/ (scripted examples and a labelled real recording). Source: https://github.com/jhyeong687/MAGI
 
 ## 짧은 한국어 소개
 
