@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.research/
+.magi/
+.env
+test-results/
+playwright-report/
+.DS_Store
+.env.*
+*.log
+.codex/
+docs/evidence/
