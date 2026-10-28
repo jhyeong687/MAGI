@@ -37,7 +37,7 @@ npm run setup
 
 Setup checks the bundled official Codex CLI, opens the official ChatGPT sign-in when needed, builds the UI, and starts the local server. Open **[127.0.0.1:5173](http://127.0.0.1:5173)**.
 
-Already connected? Use `npm start` next time. You can also start the app first and click **Sign in with ChatGPT**. Use the **Language** selector at the top: **English / 한국어 / 日本語 / 中文**. Fresh installs start in English. Menus, console labels and new deliberations follow your selection; saved questions and responses keep their original language.
+Already connected? Use `npm start` next time. You can also start the app first and click **Sign in with ChatGPT**. Use the **Language** selector at the top: **English / 한국어 / 日本語 / 中文**. Fresh installs start in Japanese; use the top **言語** selector to switch to English. Menus, help and new deliberations follow your selection; saved questions and responses keep their original language. **The MAGI artwork stays Japanese in every language**: 提訴 / 決議, status stamps and the verdict reveal preserve the original visual atmosphere.
 
 ```sh
 npm start                 # Start; builds the UI if no build exists

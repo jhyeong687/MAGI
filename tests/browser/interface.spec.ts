@@ -104,7 +104,7 @@ test('recorded processing hides future decisions and replays to the real final v
   await position.focus();
   await position.press('Home');
   await expect(page.getByTestId('final-report')).not.toBeVisible();
-  await expect(page.getByTestId('resolution-stamp')).toContainText('심의 중');
+  await expect(page.getByTestId('resolution-stamp')).toContainText('審議中');
   await expect(page.getByTestId('process-monitor')).toContainText('0 / 12');
   await page.screenshot({
     path: `docs/evidence/${testInfo.project.name}-anime-processing.png`,

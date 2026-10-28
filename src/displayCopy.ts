@@ -1,4 +1,4 @@
-import type { Locale, Run } from '../shared/domain.ts';
+import type { Locale } from '../shared/domain.ts';
 export const localeNames: Record<Locale, string> = {
   en: 'English',
   ko: '한국어',
@@ -6,10 +6,7 @@ export const localeNames: Record<Locale, string> = {
   zh: '中文',
 };
 const en = {
-  proposal: 'PROPOSAL',
-  decision: 'DECISION',
   standby: 'STANDBY',
-  processing: 'DELIBERATING',
   approved: 'APPROVED',
   denied: 'DENIED',
   inconclusive: 'HOLD',
@@ -36,10 +33,7 @@ const en = {
 };
 type DisplayCopy = typeof en;
 const ko: DisplayCopy = {
-  proposal: '제안',
-  decision: '판정',
   standby: '대기',
-  processing: '심의 중',
   approved: '승인',
   denied: '거부',
   inconclusive: '유보',
@@ -65,10 +59,7 @@ const ko: DisplayCopy = {
   bootHint: '화면 부팅 / 질문 제출 시 실제 분석 시작',
 };
 const ja: DisplayCopy = {
-  proposal: '提訴',
-  decision: '決議',
   standby: '待機',
-  processing: '審議中',
   approved: '可決',
   denied: '否決',
   inconclusive: '保留',
@@ -94,10 +85,7 @@ const ja: DisplayCopy = {
   bootHint: '画面の起動 / 質問の送信時に実際の分析を開始',
 };
 const zh: DisplayCopy = {
-  proposal: '提案',
-  decision: '决议',
   standby: '待命',
-  processing: '审议中',
   approved: '通过',
   denied: '否决',
   inconclusive: '暂缓',
@@ -141,19 +129,5 @@ export function coreLabel(label: string, locale: Locale) {
         ERROR: t.error,
       } as Record<string, string>
     )[label] || label
-  );
-}
-export function resolutionLabel(run: Run | null, tone: string, locale: Locale) {
-  const t = displayCopies[locale];
-  return (
-    (
-      {
-        approved: t.approved,
-        denied: t.denied,
-        inconclusive: t.inconclusive,
-        aborted: t.stopped,
-        error: t.error,
-      } as Record<string, string>
-    )[tone] || (run?.status === 'running' ? t.processing : t.standby)
   );
 }

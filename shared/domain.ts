@@ -26,7 +26,7 @@ export type Settings = z.infer<typeof settingsSchema>;
 export const defaultSettings: Settings = {
   discussionRounds: 1,
   timeoutSeconds: 120,
-  locale: 'en',
+  locale: 'ja',
   animations: true,
   sound: false,
   prompts: defaultPrompts,

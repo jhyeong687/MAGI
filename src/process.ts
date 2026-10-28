@@ -72,7 +72,7 @@ export function resolution(run: Run | null) {
             : '保留',
       tone: run.verdict.result.toLowerCase(),
     };
-  return { text: run?.status === 'running' ? '審議中' : '待機中', tone: 'pending' };
+  return { text: run?.status === 'running' ? '審議中' : '待機', tone: 'pending' };
 }
 
 // New decisions store exact server transitions. Older records reconstruct phase boundaries

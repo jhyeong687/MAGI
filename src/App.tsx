@@ -25,6 +25,7 @@ import { request } from './api.ts';
 import { useSound } from './useSound.ts';
 import { serviceCopies } from './serviceCopy.ts';
 import { displayCopies, localeNames, coreLabel } from './displayCopy.ts';
+import { screenCopy } from './screenCopy.ts';
 
 const phases: Phase[] = [
   'independent',
@@ -386,7 +387,7 @@ export default function App() {
   const logRef = useRef<HTMLDivElement>(null);
   const proposalRef = useRef<HTMLTextAreaElement>(null);
   const [followLog, setFollowLog] = useState(true);
-  const locale = copies[settings.locale] ? settings.locale : 'en';
+  const locale = copies[settings.locale] ? settings.locale : 'ja';
   const t = copies[locale];
   const ui = serviceCopies[locale];
   const dc = displayCopies[locale];
@@ -655,13 +656,13 @@ export default function App() {
       {motion && <div className="crt-overlay" aria-hidden="true" />}
       {motion && reveal && (
         <div className={`decision-reveal ${reveal.toLowerCase()}`} aria-hidden="true">
-          <span>MAGI SYSTEM / {t.completed}</span>
-          <b className={locale === 'en' ? 'latin-reveal' : ''}>
+          <span lang="ja">MAGI SYSTEM / {screenCopy.completed}</span>
+          <b lang="ja">
             {reveal === 'APPROVED'
-              ? dc.approved
+              ? screenCopy.approved
               : reveal === 'DENIED'
-                ? dc.denied
-                : dc.inconclusive}
+                ? screenCopy.denied
+                : screenCopy.inconclusive}
           </b>
           <strong>{reveal}</strong>
         </div>
@@ -673,7 +674,7 @@ export default function App() {
           </span>
           <div>
             <strong>MAGI</strong>
-            <span>{dc.system}</span>
+            <span lang="ja">{screenCopy.system}</span>
           </div>
           <p>
             OPERATIONS CONTROL

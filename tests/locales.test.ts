@@ -1,5 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { Store } from '../server/store.ts';
 import {
   defaultSettings,
   settingsSchema,
@@ -10,12 +14,18 @@ import {
 import { makePrompt } from '../server/orchestrator.ts';
 import { makeSynthesisPrompt } from '../server/synthesis.ts';
 import { copies, phaseLabels } from '../src/i18n.ts';
-import { displayCopies, resolutionLabel } from '../src/displayCopy.ts';
+import { displayCopies } from '../src/displayCopy.ts';
 import { serviceCopies } from '../src/serviceCopy.ts';
 import { createScenario } from './fixtures/scenarios.ts';
 
-test('fresh installs use English and all four locale catalogs have complete UI and persona coverage', () => {
-  assert.equal(defaultSettings.locale, 'en');
+test('fresh installs use Japanese, saved language choices survive restart and all four locale catalogs are complete', (t) => {
+  assert.equal(defaultSettings.locale, 'ja');
+  const directory = mkdtempSync(join(tmpdir(), 'magi-default-locale-'));
+  t.after(() => rmSync(directory, { recursive: true, force: true }));
+  const fresh = new Store(directory);
+  assert.equal(fresh.settings.locale, 'ja');
+  fresh.saveSettings({ ...fresh.settings, locale: 'en' });
+  assert.equal(new Store(directory).settings.locale, 'en');
   for (const locale of ['en', 'ko', 'ja', 'zh'] as Locale[]) {
     assert.equal(settingsSchema.parse({ ...defaultSettings, locale }).locale, locale);
     for (const catalog of [copies, phaseLabels, displayCopies, serviceCopies]) {
@@ -50,9 +60,5 @@ test('each locale controls all new persona stages and synthesis without rewritin
         assert.ok(makePrompt(run, persona, phase, 1, {}).includes(`Respond in ${language}`));
     assert.ok(makeSynthesisPrompt(run).includes(`Respond in ${language}`));
     assert.deepEqual(run.records, original);
-    assert.equal(
-      resolutionLabel(run, 'approved', locale as Locale),
-      displayCopies[locale as Locale].approved,
-    );
   }
 });

@@ -17,7 +17,7 @@ test('replay time, usage, errors and session IDs contain only information availa
   page,
 }) => {
   await page.goto(`/?run=${fixtureIds.error}`);
-  await expect(page.getByTestId('resolution-stamp')).toContainText('오류');
+  await expect(page.getByTestId('resolution-stamp')).toContainText('障害');
   await pauseAtStart(page);
   await page.getByTestId('open-transcript').click();
   await expect(page.locator('.transcript-meta')).toContainText('0 개 기록');
@@ -61,9 +61,9 @@ test('another tab follows a new live decision, completion and cancellation witho
     await expect(page).toHaveURL(new RegExp(`run=${run.id}`));
     await expect(page.locator('.app-shell')).toHaveClass(/cinema-mode/);
     await expect(page).toHaveURL(/cinema=1/);
-    await expect(page.getByTestId('resolution-stamp')).toContainText('심의 중');
+    await expect(page.getByTestId('resolution-stamp')).toContainText('審議中');
     await request.post(`/api/runs/${run.id}/cancel`);
-    await expect(page.getByTestId('resolution-stamp')).toContainText('중지');
+    await expect(page.getByTestId('resolution-stamp')).toContainText('中止');
   } finally {
     await request.post(`/api/runs/${run.id}/cancel`);
   }
@@ -73,7 +73,7 @@ test('a pinned historical decision stays selected but receives an active decisio
   request,
 }) => {
   await page.goto(`/?run=${fixtureIds.approved}`);
-  await expect(page.getByTestId('resolution-stamp')).toContainText('승인');
+  await expect(page.getByTestId('resolution-stamp')).toContainText('可決');
   const run = await (
     await request.post('/api/runs', {
       data: { question: '[TEST SLOW] pinned history notification' },
@@ -84,17 +84,17 @@ test('a pinned historical decision stays selected but receives an active decisio
     await expect(page).toHaveURL(new RegExp(fixtureIds.approved));
     await page.locator('.active-link').click();
     await expect(page).toHaveURL(new RegExp(run.id));
-    await expect(page.getByTestId('resolution-stamp')).toContainText('심의 중');
+    await expect(page.getByTestId('resolution-stamp')).toContainText('審議中');
     await request.post(`/api/runs/${run.id}/cancel`);
-    await expect(page.getByTestId('resolution-stamp')).toContainText('중지');
+    await expect(page.getByTestId('resolution-stamp')).toContainText('中止');
   } finally {
     await request.post(`/api/runs/${run.id}/cancel`);
   }
 });
 for (const [tag, result, stamp] of [
-  ['DENIED', 'DENIED', '거부'],
-  ['ABSTAIN', 'INCONCLUSIVE', '유보'],
-  ['ERROR', 'error', '오류'],
+  ['DENIED', 'DENIED', '否決'],
+  ['ABSTAIN', 'INCONCLUSIVE', '保留'],
+  ['ERROR', 'error', '障害'],
 ] as const) {
   test(`isolated ${tag} goes through the real orchestration and UI`, async ({ page, request }) => {
     await page.goto('/');
@@ -118,7 +118,7 @@ test('reconnection refreshes a pinned decision completed offline even when a new
     await request.post('/api/runs', { data: { question: '[TEST SLOW] offline original' } })
   ).json();
   await page.goto(`/?run=${first.id}`);
-  await expect(page.getByTestId('resolution-stamp')).toContainText('심의 중');
+  await expect(page.getByTestId('resolution-stamp')).toContainText('審議中');
   let second: { id: string } | undefined;
   try {
     await context.setOffline(true);
@@ -127,7 +127,7 @@ test('reconnection refreshes a pinned decision completed offline even when a new
       await request.post('/api/runs', { data: { question: '[TEST SLOW] newer while offline' } })
     ).json();
     await context.setOffline(false);
-    await expect(page.getByTestId('resolution-stamp')).toContainText('중지', { timeout: 12000 });
+    await expect(page.getByTestId('resolution-stamp')).toContainText('中止', { timeout: 12000 });
     await expect(page).toHaveURL(new RegExp(first.id));
   } finally {
     await context.setOffline(false);

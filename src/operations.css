@@ -762,13 +762,6 @@
   font-size: 11px;
   color: #c1a879;
 }
-.decision-reveal > b.latin-reveal {
-  font:
-    900 clamp(36px, 12vw, 180px)/1.5 Georgia,
-    serif;
-  letter-spacing: 0.02em;
-  padding: 0;
-}
 [data-locale='en'] .process-monitor strong {
   font:
     700 clamp(12px, 1.7vw, 20px)/1.5 'SFMono-Regular',

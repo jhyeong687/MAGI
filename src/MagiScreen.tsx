@@ -3,7 +3,8 @@ import { PERSONAS, personaInfo, type Persona, type Run, type Locale } from '../s
 import { corePresentation, resolution } from './process.ts';
 import { coreGeometry, diagnosticGeometry, pixelAspect, pointsText } from './screenGeometry.ts';
 import { processingLight } from './processingLight.ts';
-import { displayCopies, coreLabel, resolutionLabel } from './displayCopy.ts';
+import { coreLabel } from './displayCopy.ts';
+import { screenCopy } from './screenCopy.ts';
 
 function useSceneClock(run: Run | null, position: number | undefined, motion: boolean) {
   const [now, setNow] = useState(Date.now());
@@ -28,7 +29,7 @@ export default function MagiScreen({
   replay,
   position,
   motion,
-  locale = 'en',
+  locale = 'ja',
 }: {
   run: Run | null;
   onSelect: (p: Persona) => void;
@@ -38,8 +39,7 @@ export default function MagiScreen({
   locale?: Locale;
 }) {
   const stamp = resolution(run);
-  const dc = displayCopies[locale];
-  const stampText = resolutionLabel(run, stamp.tone, locale);
+  const stampText = stamp.text;
   const diagnostics = run?.status === 'running' && run.phase === 'independent';
   const clock = useSceneClock(run, position, motion);
   const id = useId().replaceAll(':', '');
@@ -57,8 +57,10 @@ export default function MagiScreen({
         preserveAspectRatio="xMidYMid meet"
         role="group"
         aria-label="MAGI three persona decision screen"
+        lang="ja"
+        data-screen-language="ja"
       >
-        <title>MAGI — {dc.system}</title>
+        <title>MAGI — {screenCopy.system}</title>
         <rect className="screen-background" width="640" height="480" />
         <g
           transform={`scale(${pixelAspect} 1)`}
@@ -82,26 +84,16 @@ export default function MagiScreen({
                 y="108"
                 textLength={diagnostics ? 158 : 138}
                 lengthAdjust="spacingAndGlyphs"
-                style={
-                  locale === 'en'
-                    ? { fontSize: 29, fontFamily: 'Arial, Helvetica, sans-serif' }
-                    : undefined
-                }
               >
-                {dc.proposal}
+                {screenCopy.proposal}
               </text>
               <text
                 x={diagnostics ? 469 : 489}
                 y="108"
                 textLength={diagnostics ? 155 : 138}
                 lengthAdjust="spacingAndGlyphs"
-                style={
-                  locale === 'en'
-                    ? { fontSize: 29, fontFamily: 'Arial, Helvetica, sans-serif' }
-                    : undefined
-                }
               >
-                {dc.decision}
+                {screenCopy.decision}
               </text>
             </g>
             <g className="screen-metadata">
@@ -132,18 +124,10 @@ export default function MagiScreen({
               <rect x="4" y="4" width="107" height="36" />
               <text
                 x="57.5"
-                y={locale === 'en' ? 29 : 33}
+                y="33"
                 textAnchor="middle"
-                textLength={locale === 'en' || stampText.length >= 3 ? 99 : 82}
+                textLength={stampText.length >= 3 ? 99 : 82}
                 lengthAdjust="spacingAndGlyphs"
-                style={
-                  locale === 'en'
-                    ? {
-                        fontSize: stampText.length > 10 ? 17 : 21,
-                        fontFamily: 'Arial, Helvetica, sans-serif',
-                      }
-                    : undefined
-                }
               >
                 {stampText}
               </text>
@@ -265,7 +249,7 @@ export default function MagiScreen({
           </text>
           {replay && (
             <text className="screen-replay" x="352" y="471" textAnchor="middle">
-              {dc.recorded}
+              {screenCopy.recorded}
             </text>
           )}
         </g>
