@@ -18,7 +18,8 @@
     "format:check": "prettier --check .",
     "setup": "tsx scripts/setup.ts",
     "login": "tsx scripts/login.ts",
-    "screenshots": "tsx scripts/capture-showcase.ts"
+    "screenshots": "tsx scripts/capture-showcase.ts",
+    "social-preview": "tsx scripts/capture-social.ts"
   },
   "dependencies": {
     "@openai/codex": "0.165.0",

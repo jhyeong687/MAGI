@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <title>MAGI social preview</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      width: 1200px;
+      height: 630px;
+      background: #050605;
+      color: #e8b368;
+      font-family: Arial, Helvetica, sans-serif;
+      overflow: hidden;
+      border: 8px solid #a73527;
+    }
+    .card {
+      height: 100%;
+      padding: 34px 36px;
+      position: relative;
+      border: 1px solid #573e23;
+      background: linear-gradient(110deg, #0e100b, #020302);
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 17px;
+      border-bottom: 1px solid #77552b;
+      padding-bottom: 17px;
+      width: 420px;
+    }
+    .logo {
+      width: 52px;
+      height: 64px;
+    }
+    header span {
+      font: 11px/1.9 monospace;
+      letter-spacing: 0.18em;
+      color: #c4924a;
+    }
+    .title {
+      font:
+        900 104px/0.95 Georgia,
+        serif;
+      letter-spacing: -0.06em;
+      margin: 25px 0 18px;
+      color: #ecaa43;
+    }
+    .tagline {
+      font-weight: 800;
+      font-size: 35px;
+      line-height: 1.16;
+      letter-spacing: -0.03em;
+      color: #f1dfbf;
+      margin: 0;
+      width: 440px;
+    }
+    .body {
+      font-size: 17px;
+      line-height: 1.7;
+      color: #baa581;
+      width: 390px;
+      margin-top: 19px;
+    }
+    .terminal {
+      position: absolute;
+      width: 654px;
+      height: 490px;
+      right: 16px;
+      top: 44px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 12px #537b5a18);
+    }
+    .foot {
+      position: absolute;
+      bottom: 25px;
+      left: 36px;
+      right: 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #6c4c28;
+      padding-top: 17px;
+      font: 12px monospace;
+      letter-spacing: 0.03em;
+    }
+    .foot b {
+      color: #8ce7ac;
+      font-size: 15px;
+    }
+    .small {
+      font-size: 10px;
+      line-height: 1.7;
+      color: #a08b67;
+      position: absolute;
+      right: 35px;
+      top: 25px;
+      letter-spacing: 0.12em;
+    }
+  </style>
+  <div class="card">
+    <header>
+      <img class="logo" src="../public/assets/nerv-mark.svg" alt="NERV" /><span
+        >PERSONAL CHATGPT ACCOUNT<br />OPEN SOURCE / LOCAL EXECUTION</span
+      >
+    </header>
+    <div class="title">MAGI</div>
+    <p class="tagline">Three minds debate.<br />One verdict.</p>
+    <p class="body">Independent analysis. Real debate.<br />Final votes and a direct answer.</p>
+    <img class="terminal" src="../docs/screenshots/processing.gif" alt="MAGI interface preview" />
+    <div class="small">INTERFACE PREVIEW / EXAMPLE DATA</div>
+    <div class="foot">
+      <b>github.com/jhyeong687/MAGI</b><span>MELCHIOR-1 / BALTHASAR-2 / CASPER-3</span>
+    </div>
+  </div>
+</html>
