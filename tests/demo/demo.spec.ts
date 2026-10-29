@@ -57,6 +57,50 @@ test('static demo defaults to Japanese, never calls a backend and keeps Japanese
   expect(errors).toEqual([]);
 });
 
+test('Japanese headers stay clear of the cyan rules in standby and diagnostic scenes with fallback fonts', async ({
+  page,
+}) => {
+  await page.goto('./?lang=ja&example=club');
+  async function checkClearance() {
+    for (const family of ['', 'serif', 'sans-serif']) {
+      await page.locator('.screen-kanji').evaluate((element: SVGElement, font) => {
+        element.style.fontFamily = font;
+      }, family);
+      const gaps = await page.locator('.magi-display').evaluate((element) => {
+        const scale = element.getBoundingClientRect().height / 480;
+        const top = element
+          .querySelector('[data-testid="header-rules-top"]')!
+          .getBoundingClientRect();
+        const bottom = element
+          .querySelector('[data-testid="header-rules-bottom"]')!
+          .getBoundingClientRect();
+        return Array.from(element.querySelectorAll('.screen-kanji text')).map((label) => {
+          const box = label.getBoundingClientRect();
+          // Include half of the two-unit rule stroke in the occupied area.
+          return {
+            above: (box.top - top.bottom) / scale - 1,
+            below: (bottom.top - box.bottom) / scale - 1,
+          };
+        });
+      });
+      for (const gap of gaps) {
+        expect(gap.above).toBeGreaterThanOrEqual(2);
+        expect(gap.below).toBeGreaterThanOrEqual(2);
+      }
+    }
+    await page.locator('.screen-kanji').evaluate((element: SVGElement) => {
+      element.style.removeProperty('font-family');
+    });
+  }
+  await checkClearance();
+  await page.getByTestId('demo-start').click();
+  await page.getByTestId('demo-play').click();
+  await page.getByTestId('demo-seek').press('Home');
+  await expect(page.locator('.magi-screen')).toHaveAttribute('data-scene', 'diagnostics');
+  await expect(page.locator('.diagnostic-core')).toHaveCount(3);
+  await checkClearance();
+});
+
 test('examples replay each phase without future opinions and produce approve, deny and no-majority results', async ({
   page,
 }) => {

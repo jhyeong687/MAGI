@@ -22,6 +22,8 @@ The public demo highlights the actual recording first. A labelled start button a
 
 Each core analyzes the question before seeing the others' assessments. Diagnostic panels remain still. Core states change when recorded responses arrive; blue processing pulses are an interface effect, not a measurement of CPU activity.
 
+The Japanese titles keep a clear gap from the cyan rules in both standby and diagnostic scenes, including fallback fonts. [Diagnostic spacing example](./screenshots/demo-header-clearance.png)
+
 The status below the sequence shows actual responses received in the current stage, such as **2 / 3 · awaiting CASPER-3**. Counts reset for each stage and discussion cycle. Live runs show elapsed time and time since the last received opinion; replays show **recording position**, not a fabricated estimate. During synthesis, the status distinguishes three received final votes from the single report being written.
 
 ![Actual recorded per-stage response status](./screenshots/demo-progress.png)

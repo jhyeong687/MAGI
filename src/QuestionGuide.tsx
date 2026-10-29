@@ -105,9 +105,14 @@ export default function QuestionGuide({
             data-testid={`guide-${topic}`}
             disabled={disabled}
             onClick={() => {
+              const focusAtSelection = document.activeElement;
               updateDraft(questionTemplate(locale, topic));
               setOpen(true);
-              requestAnimationFrame(() => decisionInput.current?.focus());
+              requestAnimationFrame(() => {
+                // Opening the fields must not steal focus from an edit that
+                // began before this animation frame was delivered.
+                if (document.activeElement === focusAtSelection) decisionInput.current?.focus();
+              });
             }}
           >
             {t[topic]}

@@ -19,6 +19,9 @@ test('question helper saves edits, preserves the main draft, respects its limit 
   await page.locator('#proposal').fill('내가 적은 원래 질문');
   await page.getByTestId('guide-project').click();
   await page.getByTestId('guide-criteria').fill('수면 8시간과 검증 시간을 확보해야 한다.');
+  await expect(page.getByTestId('guide-criteria')).toHaveValue(
+    '수면 8시간과 검증 시간을 확보해야 한다.',
+  );
   await expect(page.locator('#proposal')).toHaveValue('내가 적은 원래 질문');
   await page.reload();
   await expect(page.getByTestId('guide-criteria')).toHaveValue(

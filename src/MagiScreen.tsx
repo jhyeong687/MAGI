@@ -73,15 +73,24 @@ export default function MagiScreen({
               <path
                 d={
                   diagnostics
-                    ? 'M67 54H253M67 58H253M67 62H253M67 116H253M67 120H253M67 124H253M453 56H639M453 60H639M453 64H639M453 118H639M453 122H639M453 126H639'
-                    : 'M67 54H223M67 58H223M67 62H223M67 116H223M67 120H223M67 124H223M481 54H637M481 58H637M481 62H637M481 116H637M481 120H637M481 124H637'
+                    ? 'M67 44H253M67 48H253M67 52H253M453 44H639M453 48H639M453 52H639'
+                    : 'M67 44H223M67 48H223M67 52H223M481 44H637M481 48H637M481 52H637'
                 }
+                data-testid="header-rules-top"
+              />
+              <path
+                d={
+                  diagnostics
+                    ? 'M67 116H253M67 120H253M67 124H253M453 116H639M453 120H639M453 124H639'
+                    : 'M67 116H223M67 120H223M67 124H223M481 116H637M481 120H637M481 124H637'
+                }
+                data-testid="header-rules-bottom"
               />
             </g>
             <g className="screen-kanji">
               <text
                 x={diagnostics ? 81 : 76}
-                y="108"
+                y="104"
                 textLength={diagnostics ? 158 : 138}
                 lengthAdjust="spacingAndGlyphs"
               >
@@ -89,7 +98,7 @@ export default function MagiScreen({
               </text>
               <text
                 x={diagnostics ? 469 : 489}
-                y="108"
+                y="104"
                 textLength={diagnostics ? 155 : 138}
                 lengthAdjust="spacingAndGlyphs"
               >

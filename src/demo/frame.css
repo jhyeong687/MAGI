@@ -260,6 +260,12 @@
   font-weight: 400;
   line-height: 1.7;
 }
+.demo-shell :is(.answer-details > summary, .answer-sources summary) {
+  color: var(--frame-muted);
+}
+.demo-shell :is(.demo-answer, .demo-inspector):focus {
+  outline-color: #82827b;
+}
 .demo-shell .trial-entry {
   padding: 24px 0;
   border-top: 0;
