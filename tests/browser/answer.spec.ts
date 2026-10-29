@@ -39,6 +39,7 @@ test('legacy generation uses one report request, persists it and never starts a 
   await request.post('/test-reset/legacy');
   await page.goto(`/?run=${fixtureIds.legacy}`);
   await expect(page.getByTestId('generate-answer')).toBeVisible();
+  await expect(page.getByTestId('phase-waiting')).toContainText('종합 보고서가 저장돼 있지 않다');
   const before = await (await request.get(`/api/runs/${fixtureIds.legacy}`)).json();
   await page.getByTestId('generate-answer').click();
   await expect(page.getByTestId('answer-text')).toBeVisible();
@@ -66,6 +67,7 @@ test('report failure preserves votes, exposes retry, and cancellation stops only
   });
   await expect(page.getByTestId('final-report')).toContainText('APPROVED');
   await expect(page.getByTestId('generate-answer')).toContainText('다시 생성');
+  await expect(page.getByTestId('phase-waiting')).toContainText('최종 보고서 작성에 실패');
   await page.locator('.new-button').click();
   await page.locator('#proposal').fill('[TEST REPORT_SLOW] cancel synthesis only');
   await page.locator('.proposal-console button[type=submit]').click();
@@ -73,6 +75,7 @@ test('report failure preserves votes, exposes retry, and cancellation stops only
   await expect(page.getByTestId('final-report')).toContainText('APPROVED');
   await page.locator('.abort-button').click();
   await expect(page.getByTestId('final-answer')).toContainText('답변 작성을 중지');
+  await expect(page.getByTestId('phase-waiting')).toContainText('최종 보고서 작성을 중지');
   await expect(page.getByTestId('final-report')).toContainText('APPROVED');
 });
 

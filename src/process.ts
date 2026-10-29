@@ -15,6 +15,24 @@ export const screenPhases: Record<Phase, { japanese: string; english: string }> 
   report: { japanese: '決議終了', english: 'DELIBERATION COMPLETE' },
 };
 
+// Use only responses visible in the current snapshot, never future replay events.
+export function phaseProgress(run: Run) {
+  const phase = run.phase === 'report' ? 'final-vote' : run.phase;
+  const received = new Set(
+    run.records
+      .filter((record) => record.phase === phase && record.round === run.round)
+      .map((record) => record.persona),
+  );
+  return {
+    received: received.size,
+    waiting: PERSONAS.filter((persona) => !received.has(persona)),
+    latestAt: Math.max(
+      0,
+      ...run.records.map((record) => Date.parse(record.at)).filter(Number.isFinite),
+    ),
+  };
+}
+
 export function corePresentation(run: Run | null, persona: Persona) {
   const core = run?.cores[persona];
   if (!run) return { pending: false, tone: 'standby', label: 'STANDBY', japanese: '待機' };

@@ -45,6 +45,8 @@ test('synthesis consumes all three recorded opinions, fixed verdict and actual d
     calls++;
     assert.equal(request.threadId, undefined);
     assert.ok(request.personaPrompt.includes('not a fourth voter'));
+    assert.ok(request.prompt.includes('in this SAME response'));
+    assert.ok(request.prompt.includes('at most three'));
     const data = JSON.parse(
       request.prompt.split('<council_evidence_json>\n')[1].split('\n</council_evidence_json>')[0],
     );
@@ -60,6 +62,7 @@ test('synthesis consumes all three recorded opinions, fixed verdict and actual d
   assert.equal(calls, 1);
   assert.equal(run.records.length, 12);
   assert.equal(run.answer?.status, 'completed');
+  assert.ok(run.answer.content?.brief?.conclusion.includes('APPROVED'));
   assert.equal(run.answer.usage.inputTokens, 20);
   assert.equal(run.verdict?.ratio, 2);
   assert.equal(

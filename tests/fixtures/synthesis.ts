@@ -18,6 +18,14 @@ export const fixtureSynthesis: AnswerRunner = async (request) => {
         evidence.verdict.deny && evidence.verdict.approve
           ? ['BALTHASAR-2와 다른 인격의 판단이 다릅니다.']
           : [],
+      brief: {
+        conclusion: `테스트 전용 종합 답변: ${result}.`,
+        nextSteps: ['검증용 실행 조건을 먼저 확인하라.'],
+        keyObjection:
+          evidence.verdict.deny && evidence.verdict.approve
+            ? 'BALTHASAR-2의 반대 의견이 남아 있다.'
+            : '',
+      },
     },
     usage: { inputTokens: 20, outputTokens: 10, cachedTokens: 0 },
     durationMs: 5,

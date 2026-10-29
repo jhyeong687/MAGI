@@ -9,6 +9,8 @@ import {
 } from '../../shared/domain.ts';
 import MagiScreen from '../MagiScreen.tsx';
 import FinalAnswer from '../FinalAnswer.tsx';
+import QuestionGuide from '../QuestionGuide.tsx';
+import DeliberationStatus from '../DeliberationStatus.tsx';
 import { useReplay } from '../useReplay.ts';
 import { copies, phaseLabels } from '../i18n.ts';
 import { localeNames } from '../displayCopy.ts';
@@ -252,6 +254,12 @@ export default function DemoApp() {
               </li>
             ))}
           </ol>
+          <DeliberationStatus
+            run={view}
+            locale={locale}
+            replay
+            elapsedSeconds={started ? replay.position / 1000 : 0}
+          />
           <div className="demo-playback">
             <button
               data-testid="demo-play"
@@ -454,6 +462,7 @@ export default function DemoApp() {
         <h2>{t.own}</h2>
         <p>{t.install}</p>
         <p>{t.localRequired}</p>
+        <QuestionGuide locale={locale} />
         <pre>
           git clone https://github.com/jhyeong687/MAGI.git{'\n'}cd MAGI{'\n'}npm ci{'\n'}npm run
           setup

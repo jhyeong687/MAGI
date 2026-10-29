@@ -17,6 +17,8 @@ import {
 import { copies, phaseLabels, type Copy } from './i18n.ts';
 import MagiScreen from './MagiScreen.tsx';
 import FinalAnswer from './FinalAnswer.tsx';
+import QuestionGuide from './QuestionGuide.tsx';
+import DeliberationStatus from './DeliberationStatus.tsx';
 import AuthPanel from './AuthPanel.tsx';
 import { corePresentation, playbackTimeline } from './process.ts';
 import { useReplay } from './useReplay.ts';
@@ -823,6 +825,13 @@ export default function App() {
               </li>
             ))}
           </ol>
+          <DeliberationStatus
+            run={view}
+            locale={locale}
+            replay={replay.enabled}
+            elapsedSeconds={elapsed}
+            now={now}
+          />
           <div className="core-status-strip">
             {PERSONAS.map((persona) => {
               const status = corePresentation(view, persona);
@@ -942,6 +951,15 @@ export default function App() {
               </button>
             </div>
           )}
+          <QuestionGuide
+            locale={locale}
+            value={question}
+            disabled={Boolean(busy)}
+            onApply={(value) => {
+              setQuestion(value);
+              proposalRef.current?.focus();
+            }}
+          />
           <div className="proposal-heading">
             <span>INPUT / {ui.proposal}</span>
             <small>

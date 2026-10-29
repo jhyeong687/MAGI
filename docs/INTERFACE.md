@@ -18,6 +18,10 @@ The public demo highlights the actual recording first. A labelled start button a
 
 Each core analyzes the question before seeing the others' assessments. Diagnostic panels remain still. Core states change when recorded responses arrive; blue processing pulses are an interface effect, not a measurement of CPU activity.
 
+The status below the sequence shows actual responses received in the current stage, such as **2 / 3 · awaiting CASPER-3**. Counts reset for each stage and discussion cycle. Live runs show elapsed time and time since the last received opinion; replays show **recording position**, not a fabricated estimate. During synthesis, the status distinguishes three received final votes from the single report being written.
+
+![Actual recorded per-stage response status](./screenshots/demo-progress.png)
+
 ![Actual recorded independent analysis](./screenshots/demo-independent.png)
 
 ## Cross-examination and reconsideration
@@ -32,7 +36,9 @@ Select a core to bring its latest public assessment and response to the others i
 
 MELCHIOR approves with conditions, while BALTHASAR and CASPER deny the public demonstration proposal. The recorded result is **2–1 DENIED**; no conflict or vote was forced. **Show final answer** ends playback, plays the Japanese decision reveal, then moves keyboard focus and the viewport to the answer. Natural completion also brings the answer into view.
 
-The report preserves the result, reasons, next steps and remaining differences. The report writer does not cast a fourth vote.
+The report opens with **one concise conclusion, up to three supported next actions and the key objection**. Expand **Read the full answer & evidence** for the original full answer, all conditions and reasons. The three original final opinions have their own expandable section. The report writer does not cast a fourth vote.
+
+Existing records use a labelled first-sentence excerpt, up to three saved conditions and the first saved disagreement. Their source text and votes stay unchanged; no model call is made. New deliberations produce a structured brief within the existing final-report call, keeping the default total at 13 calls. Actions and dissent are not invented to fill empty slots.
 
 The public result uses green for approval, red for denial and amber for no majority. Approval, denial and abstention counts appear beside the ratio.
 
@@ -48,6 +54,12 @@ Public-demo links reopen the same public example, selected language and result. 
 
 ## Ask your own question locally
 
+The **Prepare a question** helper offers Project, Career and Everyday decision templates. Edit the situation, decision and priorities, then explicitly add them to your question. Existing text is preserved, repeated application avoids duplication and the 6,000-character limit is enforced. Applying a draft never starts a deliberation. Helper fields survive reloads in this browser.
+
+The public demo provides the same helper for local drafting and copying only. It never submits your draft, changes the selected recorded proposal or inserts draft text into shared URLs. Use the local app to deliberate on that question.
+
+![Editable question helper in the public demo](./screenshots/demo-question-guide.png)
+
 The public site is replay-only. **Ask your own question · install locally** leads to installation instructions and the [English installation/troubleshooting guide](./INSTALLATION.md). Each person uses their own computer and ChatGPT/Codex account. Official Codex handles sign-in and credential storage.
 
 ![Local app sign-in](./screenshots/login.png)
@@ -55,6 +67,8 @@ The public site is replay-only. **Ask your own question · install locally** lea
 A default new deliberation uses **13 calls** against the signed-in account's allowance. The local app also offers a searchable archive, replay, copy/report export, persona details and configurable discussion cycles, prompts and effects.
 
 [Local desktop](./screenshots/desktop-full.png) · [Persona detail](./screenshots/persona.png) · [Settings](./screenshots/settings.png)
+
+[Mobile answer brief](./screenshots/demo-answer-mobile.png)
 
 ## Language, motion and keyboard controls
 

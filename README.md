@@ -44,7 +44,7 @@ The video opens with a brief TV-reference dissolve into the app, then replays a 
 <td width="50%"><a href="./docs/screenshots/demo-transcript.png"><img src="./docs/screenshots/demo-transcript.png" alt="Public assessments and objections in the discussion transcript" width="100%" /></a><br /><strong>02 / THE DEBATE</strong><br />Read what each persona said and challenged.</td>
 </tr>
 <tr>
-<td width="50%"><a href="./docs/screenshots/demo-recorded.png"><img src="./docs/screenshots/demo-recorded.png" alt="The final answer with reasons, conditions and dissent" width="100%" /></a><br /><strong>03 / THE ANSWER</strong><br />A usable conclusion, with the vote and remaining concerns.</td>
+<td width="50%"><a href="./docs/screenshots/demo-recorded.png"><img src="./docs/screenshots/demo-recorded.png" alt="A concise conclusion, next actions and key objection with expandable full evidence" width="100%" /></a><br /><strong>03 / THE ANSWER</strong><br />One conclusion, up to three next actions and the key objection. Expand the complete evidence.</td>
 <td width="50%"><a href="./docs/screenshots/share-preview.png"><img src="./docs/screenshots/share-preview.png" alt="Reviewing a Japanese MAGI verdict card before saving it" width="100%" /></a><br /><strong>04 / THE VERDICT CARD</strong><br />Edit a short caption, save a PNG or reopen the same public verdict.</td>
 </tr>
 </table>
@@ -114,6 +114,9 @@ Replay consumes no new calls. Report-only generation, voice refresh and manual r
 
 ## Keep the record
 
+- **Prepare a better question:** choose Project, Career or Everyday decision, then edit the situation, decision and priorities. The helper preserves your main draft and starts no deliberation. The public demo lets you draft and copy for local use.
+- **Follow actual progress:** see received responses for the current stage, the personas still awaited and elapsed time. Replays label their recording position; the report stage identifies final votes separately.
+- **Read the brief first:** the conclusion, up to three supported actions and one key objection appear before the expandable full answer. Older records use labelled excerpts without regeneration; new answers produce the brief in the existing report call.
 - **Inspect the reasoning:** open a core for its public assessment, priorities, risks and objections.
 - **Revisit a decision:** search the archive, then replay with pause, seek and speed controls.
 - **Take the answer with you:** copy the result or save a Markdown report.

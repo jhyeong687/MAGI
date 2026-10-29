@@ -41,7 +41,7 @@ export function makeSynthesisPrompt(run: Run): string {
   const language = { ko: 'Korean', en: 'English', ja: 'Japanese', zh: 'Simplified Chinese' }[
     run.settings.locale
   ];
-  return `SYNTHESIZE FINAL ANSWER. Respond in ${language}. Answer the question directly. Preserve the supplied voting result and all material caveats.\n<council_evidence_json>\n${JSON.stringify({ question: run.question, verdict: run.verdict, finalAssessments: finals, debate: run.records.filter((record) => record.phase === 'cross-examination' || record.phase === 'reconsideration').map((record) => ({ persona: personaInfo[record.persona].name, phase: record.phase, round: record.round, assessment: record.assessment })) })}\n</council_evidence_json>`;
+  return `SYNTHESIZE FINAL ANSWER. Respond in ${language}. Answer the question directly. Preserve the supplied voting result and all material caveats. Also produce brief in this SAME response: conclusion is one short sentence with the decision and any binding qualification; nextSteps contains at most three concrete, supported actions in priority order (or an empty list if no actions are supported); keyObjection states the strongest actual dissent or unresolved concern, naming the persona when useful (or an empty string if none is recorded). The brief must agree with the full answer and fixed vote. Never invent an objection, omit a material condition to sound decisive, or pad the action list to reach three. Do not use an additional call to summarize.\n<council_evidence_json>\n${JSON.stringify({ question: run.question, verdict: run.verdict, finalAssessments: finals, debate: run.records.filter((record) => record.phase === 'cross-examination' || record.phase === 'reconsideration').map((record) => ({ persona: personaInfo[record.persona].name, phase: record.phase, round: record.round, assessment: record.assessment })) })}\n</council_evidence_json>`;
 }
 const schema = {
   type: 'object',
@@ -51,8 +51,18 @@ const schema = {
     keyReasons: { type: 'array', items: { type: 'string' } },
     conditions: { type: 'array', items: { type: 'string' } },
     disagreements: { type: 'array', items: { type: 'string' } },
+    brief: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        conclusion: { type: 'string' },
+        nextSteps: { type: 'array', items: { type: 'string' } },
+        keyObjection: { type: 'string' },
+      },
+      required: ['conclusion', 'nextSteps', 'keyObjection'],
+    },
   },
-  required: ['answer', 'keyReasons', 'conditions', 'disagreements'],
+  required: ['answer', 'keyReasons', 'conditions', 'disagreements', 'brief'],
 };
 export const runSynthesis: AnswerRunner = async (request) => {
   const { value, ...metadata } = await runStructuredCodex(request, schema, (value) =>

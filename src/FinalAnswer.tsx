@@ -13,7 +13,10 @@ import { reportText } from './report.ts';
 import { displayCopies } from './displayCopy.ts';
 import ShareDecision from './ShareDecision.tsx';
 import type { SharePresentation } from './sharePresentation.ts';
+import { answerBrief } from './answerBrief.ts';
+import { experienceCopies } from './experienceCopy.ts';
 import './share.css';
+import './experience.css';
 export default function FinalAnswer({
   run,
   t,
@@ -39,11 +42,13 @@ export default function FinalAnswer({
   const content =
     generation?.status === 'completed' ? generation.content : generation?.previousContent;
   const ui = serviceCopies[locale];
+  const ux = experienceCopies[locale];
+  const brief = content ? answerBrief(content, run.settings.locale) : null;
   const [notice, setNotice] = useState('');
   useEffect(() => setNotice(''), [run.id, locale]);
   async function copyReport() {
     try {
-      await navigator.clipboard.writeText(reportText(run, t));
+      await navigator.clipboard.writeText(reportText(run, t, locale));
       setNotice(ui.copied);
     } catch {
       setNotice(ui.copyFailed);
@@ -51,7 +56,7 @@ export default function FinalAnswer({
   }
   function downloadReport() {
     const url = URL.createObjectURL(
-      new Blob([reportText(run, t)], { type: 'text/markdown;charset=utf-8' }),
+      new Blob([reportText(run, t, locale)], { type: 'text/markdown;charset=utf-8' }),
     );
     const anchor = document.createElement('a');
     anchor.href = url;
@@ -86,40 +91,68 @@ export default function FinalAnswer({
             </p>
           )}
           {generation?.status === 'cancelled' && <p role="status">{t.answerCancelled}</p>}
-          <p className="answer-text" data-testid="answer-text">
-            {content.answer}
-          </p>
-          <div className="answer-sections">
-            <div>
-              <h3>{t.answerReasons}</h3>
-              <ul>
-                {content.keyReasons.map((point, index) => (
-                  <li key={index}>{point}</li>
-                ))}
-              </ul>
+          <div className="answer-brief" data-testid="answer-brief">
+            <h3>{ux.conclusion}</h3>
+            <p className="answer-text" data-testid="answer-text">
+              {brief!.conclusion}
+            </p>
+            <div className="answer-brief-sections">
+              <section>
+                <h3>{ux.nextSteps}</h3>
+                {brief!.nextSteps.length ? (
+                  <ol data-testid="answer-next-steps">
+                    {brief!.nextSteps.map((step, index) => (
+                      <li key={index}>{step}</li>
+                    ))}
+                  </ol>
+                ) : (
+                  <p>{ux.noSteps}</p>
+                )}
+              </section>
+              <section className="answer-brief-objection">
+                <h3>{ux.objection}</h3>
+                <p data-testid="answer-key-objection">{brief!.keyObjection || ux.noObjection}</p>
+              </section>
             </div>
-            {!!content.conditions.length && (
-              <div>
-                <h3>{t.answerConditions}</h3>
-                <ul>
-                  {content.conditions.map((point, index) => (
-                    <li key={index}>{point}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {!!content.disagreements.length && (
-              <div className="answer-dissent">
-                <h3>{t.answerDisagreements}</h3>
-                <ul>
-                  {content.disagreements.map((point, index) => (
-                    <li key={index}>{point}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            {brief!.extracted && <p className="answer-excerpt-note">{ux.excerpt}</p>}
           </div>
-          <details className="answer-sources" open>
+          <details className="answer-details" data-testid="answer-details">
+            <summary>{ux.details}</summary>
+            <p className="answer-original" data-testid="answer-original">
+              {content.answer}
+            </p>
+            <div className="answer-sections">
+              <div>
+                <h3>{t.answerReasons}</h3>
+                <ul>
+                  {content.keyReasons.map((point, index) => (
+                    <li key={index}>{point}</li>
+                  ))}
+                </ul>
+              </div>
+              {!!content.conditions.length && (
+                <div>
+                  <h3>{t.answerConditions}</h3>
+                  <ul>
+                    {content.conditions.map((point, index) => (
+                      <li key={index}>{point}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {!!content.disagreements.length && (
+                <div className="answer-dissent">
+                  <h3>{t.answerDisagreements}</h3>
+                  <ul>
+                    {content.disagreements.map((point, index) => (
+                      <li key={index}>{point}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </details>
+          <details className="answer-sources">
             <summary>{t.answerSources}</summary>
             {PERSONAS.map((persona) => {
               const final = run.records.findLast(

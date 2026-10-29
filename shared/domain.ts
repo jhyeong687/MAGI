@@ -50,6 +50,15 @@ export const finalAnswerSchema = z
     keyReasons: z.array(z.string().trim().min(1).max(800)).min(1).max(5),
     conditions: z.array(z.string().trim().min(1).max(800)).max(5),
     disagreements: z.array(z.string().trim().min(1).max(800)).max(5),
+    // Optional on disk so existing answers never need a paid regeneration.
+    brief: z
+      .object({
+        conclusion: z.string().trim().min(1).max(500),
+        nextSteps: z.array(z.string().trim().min(1).max(500)).max(3),
+        keyObjection: z.string().trim().max(800),
+      })
+      .strict()
+      .optional(),
   })
   .strict();
 export type FinalAnswer = z.infer<typeof finalAnswerSchema>;

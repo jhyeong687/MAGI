@@ -7,12 +7,13 @@ test.beforeEach(async ({ page, request }) => {
   expect(guard.realCli).toBe(false);
   await page.addInitScript(() => sessionStorage.setItem('magi-booted', '1'));
 });
-test('all three original aspects remain visible with the actual final opinions and in individual records', async ({
+test('all three original aspects remain inspectable with the actual final opinions and in individual records', async ({
   page,
 }) => {
   await page.goto(`/?run=${fixtureIds.approved}`);
   await expect(page.getByTestId('answer-text')).toBeVisible();
-  await expect(page.locator('.answer-sources')).toHaveAttribute('open', '');
+  await expect(page.locator('.answer-sources')).not.toHaveAttribute('open', '');
+  await page.locator('.answer-sources > summary').click();
   for (const persona of PERSONAS) {
     await expect(page.locator('.answer-sources')).toContainText(
       personaProfiles[persona].labels.ko.aspect,

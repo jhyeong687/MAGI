@@ -49,6 +49,8 @@ If this computer already has an official Codex ChatGPT login, it may be reused. 
 
 Write a question that MAGI can judge, then start the deliberation. The three personas independently analyze it, exchange objections, reconsider and vote. The main screen shows the result and a synthesized answer. Open a core or the transcript to inspect the public assessments.
 
+Use **Prepare a question** to choose a Project, Career or Everyday decision example and edit its situation, decision and priorities. Explicitly applying the helper preserves an existing draft and does not start the model. During a run, the status shows actual responses received per stage and the personas still awaited. The answer opens with a concise conclusion, up to three next actions and the key objection; expand the full answer and evidence for all conditions and original opinions. Existing records use labelled excerpts without a new call.
+
 **A default deliberation uses 13 model calls against your account allowance.** Two/three discussion cycles use 19/25 calls. Sign-in alone does not guarantee model availability or unlimited access. Replay makes no new calls. Cancellation cannot undo completed usage, and there are no automatic retries.
 
 ## 5. Next time, stop and update

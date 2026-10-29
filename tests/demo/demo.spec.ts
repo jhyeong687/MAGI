@@ -254,3 +254,73 @@ test('effects preferences persist and system reduced motion can interrupt a reve
   await expect(effects).toBeEnabled();
   await expect(effects).toHaveAttribute('aria-pressed', 'true');
 });
+
+test('public question helper drafts and copies privately without changing the recording or starting AI', async ({
+  page,
+  context,
+}) => {
+  const mutations: string[] = [];
+  page.on('request', (request) => {
+    if (!['GET', 'HEAD'].includes(request.method())) mutations.push(request.url());
+  });
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('./?lang=ko&example=recording');
+  const headline = await page.locator('#demo-question-title').textContent();
+  await page.getByTestId('guide-career').click();
+  await page.getByTestId('guide-decision').fill('PRIVATE_GUIDE_ONLY 내 선택');
+  await expect(page.getByTestId('guide-disclosure')).toContainText('AI를 호출하지 않는다');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
+  await page.getByTestId('guide-apply').click();
+  await expect
+    .poll(() => page.evaluate(() => navigator.clipboard.readText()))
+    .toContain('PRIVATE_GUIDE_ONLY');
+  await expect(page.locator('#demo-question-title')).toHaveText(headline!);
+  await expect(page.getByTestId('demo-result')).toHaveCount(0);
+  expect(page.url()).not.toContain('PRIVATE_GUIDE_ONLY');
+  await page.reload();
+  await expect(page.getByTestId('guide-decision')).toHaveValue('PRIVATE_GUIDE_ONLY 내 선택');
+  await page.getByTestId('demo-start').click();
+  await page.getByTestId('demo-finish').click();
+  await expect(page.getByTestId('answer-text')).toContainText('Denied by a 2–1 vote');
+  await expect(page.getByTestId('answer-text')).not.toContainText('PRIVATE_GUIDE_ONLY');
+  expect(mutations).toEqual([]);
+});
+
+test('public stage status shows received opinions, report writing and a brief with expandable original evidence', async ({
+  page,
+}) => {
+  await page.goto('./?lang=en&example=club');
+  await page.getByTestId('demo-start').click();
+  await page.getByTestId('demo-play').click();
+  const seek = async (value: number) =>
+    page.getByTestId('demo-seek').evaluate((input: HTMLInputElement, position) => {
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(
+        input,
+        String(position),
+      );
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    }, value);
+  await seek(2000);
+  await expect(page.getByTestId('phase-response-count')).toHaveText('2 / 3');
+  await expect(page.getByTestId('phase-waiting')).toHaveText('AWAITING RESPONSE: CASPER-3');
+  await expect(page.getByTestId('deliberation-status')).toContainText('RECORDING POSITION');
+  await seek(4500);
+  await expect(page.getByTestId('phase-response-count')).toHaveText('0 / 3');
+  await seek(16500);
+  await expect(page.getByTestId('phase-response-count')).toHaveText('3 / 3');
+  await expect(page.getByTestId('deliberation-status')).toContainText('FINAL VOTES RECEIVED');
+  await expect(page.getByTestId('phase-waiting')).toContainText('Synthesizing');
+  await expect(page.locator('.answer-pending')).toBeVisible();
+  await expect(page.getByTestId('answer-brief')).toHaveCount(0);
+  await page.getByTestId('demo-finish').click();
+  await expect(page.getByTestId('demo-answer-target')).toBeFocused();
+  await expect(page.getByTestId('answer-text')).toBeInViewport();
+  expect(await page.getByTestId('answer-next-steps').locator('li').count()).toBeLessThanOrEqual(3);
+  await expect(page.getByTestId('answer-key-objection')).not.toBeEmpty();
+  await expect(page.getByTestId('answer-original')).toBeHidden();
+  await page.getByTestId('answer-details').locator('summary').click();
+  await expect(page.getByTestId('answer-original')).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
+  await expect(page.locator('.screen-kanji text')).toHaveText(['提訴', '決議']);
+});
