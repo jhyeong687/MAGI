@@ -41,17 +41,23 @@ export default function QuestionGuide({
   const [open, setOpen] = useState(Boolean(draft.decision));
   const [notice, setNotice] = useState('');
   const previous = useRef('');
+  const currentDraft = useRef(draft);
   const decisionInput = useRef<HTMLTextAreaElement>(null);
   const id = useId();
   const composed = composeQuestion(draft, locale);
   useEffect(() => {
+    setNotice('');
+  }, [draft, locale, storageKey]);
+  function updateDraft(next: QuestionDraft) {
+    currentDraft.current = next;
+    // Persist in the input event: a reload may happen before React effects run.
     try {
-      localStorage.setItem(storageKey, JSON.stringify(draft));
+      localStorage.setItem(storageKey, JSON.stringify(next));
     } catch {
       /* Draft editing still works without browser storage. */
     }
-    setNotice('');
-  }, [draft, locale, storageKey]);
+    setDraft(next);
+  }
   async function apply() {
     if (disabled || !draft.decision.trim()) return;
     setNotice('');
@@ -99,7 +105,7 @@ export default function QuestionGuide({
             data-testid={`guide-${topic}`}
             disabled={disabled}
             onClick={() => {
-              setDraft(questionTemplate(locale, topic));
+              updateDraft(questionTemplate(locale, topic));
               setOpen(true);
               requestAnimationFrame(() => decisionInput.current?.focus());
             }}
@@ -125,7 +131,9 @@ export default function QuestionGuide({
                 maxLength={2000}
                 value={draft[field]}
                 disabled={disabled}
-                onChange={(event) => setDraft({ ...draft, [field]: event.target.value })}
+                onChange={(event) =>
+                  updateDraft({ ...currentDraft.current, [field]: event.target.value })
+                }
               />
             </label>
           ))}

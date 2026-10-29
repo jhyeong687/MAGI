@@ -268,6 +268,8 @@ test('public question helper drafts and copies privately without changing the re
   const headline = await page.locator('#demo-question-title').textContent();
   await page.getByTestId('guide-career').click();
   await page.getByTestId('guide-decision').fill('PRIVATE_GUIDE_ONLY 내 선택');
+  await page.reload();
+  await expect(page.getByTestId('guide-decision')).toHaveValue('PRIVATE_GUIDE_ONLY 내 선택');
   await expect(page.getByTestId('guide-disclosure')).toContainText('AI를 호출하지 않는다');
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
   await page.getByTestId('guide-apply').click();
@@ -277,8 +279,6 @@ test('public question helper drafts and copies privately without changing the re
   await expect(page.locator('#demo-question-title')).toHaveText(headline!);
   await expect(page.getByTestId('demo-result')).toHaveCount(0);
   expect(page.url()).not.toContain('PRIVATE_GUIDE_ONLY');
-  await page.reload();
-  await expect(page.getByTestId('guide-decision')).toHaveValue('PRIVATE_GUIDE_ONLY 내 선택');
   await page.getByTestId('demo-start').click();
   await page.getByTestId('demo-finish').click();
   await expect(page.getByTestId('answer-text')).toContainText('Denied by a 2–1 vote');
