@@ -1,11 +1,14 @@
-/* Celetix reference: black canvas, fine rules, quiet type, square controls.
-   These styles surround the original MAGI drawing; its geometry and palette
-   deliberately retain their own rules. No external fonts or assets are used. */
+/* Celetix informs the spacing and fine rules. The surrounding palette belongs
+   to MAGI: black, warm ivory, amber and restrained cyan. The original drawing
+   keeps its own rules. No external fonts or assets are used. */
 .demo-shell {
-  --frame-text: #ededeb;
-  --frame-muted: #a1a19c;
-  --frame-line: #30302e;
-  --frame-surface: #080808;
+  --frame-text: #e8dfca;
+  --frame-muted: #b3a58c;
+  --frame-line: #443724;
+  --frame-surface: #0a0906;
+  --frame-accent: #dfa24f;
+  --frame-accent-soft: #a9793c;
+  --frame-cyan: #7db7ac;
   color: var(--frame-text);
   font-family: Arial, 'Hiragino Kaku Gothic ProN', 'Malgun Gothic', sans-serif;
 }
@@ -31,28 +34,28 @@
   font-weight: 400;
 }
 .demo-shell button:hover:not(:disabled) {
-  color: #fff;
-  border-color: #8b8b85;
-  background: #151515;
+  color: var(--frame-text);
+  border-color: var(--frame-accent-soft);
+  background: #171209;
 }
 .demo-shell button.primary {
-  border-color: #e2e2de;
-  color: #111;
-  background: #e2e2de;
+  border-color: var(--frame-accent);
+  color: #160e04;
+  background: var(--frame-accent);
   font-weight: 600;
 }
 .demo-shell button.primary:hover:not(:disabled) {
-  color: #000;
-  background: #fff;
-  border-color: #fff;
+  color: #160e04;
+  background: #efb866;
+  border-color: #efb866;
 }
 .demo-shell :is(button, a, summary):focus-visible {
-  outline: 2px solid #c8c8c2;
+  outline: 2px solid var(--frame-cyan);
   outline-offset: 4px;
 }
 .demo-shell :is(input, select, textarea):focus {
-  outline: 1px solid #b6b6b0;
-  border-color: #b6b6b0;
+  outline: 1px solid var(--frame-accent-soft);
+  border-color: var(--frame-accent-soft);
 }
 .demo-shell :is(a, .language-control) {
   color: var(--frame-muted);
@@ -78,6 +81,7 @@
 }
 .demo-header .command-masthead strong {
   font-size: 32px;
+  color: var(--frame-accent);
 }
 .demo-header .command-masthead div > span {
   color: var(--frame-muted);
@@ -85,6 +89,15 @@
 }
 .demo-links {
   gap: 12px 20px;
+}
+.demo-shell .demo-links > button.primary {
+  color: var(--frame-accent);
+  border-color: var(--frame-accent-soft);
+  background: transparent;
+}
+.demo-shell .demo-links > button.primary:hover:not(:disabled) {
+  color: #160e04;
+  background: var(--frame-accent);
 }
 .demo-links > button:not(.primary) {
   border-color: transparent;
@@ -102,7 +115,7 @@
   font-size: 10px;
 }
 .demo-notice strong {
-  color: #c6c6c0;
+  color: var(--frame-cyan);
   font-weight: 400;
   letter-spacing: 0.1em;
 }
@@ -167,9 +180,9 @@
   border-color: var(--frame-line);
 }
 .demo-shell :is(.demo-examples button, .demo-personas button)[aria-pressed='true'] {
-  color: #f0f0eb;
-  background: #171716;
-  border-color: #82827b;
+  color: var(--frame-text);
+  background: #1b140a;
+  border-color: var(--frame-accent-soft);
 }
 .demo-shell
   :is(
@@ -196,8 +209,8 @@
   font-weight: 400;
 }
 .demo-shell .sequence-strip [aria-current='step'] {
-  background: #1d1b16;
-  color: #efb660;
+  background: #211708;
+  color: var(--frame-accent);
 }
 .demo-shell :is(.deliberation-status, .answer-details, .answer-sources) {
   border-color: var(--frame-line);
@@ -264,7 +277,7 @@
   color: var(--frame-muted);
 }
 .demo-shell :is(.demo-answer, .demo-inspector):focus {
-  outline-color: #82827b;
+  outline-color: var(--frame-accent-soft);
 }
 .demo-shell .trial-entry {
   padding: 24px 0;

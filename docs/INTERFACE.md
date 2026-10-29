@@ -70,7 +70,7 @@ The recorded-demo mode is replay-only. A separate **Try your own question — fr
 
 The trial starts with a question field, Start button, remaining IP allowance and reset time. Model, usage and privacy details are in a collapsed **Usage & privacy** section; a short Cloudflare transmission notice remains beside it. There is no introductory slogan or idle instruction beneath the console. Japanese console artwork stays unchanged in all four languages.
 
-The surrounding public interface takes visual cues from [Celetix](https://celetix.com/): black backgrounds, fine gray rules, restrained white type, square controls and more deliberate spacing. The original MAGI geometry, amber palette, Japanese lettering, blue pulses and decision reveal keep their own styles. No Celetix assets, fonts or copy are bundled. Replay, free questions, language selection, video, sharing and local setup remain available.
+The surrounding public interface takes layout cues from [Celetix](https://celetix.com/): fine rules, restrained type, square controls and deliberate spacing. Its colors come from MAGI: black, warm ivory, amber controls, bronze rules and restrained cyan status accents. The original MAGI geometry, Japanese lettering, blue pulses and decision reveal keep their own styles. No Celetix assets, fonts or copy are bundled. Replay, free questions, language selection, video, sharing and local setup remain available.
 
 ![Local app sign-in](./screenshots/login.png)
 

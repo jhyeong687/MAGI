@@ -40,7 +40,7 @@ The video opens with a brief TV-reference dissolve into the app, then replays a 
 
 ## Inside the console
 
-![Current public interface: a quiet monochrome frame around the original Japanese MAGI console](./docs/screenshots/demo-frame-desktop.png)
+![Current public interface: amber controls and warm ivory type around the original Japanese MAGI console](./docs/screenshots/demo-frame-desktop.png)
 
 [Current mobile interface](./docs/screenshots/demo-frame-mobile.png). The gallery below also includes earlier interface captures.
 
