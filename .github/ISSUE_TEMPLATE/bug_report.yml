@@ -1,0 +1,39 @@
+name: Bug report
+description: Report a reproducible problem with the console, sign-in or deliberation.
+title: '[Bug] '
+body:
+  - type: dropdown
+    id: edition
+    attributes:
+      label: Where did it happen?
+      options:
+        - Local app
+        - Public demo
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, browser, Node.js version and MAGI version/commit, if relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. Open…\n2. Select…\n3. See…"
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots or error text
+      description: Remove personal questions, account details and credentials. Do not upload your .magi folder or Codex auth files.

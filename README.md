@@ -1,46 +1,77 @@
 <div align="center">
 
-# M A G I
+<a href="https://jhyeong687.github.io/MAGI/">
+  <img src="./docs/media/readme-cover.png" alt="MAGI — 三賢人合議システム. Three minds debate. One verdict. A working Evangelion-inspired terminal with the Japanese MAGI console." width="100%" />
+</a>
 
-### Three minds debate. MAGI delivers the verdict.
+# MAGI
 
-**A working Evangelion-inspired terminal, powered by your own ChatGPT account.**
+**The terminal you remember. A council you can actually question.**
 
-**[▶ Try the public demo](https://jhyeong687.github.io/MAGI/)** · [25-second video](./docs/videos/magi-demo.mp4) · [Quick start](#quick-start) · [Screens](#inside-the-console) · [How it works](#three-perspectives-one-recorded-decision) · [한국어](./README.ko.md) · [日本語](./README.ja.md) · [中文](./README.zh-CN.md)
+Three Codex personas analyze, debate and vote — then MAGI gives you an answer.
 
-![MAGI processing](./docs/screenshots/processing.gif)
+<p align="center">
+  <a href="https://jhyeong687.github.io/MAGI/"><img src="./docs/media/open-demo.svg" alt="Try the public demo — no login" height="46" /></a>
+  <a href="https://jhyeong687.github.io/MAGI/magi-demo.mp4"><img src="./docs/media/watch-video.svg" alt="Watch the 25-second video" height="46" /></a>
+  <a href="#quick-start"><img src="./docs/media/install-locally.svg" alt="Install MAGI locally" height="46" /></a>
+</p>
 
-**MELCHIOR-1 · BALTHASAR-2 · CASPER-3**
+[English](./README.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [简体中文](./README.zh-CN.md)
 
-Real Codex sessions · Live debate · Majority vote · A direct final answer
+[![CI](https://github.com/jhyeong687/MAGI/actions/workflows/ci.yml/badge.svg)](https://github.com/jhyeong687/MAGI/actions/workflows/ci.yml) [![Public demo](https://github.com/jhyeong687/MAGI/actions/workflows/pages.yml/badge.svg)](https://github.com/jhyeong687/MAGI/actions/workflows/pages.yml)
 
 </div>
 
-MAGI turns a question into a recorded council session: three distinct perspectives analyze it independently, challenge each other, reconsider, and cast their final votes. You see the process unfold on a front-facing **4:3 MAGI display**, then read the verdict and the answer together.
+MAGI is an **Evangelion-inspired decision console** that runs with your own ChatGPT account through official Codex. Ask a question, watch three perspectives challenge each other, and read a final answer alongside the vote, conditions and dissent.
 
-It's an unofficial fan project with an actual decision engine behind the console. No shared author account, no API key to paste, and no canned production responses.
+The front-facing **4:3 display**, Japanese lettering, irregular blue processing lights and decision stamps stay central. The surrounding controls and new answers support **English, Japanese, Korean and Simplified Chinese**. First launch is Japanese; the MAGI artwork stays Japanese in every language.
 
-> The screenshots and GIF use authored documentation examples. They show the interface, not live model output or measured inference speed. Running MAGI invokes Codex with your own signed-in account.
+## See it in motion
 
-If this is the kind of terminal you've wanted to use, a **★** helps other fans find it.
+[![Watch MAGI transition from the TV reference to an actual recorded Codex deliberation](./docs/videos/magi-demo-poster.png)](https://jhyeong687.github.io/MAGI/magi-demo.mp4)
 
-## Try it before installing
+**[Watch 25 seconds →](https://jhyeong687.github.io/MAGI/magi-demo.mp4)** · [Portrait version](https://jhyeong687.github.io/MAGI/magi-demo-vertical.mp4) · [Replay the actual session](https://jhyeong687.github.io/MAGI/?lang=en&example=recording)
 
-**[Open the interactive demo →](https://jhyeong687.github.io/MAGI/)** — no login, installation or new model calls. The Japanese MAGI artwork stays fixed while the controls switch between four languages.
+The video opens with a brief TV-reference dissolve into the app, then replays a real, purpose-made Codex session with edited timing. The original session took about **85.8 seconds**. The public demo also includes **three labelled illustrative examples**; it makes no new model calls and needs no login. To ask your own questions, install the local app below. [Recording and media provenance](./docs/videos/README.md)
 
-Choose three clearly marked, scripted examples to explore approval, denial and no-majority outcomes. A fourth option replays an **actual Codex deliberation recorded specifically for public release**, with its original English public opinions, dissent and final answer. Session identifiers and account usage are removed. The site never connects to your local MAGI server.
+## Inside the console
 
-[![Watch the recorded demonstration](./docs/videos/magi-demo-poster.png)](./docs/videos/magi-demo.mp4)
+<table>
+<tr>
+<td width="50%"><a href="./docs/screenshots/debate.png"><img src="./docs/screenshots/debate.png" alt="Japanese MAGI console during cross-examination" width="100%" /></a><br /><strong>01 / THE COUNCIL</strong><br />Fixed Japanese artwork. Response-driven core states.</td>
+<td width="50%"><a href="./docs/screenshots/debate-transcript.png"><img src="./docs/screenshots/debate-transcript.png" alt="Public assessments and objections in the discussion transcript" width="100%" /></a><br /><strong>02 / THE DEBATE</strong><br />Read what each persona said and challenged.</td>
+</tr>
+<tr>
+<td width="50%"><a href="./docs/screenshots/answer.png"><img src="./docs/screenshots/answer.png" alt="The final answer with reasons, conditions and dissent" width="100%" /></a><br /><strong>03 / THE ANSWER</strong><br />A usable conclusion, with the vote and remaining concerns.</td>
+<td width="50%"><a href="./docs/screenshots/share-preview.png"><img src="./docs/screenshots/share-preview.png" alt="Reviewing a Japanese MAGI verdict card before saving it" width="100%" /></a><br /><strong>04 / THE VERDICT CARD</strong><br />Choose what to include, then save a PNG or share it.</td>
+</tr>
+</table>
 
-**[Landscape MP4](./docs/videos/magi-demo.mp4)** · **[Vertical MP4](./docs/videos/magi-demo-vertical.mp4)** · [Recording and media provenance](./docs/videos/README.md)
+<sub>Console, debate and answer gallery images use authored documentation examples. The verdict-card preview uses the public recorded session. These images are interface previews, not inference-speed measurements.</sub>
 
-The 25-second video opens with a brief TV-frame comparison dissolving into this fan recreation, then shows the actual recorded session with edited timing. It is not a 25-second inference-speed claim.
+[Full visual walkthrough](./docs/INTERFACE.md) · [Desktop](./docs/screenshots/desktop-full.png) · [Mobile](./docs/screenshots/demo-mobile.png) · [Language previews](./docs/INTERFACE.md#언어-선택)
 
-After a completed answer, use **Share verdict** to preview a 1200×1600 Japanese MAGI card. Exclude the question or answer before saving a PNG; supported browsers also offer native image sharing. MAGI uploads nothing. The copied link points to the public demo, never a private local record.
+## Three perspectives, one recorded decision
+
+| Core            | Aspect of Naoko Akagi     | What carries more weight                                    |
+| --------------- | ------------------------- | ----------------------------------------------------------- |
+| **MELCHIOR-1**  | The scientist             | Evidence, causality, testable conditions, feasibility.      |
+| **BALTHASAR-2** | The mother                | Care, trust, responsibility, who bears the consequences.    |
+| **CASPER-3**    | The woman / personal self | Desire, attachment, pride, the freedom to choose or refuse. |
+
+```text
+QUESTION → INDEPENDENT ANALYSIS → CROSS-EXAMINATION → RECONSIDERATION
+                                                       ↓
+ANSWER + CONDITIONS + DISSENT ← MAJORITY RESULT ← THREE FINAL VOTES
+```
+
+Each persona keeps a separate Codex thread. Every stage collects all three responses before exchanging a fixed snapshot. They may use the same underlying model; separate sessions do not mean statistically independent models. Agreement and disagreement are never forced. [Persona design](./docs/PERSONAS.md)
+
+**Two approvals → APPROVED. Two denials → DENIED. Otherwise → INCONCLUSIVE.** The report writer gets no fourth vote and cannot change the result. Failed responses never become fabricated votes.
 
 ## Quick start
 
-**Node.js 22+**, npm, internet access, and your own ChatGPT account/workspace with Codex access. macOS/Linux; use **WSL2** on Windows. Native Windows has not been validated.
+**Requires:** Node.js **22+**, npm, internet access and your own ChatGPT account/workspace with Codex access. Run on macOS/Linux, or **WSL2** on Windows. Native Windows has not been validated.
 
 ```sh
 git clone https://github.com/jhyeong687/MAGI.git
@@ -49,114 +80,66 @@ npm ci
 npm run setup
 ```
 
-Setup checks the bundled official Codex CLI, opens the official ChatGPT sign-in when needed, builds the UI, and starts the local server. Open **[127.0.0.1:5173](http://127.0.0.1:5173)**.
+Setup checks the bundled official Codex CLI, opens official ChatGPT sign-in when needed, builds the UI and starts the local server. Open **[127.0.0.1:5173](http://127.0.0.1:5173)**. Next time, run `npm start`.
 
-Already connected? Use `npm start` next time. You can also start the app first and click **Sign in with ChatGPT**. Use the **Language** selector at the top: **English / 한국어 / 日本語 / 中文**. Fresh installs start in Japanese; use the top **言語** selector to switch to English. Menus, help and new deliberations follow your selection; saved questions and responses keep their original language. **The MAGI artwork stays Japanese in every language**: 提訴 / 決議, status stamps and the verdict reveal preserve the original visual atmosphere.
+**初期言語：日本語。** Use **言語** at the top to switch to English, 한국어 or 中文. New deliberations use your chosen language; saved records keep their original text.
+
+| Public demo                                     | Local app                                       |
+| ----------------------------------------------- | ----------------------------------------------- |
+| Explore examples and one real recorded session. | Ask your own questions with your own account.   |
+| No installation, login or new model calls.      | Official Codex handles sign-in and credentials. |
+| Runs on GitHub Pages.                           | Runs on your computer at `127.0.0.1:5173`.      |
+
+**Your account allowance applies.** One default deliberation uses **13 model calls**: 12 persona assessments and one final report. Two/three discussion cycles use 19/25 calls. Open source does not mean unlimited model access. [Installation, login and troubleshooting](./docs/INSTALLATION.md)
+
+<details>
+<summary><strong>Login commands, data and execution details</strong></summary>
 
 ```sh
-npm start                 # Start; builds the UI if no build exists
+npm start                 # Builds the UI if no build exists
 npm run login             # Official browser sign-in
-npm run login -- --device # Device code, if enabled for your account/workspace
+npm run login -- --device # If device login is enabled for your account/workspace
 npm run doctor            # Check CLI/auth/capabilities; no model call
 ```
 
-**This is a downloaded local app.** Each person runs it on their own computer with their own credentials. GitHub Pages cannot execute its local Codex backend. [Detailed installation guide / 설치 안내](./docs/INSTALLATION.md)
+Settings, questions and decision records stay in your local `.magi/` folder, which is excluded from Git. Requests go through Codex to the model; the model is online. The app does not collect your password or send OAuth credentials to the UI. API-key authentication is disabled.
 
-## Inside the console
+The server binds to loopback and validates Host/Origin. It is designed for personal local use. Model sessions run read-only with shell, extra subagents, web search and user MCP configuration disabled. A vote never executes system actions.
 
-![MAGI operations control](./docs/screenshots/desktop.png)
+Replay consumes no new calls. Report-only generation, voice refresh and manual retry each use one report call. There are no automatic retries; cancellation cannot undo completed usage. If final-report generation fails, the completed vote is preserved and the report can be retried separately.
 
-| Screen                                                                                               | What you can do                                                          |
-| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| [Personal sign-in](./docs/screenshots/login.png)                                                     | Connect your own ChatGPT account through official Codex.                 |
-| [Independent analysis](./docs/screenshots/independent.png)                                           | Watch each core analyze the question before seeing peer opinions.        |
-| [Cross-examination](./docs/screenshots/debate.png)                                                   | Follow irregular processing lights and the actual response count.        |
-| [Public transcript](./docs/screenshots/debate-transcript.png)                                        | Read each assessment, objection and reconsideration.                     |
-| [Persona detail](./docs/screenshots/persona.png)                                                     | Inspect the source aspect, priorities, reasons and risks.                |
-| [Final answer](./docs/screenshots/answer.png)                                                        | See the vote, answer, prerequisites and remaining disagreement together. |
-| [Configuration](./docs/screenshots/settings.png)                                                     | Change language, cycles, timeout, persona prompts and effects.           |
-| [Full desktop](./docs/screenshots/desktop-full.png) / [Mobile layout](./docs/screenshots/mobile.png) | Inspect the complete responsive interface.                               |
+</details>
 
-[Full visual walkthrough](./docs/INTERFACE.md) · [Share card](./docs/social-preview.png)
+## Keep the record
 
-### Built to feel like an operations console
+- **Inspect the reasoning:** open a core for its public assessment, priorities, risks and objections.
+- **Revisit a decision:** search the archive, then replay with pause, seek and speed controls.
+- **Take the answer with you:** copy the result or save a Markdown report.
+- **Share the verdict:** review a Japanese 1200×1600 card, omit the question or answer, then save/share it. No content is uploaded; shared links lead to the public demo.
+- **Tune the console:** change discussion cycles, persona prompts, animation and optional synthesized audio. Reduced motion and keyboard controls are supported.
 
-- A large, front-facing 4:3 display with fixed diagnostic panels and the NERV emblem.
-- Irregular blue processing pulses, response-driven states, and a final decision stamp.
-- Five visible stages, public assessments, a searchable decision archive, and saved drafts.
-- A direct synthesized answer alongside the voting result; copy it or save a Markdown report.
-- Replay the recorded process with pause, seek and speed controls. **No new model calls.**
-- English, Korean, Japanese and Simplified Chinese from the top language control.
-- Optional synthesized audio, animations OFF, reduced motion, keyboard focus and Escape controls.
-
-The original work informs the visuals and persona mapping. Exact fonts, every animation frame and original sounds are not reproduced. [Reference and reconstruction notes](./docs/ANIME_REFERENCE.md)
-
-## Three perspectives, one recorded decision
-
-| Core            | Source aspect of Naoko Akagi | What carries more weight                                       |
-| --------------- | ---------------------------- | -------------------------------------------------------------- |
-| **MELCHIOR-1**  | Scientist                    | Evidence, causal claims, testable conditions and feasibility.  |
-| **BALTHASAR-2** | Mother                       | Care, trust, responsibility and who bears the consequences.    |
-| **CASPER-3**    | Woman / personal self        | Desire, attachment, pride and the freedom to choose or refuse. |
-
-These are three aspects of one source personality, with application-specific dialogue. They can agree for different reasons. No persona is forced to approve, reject or create conflict. They may use the same underlying model; three sessions do not mean three statistically independent models. [Persona design](./docs/PERSONAS.md)
-
-```text
-Your question
-    ↓
-Independent analysis  →  Cross-examination  →  Reconsideration
-    ↓
-Three final votes: APPROVE / DENY / ABSTAIN
-    ↓
-Deterministic majority result
-    ↓
-Synthesized answer, conditions and dissent
-```
-
-Every stage waits for all three responses before sharing a fixed snapshot. Each persona retains its own thread. The report writer has **no fourth vote** and cannot change the result. Failed evaluations do not become fabricated votes. Report-only failure preserves the completed vote and can be retried separately.
-
-**Voting:** two approvals → `APPROVED`; two denials → `DENIED`; otherwise → `INCONCLUSIVE`. Abstentions count toward neither side. The denominator stays three.
-
-![Final answer with conditions and dissent](./docs/screenshots/answer.png)
-
-## Your account, your allowance
-
-MAGI delegates sign-in, token storage and renewal to official Codex. It never collects your password or reads OAuth credentials into the browser. API-key authentication is disabled for this app. [Official authentication documentation](https://learn.chatgpt.com/docs/auth)
-
-A Codex-eligible account/workspace is required. Your account usage limits apply; this is **not free or unlimited** simply because it is open source.
-
-| Discussion cycles | Persona calls | Report call |  Total |
-| ----------------- | ------------: | ----------: | -----: |
-| 1, default        |            12 |           1 | **13** |
-| 2                 |            18 |           1 | **19** |
-| 3                 |            24 |           1 | **25** |
-
-Report-only generation, voice refresh or manual retry uses one report call. Cancellation does not undo usage already consumed. There are no automatic retries. Actual latency depends on the question, response length and account conditions.
-
-## Local execution and data
-
-Settings, questions and public decision records live in your installation's `.magi/`. The author's credentials and personal records are excluded from this repository. Requests are sent through Codex to the model; a local UI does not imply an offline model.
-
-The server binds to loopback and validates Host/Origin. It is not a multi-user hosted service. Model sessions run read-only with shell, extra subagents, web search and user MCP configuration disabled. A vote never executes system actions.
-
-## Development
+## Build with MAGI
 
 ```sh
 npm run dev
 npm test
 npm run build
-npx playwright install chromium
-npm run test:browser
-npm run screenshots     # Documentation examples; ffmpeg needed for GIF
-npm run social-preview # Render the share card from local assets
 ```
 
-Tests use isolated temporary storage and fake runners; they require no account or model calls. Browser tests run on port **5187**, never the production instance. `npm run verify:live` is an explicit real-model check consuming the default 13 calls. [Verification and limits](./docs/VERIFICATION.md)
+[Architecture and research](./docs/RESEARCH.md) · [Verification](./docs/VERIFICATION.md) · [Screen reconstruction](./docs/ANIME_REFERENCE.md) · [Media and sharing kit](./docs/SHARING.md)
 
-- [Architecture and open-source research](./docs/RESEARCH.md)
-- [Korean documentation](./README.ko.md)
-- [Launch copy and sharing assets](./docs/SHARING.md)
+Tests use isolated temporary storage and fake runners. Browser checks use port **5187**. `npm run verify:live` is a separate real-model check consuming the default 13 calls. Documentation assets can be regenerated with `npm run screenshots` and `npm run social-preview`.
 
-## Credits
+Feedback and contributions are welcome: [report a bug](https://github.com/jhyeong687/MAGI/issues/new?template=bug_report.yml), [suggest an improvement](https://github.com/jhyeong687/MAGI/issues/new?template=feature_request.yml), or share a question that makes the three perspectives disagree for interesting reasons. If you want more people to find this terminal, **star the repository**.
 
-Unofficial fan project. Not affiliated with the Evangelion rights holders or OpenAI. Software: **[MIT](./LICENSE)**. The original franchise names, NERV emblem and other third-party assets are covered separately in [third-party notices](./THIRD_PARTY_NOTICES.md); the software license does not grant rights to those marks.
+---
+
+<div align="center">
+
+**三つの視点。一つの決議。**
+
+Built by [jhyeong687](https://github.com/jhyeong687) · [MIT software](./LICENSE) · [Third-party notices](./THIRD_PARTY_NOTICES.md)
+
+<sub>Unofficial fan project. Not affiliated with the Evangelion rights holders or OpenAI. Franchise names, the NERV emblem and original imagery remain subject to their owners’ rights; the software license does not grant rights to those assets.</sub>
+
+</div>

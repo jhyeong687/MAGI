@@ -1,10 +1,12 @@
 # MAGI // Three Minds. One Decision.
 
+[![MAGI — 三賢人合議システム](./docs/media/readme-cover.png)](https://jhyeong687.github.io/MAGI/)
+
 **에반게리온에서 영감을 받은 삼인격 의사결정 콘솔. 각자 자신의 ChatGPT 계정으로 실행한다.**
 
 [English](./README.md) · [日本語](./README.ja.md) · [中文](./README.zh-CN.md) · [설치·로그인](./docs/INSTALLATION.md) · [화면 둘러보기](./docs/INTERFACE.md) · [인격 설정](./docs/PERSONAS.md) · [검증](./docs/VERIFICATION.md)
 
-![MAGI 관제 화면](./docs/screenshots/desktop.png)
+**[▶ 공개 데모 — 로그인 없이 체험](https://jhyeong687.github.io/MAGI/)** · [25초 시연 영상](https://jhyeong687.github.io/MAGI/magi-demo.mp4) · [↓ 바로 시작하기](#바로-시작하기)
 
 > 화면과 GIF는 설명용 예시 데이터로 촬영했다. 실제 모델의 답변이나 처리 시간을 재현한 기록은 아니다. 제품을 실행하면 로그인한 사용자의 Codex가 실제로 분석·토론·투표한다.
 

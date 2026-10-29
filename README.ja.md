@@ -1,10 +1,12 @@
 # MAGI — 三人格の合議端末
 
+[![MAGI — 三賢人合議システム](./docs/media/readme-cover.png)](https://jhyeong687.github.io/MAGI/)
+
 **三つの視点が討論し、MAGIが決議を下す。自分のChatGPTアカウントで動く、非公式ファンプロジェクト。**
 
 [English](./README.md) · [한국어](./README.ko.md) · [中文](./README.zh-CN.md)
 
-![MAGI](./docs/screenshots/desktop.png)
+**[▶ 公開デモ — ログイン不要](https://jhyeong687.github.io/MAGI/)** · [25秒の映像](https://jhyeong687.github.io/MAGI/magi-demo.mp4) · [↓ 起動](#起動)
 
 ## 公開デモ・映像・共有
 

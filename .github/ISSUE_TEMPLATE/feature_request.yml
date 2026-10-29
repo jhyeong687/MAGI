@@ -1,0 +1,29 @@
+name: Feature request
+description: Suggest an improvement to MAGI.
+title: '[Idea] '
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would this help you do?
+      description: Describe the situation or friction you encountered.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Include a sketch, example or reference if it helps.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Console and original-screen feel
+        - Persona perspectives and discussion
+        - Final answers and verdicts
+        - Language or accessibility
+        - Installation and account connection
+        - Something else
