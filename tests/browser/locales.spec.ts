@@ -36,10 +36,10 @@ test('language control localizes the operator UI while preserving Japanese MAGI 
       );
     }
     await page.getByTestId('locale-select').selectOption('en');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await page.locator('.new-button').click();
     await expect(page.getByTestId('resolution-stamp')).toHaveText('待機');
-    const translatedControls = await page.locator('.sequence-strip').innerText();
-    expect(translatedControls).not.toMatch(/[가-힣一-龠ぁ-ゔァ-ヴ]/);
+    await expect(page.locator('.sequence-strip')).not.toContainText(/[가-힣一-龠ぁ-ゔァ-ヴ]/);
     await expect(page.locator('.screen-kanji text')).toHaveText(['提訴', '決議']);
   } finally {
     await request.put('/api/settings', { data: original });

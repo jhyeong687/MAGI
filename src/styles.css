@@ -219,12 +219,9 @@ span {
 /* Type and strokes are in the 704×480 source-capture coordinate system. */
 .screen-kanji {
   font-family: 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif CJK JP', serif;
-  font-size: 54px;
+  font-size: 48px;
   font-weight: 900;
   fill: #ef9d22;
-}
-.scene-deliberation .screen-kanji {
-  font-size: 54px;
 }
 .screen-metadata {
   fill: #ed9825;

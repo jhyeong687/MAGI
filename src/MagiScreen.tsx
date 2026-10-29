@@ -90,7 +90,7 @@ export default function MagiScreen({
             <g className="screen-kanji">
               <text
                 x={diagnostics ? 81 : 76}
-                y="104"
+                y="101"
                 textLength={diagnostics ? 158 : 138}
                 lengthAdjust="spacingAndGlyphs"
               >
@@ -98,7 +98,7 @@ export default function MagiScreen({
               </text>
               <text
                 x={diagnostics ? 469 : 489}
-                y="104"
+                y="101"
                 textLength={diagnostics ? 155 : 138}
                 lengthAdjust="spacingAndGlyphs"
               >
