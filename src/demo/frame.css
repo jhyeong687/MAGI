@@ -1,0 +1,340 @@
+/* Celetix reference: black canvas, fine rules, quiet type, square controls.
+   These styles surround the original MAGI drawing; its geometry and palette
+   deliberately retain their own rules. No external fonts or assets are used. */
+.demo-shell {
+  --frame-text: #ededeb;
+  --frame-muted: #a1a19c;
+  --frame-line: #30302e;
+  --frame-surface: #080808;
+  color: var(--frame-text);
+  font-family: Arial, 'Hiragino Kaku Gothic ProN', 'Malgun Gothic', sans-serif;
+}
+.demo-shell.anime-terminal:not(.cinema-mode):not(.film-mode) {
+  width: calc(100% - 48px);
+  max-width: 1640px;
+  min-height: 100svh;
+  padding: 0 clamp(20px, 3vw, 44px) 24px;
+  border: 1px solid var(--frame-line);
+  border-top: 0;
+  border-bottom: 0;
+}
+.demo-shell :is(button, input, select, textarea) {
+  border-color: var(--frame-line);
+  color: var(--frame-text);
+  background: transparent;
+  box-shadow: none;
+}
+.demo-shell button {
+  min-height: 40px;
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 400;
+}
+.demo-shell button:hover:not(:disabled) {
+  color: #fff;
+  border-color: #8b8b85;
+  background: #151515;
+}
+.demo-shell button.primary {
+  border-color: #e2e2de;
+  color: #111;
+  background: #e2e2de;
+  font-weight: 600;
+}
+.demo-shell button.primary:hover:not(:disabled) {
+  color: #000;
+  background: #fff;
+  border-color: #fff;
+}
+.demo-shell :is(button, a, summary):focus-visible {
+  outline: 2px solid #c8c8c2;
+  outline-offset: 4px;
+}
+.demo-shell :is(input, select, textarea):focus {
+  outline: 1px solid #b6b6b0;
+  border-color: #b6b6b0;
+}
+.demo-shell :is(a, .language-control) {
+  color: var(--frame-muted);
+}
+.demo-shell a:hover {
+  color: var(--frame-text);
+}
+.demo-header {
+  min-height: 100px;
+  padding: 20px 0;
+  border-color: var(--frame-line);
+}
+.demo-header .command-masthead {
+  gap: 14px;
+  color: var(--frame-text);
+}
+.demo-header .nerv-mark {
+  width: 42px;
+  height: 48px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+.demo-header .command-masthead strong {
+  font-size: 32px;
+}
+.demo-header .command-masthead div > span {
+  color: var(--frame-muted);
+  font-size: 9px;
+}
+.demo-links {
+  gap: 12px 20px;
+}
+.demo-links > button:not(.primary) {
+  border-color: transparent;
+  padding-inline: 0;
+  color: var(--frame-muted);
+}
+.demo-shell .language-control select {
+  width: 104px;
+  min-height: 40px;
+}
+.demo-notice {
+  padding: 18px 0;
+  gap: 8px 24px;
+  color: var(--frame-muted);
+  font-size: 10px;
+}
+.demo-notice strong {
+  color: #c6c6c0;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+}
+.demo-entry {
+  padding: 30px 0 34px;
+  margin-bottom: 16px;
+  gap: 32px;
+  border-color: var(--frame-line);
+}
+.demo-entry h1 {
+  color: var(--frame-text);
+  font-size: clamp(23px, 2.8vw, 38px);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.035em;
+  text-wrap: pretty;
+  margin: 10px 0;
+}
+.demo-shell
+  :is(
+    .demo-entry small,
+    .demo-examples small,
+    .demo-kicker,
+    .demo-inspector > small,
+    .demo-proposal p,
+    .demo-proposal details,
+    .demo-local-note,
+    .demo-fixed,
+    .demo-entry p,
+    .demo-example-label,
+    .demo-footer,
+    .demo-video p,
+    .demo-install p,
+    .demo-install > span,
+    .demo-vote-tally > small,
+    .trial-info,
+    .trial-info-row > small
+  ) {
+  color: var(--frame-muted);
+}
+.demo-main {
+  gap: 32px;
+}
+.demo-sidebar {
+  border: 0;
+  border-left: 1px solid var(--frame-line);
+  padding: 0 0 0 24px;
+}
+.demo-shell
+  :is(
+    .demo-inspector,
+    .demo-install-link,
+    .demo-result,
+    .demo-transcript,
+    .demo-transcript article,
+    .demo-video,
+    .demo-install,
+    .trial-entry,
+    .trial-quota,
+    .trial-info-content
+  ) {
+  border-color: var(--frame-line);
+}
+.demo-shell :is(.demo-examples button, .demo-personas button)[aria-pressed='true'] {
+  color: #f0f0eb;
+  background: #171716;
+  border-color: #82827b;
+}
+.demo-shell
+  :is(
+    .demo-inspector h2,
+    .demo-inspector p,
+    .demo-proposal h1,
+    .demo-video h2,
+    .demo-install h2,
+    .demo-transcript p
+  ) {
+  color: var(--frame-text);
+}
+.demo-personas button {
+  padding: 7px 3px;
+  font-size: 9px;
+}
+.demo-shell .sequence-strip {
+  margin-inline: 0;
+  border-color: var(--frame-line);
+}
+.demo-shell .sequence-strip li {
+  color: var(--frame-muted);
+  border-color: var(--frame-line);
+  font-weight: 400;
+}
+.demo-shell .sequence-strip [aria-current='step'] {
+  background: #1d1b16;
+  color: #efb660;
+}
+.demo-shell :is(.deliberation-status, .answer-details, .answer-sources) {
+  border-color: var(--frame-line);
+  color: var(--frame-muted);
+}
+.demo-shell
+  :is(
+    .deliberation-status-main strong,
+    .deliberation-status-time,
+    .answer-question,
+    .answer-excerpt-note,
+    .final-answer header span,
+    .final-answer header small
+  ) {
+  color: var(--frame-muted);
+}
+.demo-shell :is(.demo-install, .demo-video, .final-answer, .question-guide) {
+  background: transparent;
+  border-color: var(--frame-line);
+  box-shadow: none;
+}
+.demo-shell .final-answer {
+  padding: 32px;
+}
+.demo-shell .final-answer > header {
+  border-bottom: 1px solid var(--frame-line);
+}
+.demo-shell .final-answer h2 {
+  color: var(--frame-text);
+  font:
+    400 22px/1.4 Arial,
+    sans-serif;
+  letter-spacing: -0.02em;
+}
+.demo-shell
+  :is(
+    .answer-text,
+    .answer-original,
+    .answer-brief-sections,
+    .answer-sections,
+    .question-guide,
+    .question-guide summary,
+    .question-guide h3,
+    .guide-fields label
+  ) {
+  color: var(--frame-text);
+}
+.demo-shell
+  :is(
+    .answer-brief > h3,
+    .answer-brief-sections h3,
+    .answer-sections h3,
+    .question-guide header p,
+    .guide-note,
+    .guide-disclosure
+  ) {
+  color: var(--frame-muted);
+}
+.demo-shell .answer-brief .answer-text {
+  font-weight: 400;
+  line-height: 1.7;
+}
+.demo-shell .trial-entry {
+  padding: 24px 0;
+  border-top: 0;
+}
+.demo-shell .trial-entry form > label {
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 14px;
+}
+.demo-shell .trial-entry textarea {
+  background: var(--frame-surface);
+  color: var(--frame-text);
+  min-height: 120px;
+}
+.demo-shell .trial-form-meta > span {
+  color: var(--frame-muted);
+  font: 11px/1.6 monospace;
+}
+.demo-shell .trial-quota {
+  padding: 12px 0;
+  border: 0;
+  color: var(--frame-muted);
+  font-size: 12px;
+}
+.demo-shell .trial-quota b {
+  color: var(--frame-text);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+.demo-shell .trial-info-content p {
+  margin-top: 12px;
+}
+.demo-shell .trial-form-meta > .error-text {
+  color: #ff8e68;
+}
+@media (max-width: 1000px) {
+  .demo-sidebar {
+    border-left: 0;
+    border-top: 1px solid var(--frame-line);
+    padding: 24px 0 0;
+    margin-top: 24px;
+  }
+}
+@media (max-width: 700px) {
+  .demo-shell.anime-terminal:not(.cinema-mode):not(.film-mode) {
+    width: calc(100% - 20px);
+    padding-inline: 16px;
+  }
+  .demo-header {
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px 0 16px;
+    gap: 20px;
+  }
+  .demo-links {
+    flex-direction: row;
+    width: 100%;
+    gap: 12px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .demo-links > .primary {
+    width: 100%;
+  }
+  .demo-shell .language-control {
+    gap: 6px;
+  }
+  .demo-entry {
+    padding: 24px 0;
+    gap: 20px;
+  }
+  .demo-shell .final-answer {
+    padding: 20px 16px;
+  }
+  .demo-shell button {
+    min-height: 44px;
+  }
+}

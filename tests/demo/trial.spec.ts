@@ -31,6 +31,10 @@ test('unconnected trial saves a private draft, refuses inference, preserves Japa
   await expect(page.getByTestId('trial-start')).toBeDisabled();
   for (const locale of ['en', 'ko', 'ja', 'zh']) {
     await page.getByTestId('trial-locale').selectOption(locale);
+    await expect(page.getByTestId('trial-info')).not.toHaveAttribute('open');
+    await expect(page.locator('.trial-info-content')).toBeHidden();
+    await expect(page.locator('.trial-entry h1')).toHaveCount(0);
+    await expect(page.getByTestId('phase-response-count')).toHaveCount(0);
     await expect(page.locator('.screen-kanji text')).toHaveText(['提訴', '決議']);
     await expect(page.getByTestId('resolution-stamp')).toHaveText('待機');
     expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(
@@ -90,8 +94,14 @@ test('live question receives genuine stage snapshots and a final answer, with on
     });
   });
   await page.goto('./?lang=en&mode=trial');
-  await expect(page.getByTestId('trial-quota')).toContainText('Decisions started today: 2');
+  await expect(page.getByTestId('trial-quota')).toContainText('8 / 10');
   await expect(page.getByTestId('trial-quota')).not.toContainText('998');
+  await expect(page.getByTestId('trial-info')).not.toHaveAttribute('open');
+  await page.getByTestId('trial-info').locator('summary').click();
+  await expect(page.getByTestId('trial-info')).toContainText('Decisions started today: 2');
+  await expect(page.getByTestId('trial-info')).toContainText('Failed or stopped runs still count');
+  await page.getByTestId('trial-info').locator('summary').click();
+  await expect(page.locator('.trial-info-content')).toBeHidden();
   await page.getByTestId('trial-question').fill(run.question);
   await page.getByTestId('trial-start').click();
   await expect(page.getByTestId('trial-verdict')).toContainText('APPROVED');

@@ -40,6 +40,10 @@ The video opens with a brief TV-reference dissolve into the app, then replays a 
 
 ## Inside the console
 
+![Current public interface: a quiet monochrome frame around the original Japanese MAGI console](./docs/screenshots/demo-frame-desktop.png)
+
+[Current mobile interface](./docs/screenshots/demo-frame-mobile.png). The gallery below also includes earlier interface captures.
+
 <table>
 <tr>
 <td width="50%"><a href="./docs/screenshots/demo-debate.png"><img src="./docs/screenshots/demo-debate.png" alt="Japanese MAGI console during cross-examination" width="100%" /></a><br /><strong>01 / THE COUNCIL</strong><br />Fixed Japanese artwork. Response-driven core states.</td>

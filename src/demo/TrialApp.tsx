@@ -213,10 +213,8 @@ export default function TrialApp({
       </header>
       <div className="demo-notice trial-notice">
         <strong>{t.badge}</strong>
-        <span>{t.intro}</span>
       </div>
       <section className="trial-entry">
-        <h1>{t.title}</h1>
         <form onSubmit={start} data-testid="trial-form">
           <label htmlFor="trial-question">{t.question}</label>
           <textarea
@@ -225,7 +223,6 @@ export default function TrialApp({
             value={question}
             disabled={busy}
             rows={4}
-            placeholder={t.placeholder}
             onChange={(e) => {
               setQuestion(e.target.value);
               try {
@@ -270,10 +267,11 @@ export default function TrialApp({
         ) : (
           <div className="trial-quota" data-testid="trial-quota">
             <span>
-              {t.started}: <b>{status?.startedToday ?? '—'}</b>
-            </span>
-            <span>
-              {t.personal}: <b>{status?.remainingForIp ?? '—'}</b> {t.slots}
+              {t.personal}:{' '}
+              <b>
+                {status?.remainingForIp ?? '—'} /{' '}
+                {status?.perIpLimit ?? TRIAL_POLICY.dailyRunsPerIp}
+              </b>
             </span>
             {status && (
               <span>
@@ -282,8 +280,6 @@ export default function TrialApp({
                   {new Date(status.resetsAt).toLocaleString(locale, {
                     hour: '2-digit',
                     minute: '2-digit',
-                    month: 'short',
-                    day: 'numeric',
                     timeZoneName: 'short',
                   })}
                 </time>
@@ -299,20 +295,33 @@ export default function TrialApp({
             {errorText}
           </p>
         )}
-        <p className="trial-small">
-          {t.limits} {t.quotaNote}
-        </p>
-        <p className="trial-small">{t.provider}</p>
-        <p className="trial-privacy">
-          {t.privacy}{' '}
-          <a
-            href="https://developers.cloudflare.com/workers-ai/platform/data-usage/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Cloudflare ↗
-          </a>
-        </p>
+        <div className="trial-info-row">
+          <small>{t.privacyShort}</small>
+          <details className="trial-info" data-testid="trial-info">
+            <summary>{t.info}</summary>
+            <div className="trial-info-content">
+              <p>{t.intro}</p>
+              <p>{t.limits}</p>
+              <p>{t.provider}</p>
+              {status && (
+                <p>
+                  {t.started}: {status.startedToday}
+                </p>
+              )}
+              <p>{t.quotaNote}</p>
+              <p>
+                {t.privacy}{' '}
+                <a
+                  href="https://developers.cloudflare.com/workers-ai/platform/data-usage/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Cloudflare ↗
+                </a>
+              </p>
+            </div>
+          </details>
+        </div>
       </section>
       <main className="demo-main">
         <section className="demo-stage">
@@ -335,18 +344,18 @@ export default function TrialApp({
               </li>
             ))}
           </ol>
-          <DeliberationStatus
-            run={run}
-            locale={locale}
-            now={now}
-            elapsedSeconds={
-              run
-                ? (Date.parse(run.completedAt || new Date(now).toISOString()) -
-                    Date.parse(run.createdAt)) /
-                  1000
-                : 0
-            }
-          />
+          {run && (
+            <DeliberationStatus
+              run={run}
+              locale={locale}
+              now={now}
+              elapsedSeconds={
+                (Date.parse(run.completedAt || new Date(now).toISOString()) -
+                  Date.parse(run.createdAt)) /
+                1000
+              }
+            />
+          )}
         </section>
         <aside className="demo-sidebar">
           <div

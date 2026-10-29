@@ -178,6 +178,11 @@ export default function DemoApp({ onTry }: { onTry: () => void }) {
           </div>
         </div>
         <div className="demo-links">
+          {!film && (
+            <button data-testid="open-trial" className="primary" onClick={onTry}>
+              {trialCopies[locale].open} ↗
+            </button>
+          )}
           <a href={repoUrl} target="_blank" rel="noreferrer">
             {t.source} ↗
           </a>
@@ -213,14 +218,6 @@ export default function DemoApp({ onTry }: { onTry: () => void }) {
         <strong>{recorded ? t.recordedBadge : t.badge}</strong>
         <span>{recorded ? t.recordedDisclosure : t.disclosure}</span>
       </div>
-      {!film && (
-        <section className="demo-trial-cta">
-          <button data-testid="open-trial" className="primary" onClick={onTry}>
-            {trialCopies[locale].open} ↗
-          </button>
-          <p>{trialCopies[locale].intro}</p>
-        </section>
-      )}
       <section className="demo-entry" aria-labelledby="demo-question-title">
         <div>
           <small>{recorded ? t.featured : t.example}</small>
@@ -264,12 +261,14 @@ export default function DemoApp({ onTry }: { onTry: () => void }) {
               </li>
             ))}
           </ol>
-          <DeliberationStatus
-            run={view}
-            locale={locale}
-            replay
-            elapsedSeconds={started ? replay.position / 1000 : 0}
-          />
+          {view && (
+            <DeliberationStatus
+              run={view}
+              locale={locale}
+              replay
+              elapsedSeconds={started ? replay.position / 1000 : 0}
+            />
+          )}
           <div className="demo-playback">
             <button
               data-testid="demo-play"
@@ -344,7 +343,6 @@ export default function DemoApp({ onTry }: { onTry: () => void }) {
             ))}
           </div>
           <div className="demo-proposal">
-            <p>{t.intro}</p>
             {recorded && (
               <>
                 <p>{t.questionSummary}</p>

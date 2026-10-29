@@ -4,6 +4,10 @@
 
 The central **4:3, front-facing MAGI display** keeps its Japanese lettering and original-inspired atmosphere in every language. Controls, help and new local deliberations support English, Japanese, Korean and Simplified Chinese. Fresh installations start in Japanese; select **言語 → English** at the top to switch.
 
+![Current public interface](./screenshots/demo-frame-desktop.png)
+
+[Current mobile interface](./screenshots/demo-frame-mobile.png). The remaining gallery includes earlier interface captures; their recorded opinions and votes are unchanged.
+
 The new public-demo images below use a purpose-made **actual Codex recording**. Its original English opinions and final answer are preserved; localized titles and card summaries are editorial translations. The recording took about 85.8 seconds and starts at 4× playback speed, about 22 seconds. Other legacy gallery images use authored documentation examples. [Complete provenance](./screenshots/README.md)
 
 ## Start with a real recorded session
@@ -61,6 +65,10 @@ The public demo provides the same helper for local drafting and copying only. It
 ![Editable question helper in the public demo](./screenshots/demo-question-guide.png)
 
 The recorded-demo mode is replay-only. A separate **Try your own question — free** screen submits new questions to Cloudflare GLM-4.7-Flash without login, with shared daily limits and honest availability. [Trial limits and privacy](./CLOUD_TRIAL.md). **Ask your own question · install locally** leads to installation instructions and the [English installation/troubleshooting guide](./INSTALLATION.md). Each person uses their own computer and ChatGPT/Codex account. Official Codex handles sign-in and credential storage.
+
+The trial starts with a question field, Start button, remaining IP allowance and reset time. Model, usage and privacy details are in a collapsed **Usage & privacy** section; a short Cloudflare transmission notice remains beside it. There is no introductory slogan or idle instruction beneath the console. Japanese console artwork stays unchanged in all four languages.
+
+The surrounding public interface takes visual cues from [Celetix](https://celetix.com/): black backgrounds, fine gray rules, restrained white type, square controls and more deliberate spacing. The original MAGI geometry, amber palette, Japanese lettering, blue pulses and decision reveal keep their own styles. No Celetix assets, fonts or copy are bundled. Replay, free questions, language selection, video, sharing and local setup remain available.
 
 ![Local app sign-in](./screenshots/login.png)
 

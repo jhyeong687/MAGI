@@ -27,7 +27,7 @@ For the same short prototype/deadline scenario, one verification in each of the 
 
 The 1,000-start request ceiling protects storage and the service from loops of malformed or failed requests. Normal full deliberations will generally exhaust compute well before that ceiling; the service does not reserve a separate 1,000-call paid allowance. Per-IP limits and the two-run concurrency limit keep one visitor from taking every slot at once.
 
-The screen shows **decisions started today** and the IP's remaining starts. It does not display the request-ceiling remainder as free AI credits, invent an exact provider balance or promise a completion ETA. A daily-allocation error (`3036`) closes new starts until reset. Temporary capacity exhaustion (`3040` / other transient 429 responses) ends that attempt with a busy message but **does not close the whole day**. There are no automatic retries or paid fallbacks. [Provider error definitions](https://developers.cloudflare.com/workers-ai/platform/errors/)
+The main form shows the IP's remaining starts and reset time. **Usage & privacy** expands to show decisions started today, model information, limits and privacy details. It does not display the request-ceiling remainder as free AI credits, invent an exact provider balance or promise a completion ETA. A daily-allocation error (`3036`) closes new starts until reset. Temporary capacity exhaustion (`3040` / other transient 429 responses) ends that attempt with a busy message but **does not close the whole day**. There are no automatic retries or paid fallbacks. [Provider error definitions](https://developers.cloudflare.com/workers-ai/platform/errors/)
 
 ## Native-language answers
 
@@ -71,7 +71,7 @@ To pause inference, deploy the checked-in disabled config with the correct accou
 
 [무료 웹 체험](https://jhyeong687.github.io/MAGI/?lang=ko&mode=trial)은 로그인 없이 자기 질문을 넣는 실제 GLM-4.7-Flash 심의다. **하루 20회 제한은 없앴다. 무료 연산량이 남아 있는 동안 이용할 수 있고**, 같은 IP는 **하루 10회**, 동시 심의는 **2건**이다. 반복 실패나 도배로 서비스가 망가지지 않도록 전체 요청 보호 상한 1,000회도 둔다. 1,000번의 완료를 보장하거나 별도 유료 할당을 쓰는 것이 아니다. 실패·중단도 이용 횟수에 포함된다. 한국 시간 **오전 9시**에 초기화된다. 대학·가정처럼 회선을 공유하면 IP별 열 회를 함께 쓴다.
 
-Cloudflare의 **무료 10,000 Neurons/일**은 질문 수가 아니라 연산량이다. 화면에는 오늘 접수한 심의와 IP별 남은 횟수만 표시한다. 남은 AI 연산량을 추정해서 표시하지 않으며, 제공자 무료 한도가 먼저 소진되면 조기에 닫힌다. 유료 요금제이거나 요금제 확인에 실패해도 시작하지 않는다. 무료 요금제에서 초과 요청은 오류로 멈추며, 유료 전환이나 운영자의 OpenAI API·Codex로 대체하지 않는다.
+Cloudflare의 **무료 10,000 Neurons/일**은 질문 수가 아니라 연산량이다. 기본 화면에는 IP별 남은 횟수와 초기화 시각을 표시하고, 오늘 접수한 심의·상세 조건·개인정보 안내는 **이용 안내**에서 펼쳐볼 수 있다. 남은 AI 연산량을 추정해서 표시하지 않으며, 제공자 무료 한도가 먼저 소진되면 조기에 닫힌다. 유료 요금제이거나 요금제 확인에 실패해도 시작하지 않는다. 무료 요금제에서 초과 요청은 오류로 멈추며, 유료 전환이나 운영자의 OpenAI API·Codex로 대체하지 않는다.
 
 질문·공개 의견은 Cloudflare로 전송된다. 서버에 질문·답변을 저장하거나 다른 방문자에게 공개하지 않는다. 탭 새로고침 전 결과를 복사하거나 내려받아라. 일본어 원작 콘솔·정면 4:3 비율·불규칙 점멸은 유지된다. 기존 로컬 Codex 앱과 녹화 데모도 계속 사용할 수 있다.
 
