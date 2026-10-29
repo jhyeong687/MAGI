@@ -60,7 +60,7 @@ The public demo provides the same helper for local drafting and copying only. It
 
 ![Editable question helper in the public demo](./screenshots/demo-question-guide.png)
 
-The recorded-demo mode is replay-only. A separate **Try your own question — free** screen submits new questions to Cloudflare Qwen without login, with shared daily limits and honest availability. [Trial limits and privacy](./CLOUD_TRIAL.md). **Ask your own question · install locally** leads to installation instructions and the [English installation/troubleshooting guide](./INSTALLATION.md). Each person uses their own computer and ChatGPT/Codex account. Official Codex handles sign-in and credential storage.
+The recorded-demo mode is replay-only. A separate **Try your own question — free** screen submits new questions to Cloudflare GLM-4.7-Flash without login, with shared daily limits and honest availability. [Trial limits and privacy](./CLOUD_TRIAL.md). **Ask your own question · install locally** leads to installation instructions and the [English installation/troubleshooting guide](./INSTALLATION.md). Each person uses their own computer and ChatGPT/Codex account. Official Codex handles sign-in and credential storage.
 
 ![Local app sign-in](./screenshots/login.png)
 

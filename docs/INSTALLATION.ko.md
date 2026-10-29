@@ -88,7 +88,7 @@ MAGI_CODEX_BIN='/absolute/path/to/compatible/codex' npm start
 
 ## 공개 데모와 실제 실행의 차이
 
-[공개 녹화 데모](https://jhyeong687.github.io/MAGI/)는 정적 기록 재생이다. 별도의 [무료 클라우드 체험](https://jhyeong687.github.io/MAGI/?lang=ko&mode=trial)에서는 로그인 없이 실제 질문을 Cloudflare Qwen으로 처리한다. 전체 하루 최대 20회·같은 IP 2회이며 무료 한도에서 중단한다. 기존 로컬 서버나 운영자의 Codex와 연결하지 않는다. [제한·개인정보·배포 설명](./CLOUD_TRIAL.md)
+[공개 녹화 데모](https://jhyeong687.github.io/MAGI/)는 정적 기록 재생이다. 별도의 [무료 클라우드 체험](https://jhyeong687.github.io/MAGI/?lang=ko&mode=trial)에서는 로그인 없이 실제 질문을 Cloudflare GLM-4.7-Flash으로 처리한다. 하루 20회 제한 없이 무료 연산량이 남아 있는 동안 이용할 수 있고, 같은 IP는 하루 10회이며 무료 한도에서 중단한다. 기존 로컬 서버나 운영자의 Codex와 연결하지 않는다. [제한·개인정보·배포 설명](./CLOUD_TRIAL.md)
 
 ## 공개 웹사이트로 운영하고 싶은 경우
 

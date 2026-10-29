@@ -3,13 +3,14 @@ import { createScenario } from '../fixtures/scenarios.ts';
 const api = 'https://magi-free-trial.test.workers.dev';
 const status = {
   available: true,
-  remainingStarts: 20,
-  remainingForIp: 2,
+  remainingStarts: 998,
+  startedToday: 2,
+  remainingForIp: 8,
   active: 0,
   resetsAt: '2026-10-30T00:00:00.000Z',
-  dailyLimit: 20,
-  perIpLimit: 2,
-  model: '@cf/qwen/qwen3-30b-a3b-fp8',
+  dailyLimit: 1000,
+  perIpLimit: 10,
+  model: '@cf/zai-org/glm-4.7-flash',
 };
 
 test('unconnected trial saves a private draft, refuses inference, preserves Japanese art and navigates back', async ({
@@ -89,7 +90,8 @@ test('live question receives genuine stage snapshots and a final answer, with on
     });
   });
   await page.goto('./?lang=en&mode=trial');
-  await expect(page.getByTestId('trial-quota')).toContainText('20');
+  await expect(page.getByTestId('trial-quota')).toContainText('Decisions started today: 2');
+  await expect(page.getByTestId('trial-quota')).not.toContainText('998');
   await page.getByTestId('trial-question').fill(run.question);
   await page.getByTestId('trial-start').click();
   await expect(page.getByTestId('trial-verdict')).toContainText('APPROVED');

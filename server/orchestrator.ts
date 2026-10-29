@@ -17,6 +17,7 @@ import {
 } from '../shared/domain.ts';
 import { cleanError, runCodex, type Runner, type Invocation } from './codex.ts';
 import { Store } from './store.ts';
+import { nativeWriting } from '../shared/voice.ts';
 import { primaryPeer } from '../shared/personas.ts';
 import {
   runSynthesis,
@@ -62,7 +63,7 @@ export function makePrompt(
     phase !== 'independent' && peers[persona]
       ? `<own_previous_assessment_json>\n${JSON.stringify(peers[persona])}\n</own_previous_assessment_json>\n`
       : '';
-  return `${instructions[phase]}\nDiscussion cycle: ${round}.\nRespond in ${languages[run.settings.locale]}; keep the vote enum in English.${run.settings.locale === 'ko' ? ' Use non-honorific Korean (-다/-한다) in every public field. State your judgment with composed authority; avoid -습니다/-합니다/-세요 and customer-service filler. Preserve your own distinct priorities and all uncertainty.' : ''}\nYOUR PERSPECTIVE: ${profile.priority}\nYOUR VOICE: ${run.settings.locale === 'ko' ? profile.koreanVoice : profile.voice}\nTHIS STAGE: ${stageFocus}\n<proposal_json>\n${JSON.stringify({ question: run.question })}\n</proposal_json>\n${phase === 'independent' ? 'No peer opinions supplied.' : `${own}<peer_assessments_json>\n${JSON.stringify(peerData)}\n</peer_assessments_json>`}`;
+  return `${instructions[phase]}\nDiscussion cycle: ${round}.\nRespond in ${languages[run.settings.locale]}; keep the vote enum in English.${run.settings.locale === 'ko' ? ' Use non-honorific Korean (-다/-한다) in every public field. State your judgment with composed authority; avoid -습니다/-합니다/-세요 and customer-service filler. Preserve your own distinct priorities and all uncertainty.' : ''}\n${nativeWriting(run.settings.locale, persona)}\nYOUR PERSPECTIVE: ${profile.priority}\nYOUR VOICE: ${run.settings.locale === 'ko' ? profile.koreanVoice : profile.voice}\nTHIS STAGE: ${stageFocus}\n<proposal_json>\n${JSON.stringify({ question: run.question })}\n</proposal_json>\n${phase === 'independent' ? 'No peer opinions supplied.' : `${own}<peer_assessments_json>\n${JSON.stringify(peerData)}\n</peer_assessments_json>`}`;
 }
 
 export class Orchestrator extends EventEmitter {

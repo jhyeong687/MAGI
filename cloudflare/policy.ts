@@ -1,12 +1,13 @@
-// These are ceilings for this trial, never a promise of completed decisions.
+// The shared count is an abuse ceiling, not a free-compute allocation.
+// Workers Free enforces the actual 10,000-Neuron account-wide daily limit.
 export const TRIAL_POLICY = {
-  model: '@cf/qwen/qwen3-30b-a3b-fp8',
-  dailyRuns: 20,
-  dailyRunsPerIp: 2,
+  model: '@cf/zai-org/glm-4.7-flash',
+  dailyRuns: 1000,
+  dailyRunsPerIp: 10,
   concurrentRuns: 2,
   questionCharacters: 800,
   questionBytes: 2400,
-  promptBytes: 14000,
+  promptBytes: 20000,
   assessmentTokens: 640,
   reportTokens: 1000,
   callTimeoutMs: 60000,
@@ -21,6 +22,7 @@ export type TrialCode =
   | 'duplicate'
   | 'invalid_question'
   | 'provider_limit'
+  | 'provider_busy'
   | 'model_error'
   | 'timeout'
   | 'disconnected';
@@ -50,6 +52,7 @@ export interface TrialStatus {
   available: boolean;
   code?: TrialCode;
   remainingStarts: number;
+  startedToday: number;
   remainingForIp: number;
   active: number;
   resetsAt: string;
@@ -82,6 +85,7 @@ export function quotaStatus(state: QuotaState, client: string, now = Date.now())
     available: !code,
     code,
     remainingStarts,
+    startedToday: state.used,
     remainingForIp,
     active,
     resetsAt: new Date(nextReset(now)).toISOString(),
@@ -93,6 +97,8 @@ export function quotaStatus(state: QuotaState, client: string, now = Date.now())
 // Called inside a Durable Object input gate. The full run is reserved before any inference.
 export function reserve(state: QuotaState, client: string, attempt: string, now = Date.now()) {
   if (state.attempts.includes(attempt)) throw new TrialError('duplicate', 409);
+  for (const [id, expiry] of Object.entries(state.active))
+    if (expiry <= now) delete state.active[id];
   const status = quotaStatus(state, client, now);
   if (!status.available) throw new TrialError(status.code!, status.code === 'busy' ? 503 : 429);
   state.used++;

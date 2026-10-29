@@ -8,7 +8,7 @@
 
 **[▶ 공개 데모 — 로그인 없이 체험](https://jhyeong687.github.io/MAGI/)** · [25초 시연 영상](https://jhyeong687.github.io/MAGI/magi-demo.mp4) · [↓ 바로 시작하기](#바로-시작하기)
 
-**[내 질문으로 무료 웹 체험 →](https://jhyeong687.github.io/MAGI/?lang=ko&mode=trial)** 로그인·설치 없이 Cloudflare Qwen으로 실제 심의한다. **전체 하루 최대 20회·같은 IP 하루 2회·동시 2건.** 무료 한도에서 중단하며 운영자 OpenAI API·Codex로 대체하지 않는다. [제한·개인정보·배포 설명](./docs/CLOUD_TRIAL.md)
+**[내 질문으로 무료 웹 체험 →](https://jhyeong687.github.io/MAGI/?lang=ko&mode=trial)** 로그인·설치 없이 Cloudflare GLM-4.7-Flash으로 실제 심의한다. **무료 연산량이 남아 있는 동안 이용 가능·같은 IP 하루 10회·동시 2건.** 무료 한도에서 중단하며 운영자 OpenAI API·Codex로 대체하지 않는다. [제한·개인정보·배포 설명](./docs/CLOUD_TRIAL.md)
 
 기존 공개 녹화는 약 22초의 실제 Codex 기록 재생이다. 로컬 전체 기능은 본인의 ChatGPT·Codex 계정으로 사용한다.
 

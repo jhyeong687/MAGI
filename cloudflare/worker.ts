@@ -1,4 +1,5 @@
 import { DurableObject } from 'cloudflare:workers';
+import { providerFailure } from './providerErrors.ts';
 import { checkFreePlan } from './billing.ts';
 import {
   TRIAL_POLICY,
@@ -179,16 +180,9 @@ export class DailyTrial extends DurableObject<Env> {
             { signal },
           );
         } catch (error) {
-          const value = error as { message?: string; status?: number; statusCode?: number };
-          if (
-            /neuron|quota|daily.*limit|allocation|10007/i.test(value.message || '') ||
-            value.status === 429 ||
-            value.statusCode === 429
-          ) {
-            providerClosed = true;
-            throw new TrialError('provider_limit', 429);
-          }
-          throw new TrialError('model_error');
+          const failure = providerFailure(error);
+          if (failure.code === 'provider_limit') providerClosed = true;
+          throw failure;
         }
       };
       // The response remains streaming for the whole run. No detached background inference.

@@ -14,12 +14,13 @@ export const trialCopies = {
     loading: '接続を確認中…',
     setup: '無料クラウド体験は接続準備中。質問はこのタブに保持される。記録デモは今すぐ再生できる。',
     limits:
-      '全体で一日最大20回、同じIPから一日2回、同時2件。質問は800文字・2,400バイトまで。短い公開意見で一巡する。失敗・中断も一回に数える。',
-    remaining: '本日の開始枠',
-    personal: 'この接続の開始枠',
-    slots: '残り',
+      '一日20回の制限は撤廃。Cloudflareの無料枠が残る間は利用できる。同じIPで一日10回、同時2件まで。質問は800文字・2,400バイト以内。失敗・中断も一回に数える。',
+    started: '本日の受付件数',
+    personal: 'このIPの残り回数',
+    slots: '回',
     reset: '次回リセット',
-    quotaNote: '表示はMAGIの開始枠。AI残量ではない。Cloudflareの無料枠が先に尽きれば終了する。',
+    quotaNote:
+      '表示は受付件数であり、AIの残量ではない。残り何件完了できるかは質問と回答の長さで変わる。',
     privacy:
       '開始すると質問と公開意見をCloudflareへ送信する。サーバーには質問・回答を保存しない。下書きはこのタブ内のみ。個人情報や秘密は入力しないこと。結果は再読込で消えるため、先に保存せよ。',
     provider: '無料枠の上限で停止。課金・別の有料モデルへの切替は行わない。',
@@ -31,12 +32,14 @@ export const trialCopies = {
     useDemo: '記録デモを再生',
     errors: {
       unavailable: '無料体験は現在停止中。無料プランの確認や接続が完了していない。',
-      daily_limit: '本日の共有開始枠を使い切った。次のリセットを待て。',
+      daily_limit: '本日のリクエスト保護上限に達した。次のリセットを待て。',
       client_limit: 'このIPの本日の開始枠を使い切った。共有回線では他の人と合算される。',
       busy: '二件の審議が実行中。終了後に空き枠を再確認せよ。',
       duplicate: 'この要求は既に受け付けた。二重実行はしない。',
       invalid_question: '提案は1〜800文字、2,400バイト以内で入力せよ。',
       provider_limit: 'Cloudflareの無料枠が上限に達した。本日の新規審議を停止した。',
+      provider_busy:
+        'モデルが一時的に混み合っている。少し待ってから再確認せよ。無料枠の終了ではない。',
       model_error: 'モデルから有効な回答を受信できなかった。票は捏造しない。自動再試行はしない。',
       timeout: '応答の制限時間を超過した。受信済みの意見だけを残す。',
       disconnected: '接続が切れた。自動再実行はしない。',
@@ -59,13 +62,13 @@ export const trialCopies = {
     setup:
       'The free cloud trial is being connected. Your draft stays in this tab. The recorded demo is ready to play.',
     limits:
-      'At most 20 starts a day across all visitors, 2 per IP per day, 2 simultaneous decisions. Up to 800 characters / 2,400 bytes per question. One cycle with concise public opinions. Failed or stopped runs also count.',
-    remaining: 'Shared daily starts',
-    personal: 'Starts for this connection',
+      'The 20-run daily cap is gone. Try it while Cloudflare’s free allowance lasts. Up to 10 starts per IP per day and 2 decisions at once. Questions: 800 characters / 2,400 bytes. Failed or stopped runs still count.',
+    started: 'Decisions started today',
+    personal: 'Your IP’s remaining starts',
     slots: 'remaining',
     reset: 'Next reset',
     quotaNote:
-      'These are MAGI start slots, not remaining AI credits. Cloudflare’s free allowance may run out earlier.',
+      'The count shows starts, not AI credits. The number of decisions the free allowance can support depends on question and answer length.',
     privacy:
       'Starting sends your question and public assessments to Cloudflare. The server does not store questions or answers. Drafts stay in this tab. Do not enter private information or secrets. Results disappear on reload; save the report first.',
     provider: 'Stops at the free limit. No billing or switch to a paid model.',
@@ -77,13 +80,16 @@ export const trialCopies = {
     useDemo: 'Play recorded demo',
     errors: {
       unavailable: 'The free trial is paused. Free-plan verification or connection is not ready.',
-      daily_limit: 'Today’s shared start slots are used up. Wait for the next reset.',
+      daily_limit:
+        'The daily request-protection ceiling has been reached. Wait for the next reset.',
       client_limit: 'This IP has used today’s starts. People on a shared network share this limit.',
       busy: 'Two decisions are running. Check again after one finishes.',
       duplicate: 'This request was already accepted. It will not run twice.',
       invalid_question: 'Enter a proposal of 1–800 characters and at most 2,400 bytes.',
       provider_limit:
         'Cloudflare’s free allowance has been reached. New decisions are closed for today.',
+      provider_busy:
+        'The model is temporarily busy. Check again shortly; this does not mean the daily allowance is exhausted.',
       model_error:
         'The model did not return a valid response. No votes are invented and no automatic retry is made.',
       timeout: 'The response timed out. Only received opinions are retained.',
@@ -93,27 +99,27 @@ export const trialCopies = {
   ko: {
     open: '내 질문으로 무료 체험',
     back: '녹화 데모로 돌아가기',
-    title: '안을 입력하라. MAGI가 심의한다.',
+    title: '질문을 입력하라. MAGI가 판단한다.',
     badge: 'LIVE / 무료 클라우드 체험',
     intro:
-      '로그인 없이 Cloudflare 공개 모델로 실제 심의한다. ChatGPT / Codex와는 다른 모델을 쓰는 체험판이다.',
+      '로그인 없이 질문을 제출할 수 있다. 무료 체험은 Cloudflare의 GLM-4.7-Flash 모델로 동작한다.',
     question: '심의할 안건',
     placeholder:
       '예: 마감까지 이틀이고 작동하는 시제품은 있다. 검증 시간을 줄여 새 기능을 추가해도 될까?',
-    start: '심의 개시',
+    start: '심의 시작',
     stop: '중단',
-    refresh: '이용 가능 여부 확인',
+    refresh: '다시 확인',
     loading: '연결 확인 중…',
     setup:
       '무료 클라우드 연결 준비 중이다. 초안은 이 탭에 유지된다. 녹화 데모는 바로 재생할 수 있다.',
     limits:
-      '방문자 전체 하루 최대 20회, 같은 IP 하루 2회, 동시 2건. 질문은 800자·2,400바이트 이내다. 짧은 공개 의견으로 한 차례 토론한다. 실패·중단도 1회로 계산한다.',
-    remaining: '오늘 전체 시작 가능 횟수',
-    personal: '이 접속의 시작 가능 횟수',
-    slots: '남음',
+      '하루 20회 제한을 없앴다. Cloudflare 무료 한도가 남아 있으면 이용할 수 있다. 같은 IP는 하루 10회, 동시 심의는 2건까지다. 질문은 800자·2,400바이트 이내이며, 실패하거나 중단해도 횟수는 차감된다.',
+    started: '오늘 접수한 심의',
+    personal: '이 IP의 남은 횟수',
+    slots: '회',
     reset: '다음 초기화',
     quotaNote:
-      '표시는 MAGI의 시작 횟수다. AI 잔량이 아니다. Cloudflare 무료 한도가 먼저 소진되면 조기에 닫힌다.',
+      '접수 횟수를 보여준다. 남은 AI 연산량은 아니다. 무료 한도로 처리할 수 있는 질문 수는 질문과 답변 길이에 따라 달라진다.',
     privacy:
       '개시하면 질문과 공개 의견을 Cloudflare로 보낸다. 서버에 질문·답변을 저장하지 않는다. 초안은 이 탭 안에만 남는다. 개인정보나 비밀은 입력하지 마라. 새로고침하면 결과는 사라지므로 먼저 보고서를 저장하라.',
     provider: '무료 한도에서 중단한다. 과금이나 다른 유료 모델 전환은 없다.',
@@ -124,15 +130,18 @@ export const trialCopies = {
     character: '자',
     useDemo: '녹화 데모 재생',
     errors: {
-      unavailable: '무료 체험이 현재 중지됐다. 무료 요금제 확인 또는 연결이 준비되지 않았다.',
-      daily_limit: '오늘 전체 시작 횟수를 소진했다. 다음 초기화를 기다려라.',
-      client_limit: '이 IP의 오늘 시작 횟수를 소진했다. 공유 회선에서는 다른 이용자와 합산된다.',
-      busy: '두 건의 심의가 실행 중이다. 종료 후 이용 가능 여부를 다시 확인하라.',
+      unavailable: '지금은 무료 체험을 이용할 수 없다. 무료 요금제나 서버 연결을 확인하지 못했다.',
+      daily_limit: '오늘 요청 보호 상한에 도달했다. 다음 초기화 이후 다시 이용하라.',
+      client_limit:
+        '이 IP의 오늘 이용 횟수를 모두 썼다. 같은 인터넷 회선을 쓰는 사람끼리는 횟수를 함께 쓴다.',
+      busy: '지금은 두 건을 처리 중이다. 잠시 뒤 다시 확인하라.',
       duplicate: '이미 접수된 요청이다. 중복 실행하지 않는다.',
       invalid_question: '안건은 1~800자, 2,400바이트 이내로 입력하라.',
       provider_limit: 'Cloudflare 무료 한도에 도달했다. 오늘 신규 심의를 중단했다.',
+      provider_busy:
+        '모델이 잠시 붐빈다. 조금 뒤 다시 확인하라. 하루 무료 한도가 끝난 것은 아니다.',
       model_error:
-        '모델이 유효한 응답을 반환하지 않았다. 표를 만들어내거나 자동 재시도하지 않는다.',
+        '모델의 답변을 읽을 수 없었다. 받은 의견만 남기며, 자동으로 다시 실행하지 않는다.',
       timeout: '응답 제한 시간을 넘겼다. 받은 의견만 보존한다.',
       disconnected: '연결이 끊겼다. 자동으로 다시 실행하지 않는다.',
     },
@@ -152,12 +161,12 @@ export const trialCopies = {
     loading: '正在检查连接…',
     setup: '免费云端体验正在连接。草稿保留在本标签页，录制演示可立即播放。',
     limits:
-      '所有访客每天最多开始20次，同一IP每天2次，最多同时2项审议。问题不超过800字及2,400字节。以简短公开意见进行一轮讨论。失败及中断同样计入次数。',
-    remaining: '今日共享开始名额',
-    personal: '此连接的开始名额',
-    slots: '剩余',
+      '已取消每天20次的限制，只要Cloudflare免费额度尚未用完即可使用。同一IP每天最多10次，同时处理2项审议。问题不超过800字及2,400字节；失败或中断也计入次数。',
+    started: '今日已接收的审议',
+    personal: '此IP剩余次数',
+    slots: '次',
     reset: '下次重置',
-    quotaNote: '显示的是MAGI开始名额，并非AI余额。Cloudflare免费额度可能提前耗尽。',
+    quotaNote: '显示的是已接收次数，不是AI余额。免费额度能完成多少项审议，取决于问题和回答的长度。',
     privacy:
       '开始后，问题及公开意见将发送至Cloudflare。服务器不存储问题或回答。草稿仅保留在本标签页。不要输入隐私或秘密。刷新后结果消失，请先保存报告。',
     provider: '达到免费限额即停止，不计费，也不切换至付费模型。',
@@ -169,12 +178,13 @@ export const trialCopies = {
     useDemo: '播放录制演示',
     errors: {
       unavailable: '免费体验目前暂停，免费套餐验证或连接尚未就绪。',
-      daily_limit: '今日共享开始名额已用完，等待下次重置。',
+      daily_limit: '今日请求保护上限已达，请等待下次重置。',
       client_limit: '此IP今日名额已用完，共享网络上的用户共用此限制。',
       busy: '两项审议正在运行，结束后重新检查名额。',
       duplicate: '此请求已经接收，不会重复执行。',
       invalid_question: '请输入1至800字且不超过2,400字节的提案。',
       provider_limit: 'Cloudflare免费额度已耗尽，今日已停止新的审议。',
+      provider_busy: '模型暂时繁忙，请稍后再检查。这不表示今日免费额度已用完。',
       model_error: '模型未返回有效回答，不会伪造投票或自动重试。',
       timeout: '响应超时，仅保留已收到的意见。',
       disconnected: '连接中断，不会自动重新执行。',

@@ -8,7 +8,7 @@
 
 **[▶ 公开演示 — 无需登录](https://jhyeong687.github.io/MAGI/)** · [25秒演示视频](https://jhyeong687.github.io/MAGI/magi-demo.mp4) · [↓ 开始使用](#开始使用)
 
-**[免费提交自己的问题 →](https://jhyeong687.github.io/MAGI/?lang=zh&mode=trial)** 无需安装或登录，使用Cloudflare Qwen进行真实审议。**所有访客每天最多20次，同一IP每天2次，同时最多2项。** 达到免费限额即停止，不切换至付费模型或运营者的Codex。[限制、隐私与部署说明](./docs/CLOUD_TRIAL.md)
+**[免费提交自己的问题 →](https://jhyeong687.github.io/MAGI/?lang=zh&mode=trial)** 无需安装或登录，使用Cloudflare GLM-4.7-Flash进行真实审议。**免费额度尚未耗尽即可使用，同一IP每天10次，同时最多2项。** 达到免费限额即停止，不切换至付费模型或运营者的Codex。[限制、隐私与部署说明](./docs/CLOUD_TRIAL.md)
 
 原有公开记录回放约22秒的实际Codex审议。本地完整版仍使用自己的ChatGPT与Codex账户。
 
@@ -51,6 +51,6 @@ npm run setup
 
 界面提供正面4:3显示、固定诊断面板、不规则处理闪烁、公开讨论、历史搜索、无需新调用的回放，以及答复复制与报告保存。为保留原作氛围，MAGI 画面内的「提訴」「決議」、状态印、决议演出及系统铭文始终保持日语，其他菜单与答复随所选语言切换。三个会话可能使用相同的基础模型，不代表三个统计独立的模型。
 
-本地版默认每次审议使用 **13次调用**，计入自己的账户额度。免费云端版同样最多13次调用，但使用另一种Qwen模型，输出更短，且有共享的每日限额。
+本地版默认每次审议使用 **13次调用**，计入自己的账户额度。免费云端版同样最多13次调用，但使用另一种GLM-4.7-Flash模型，输出更短，且有共享的每日限额。
 
 图片与 GIF 使用说明用示例数据，并非实际模型输出或推理速度测量。[界面指南](./docs/INTERFACE.md) · [English documentation](./README.md) · [MIT](./LICENSE) · [第三方声明](./THIRD_PARTY_NOTICES.md)

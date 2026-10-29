@@ -270,7 +270,7 @@ export default function TrialApp({
         ) : (
           <div className="trial-quota" data-testid="trial-quota">
             <span>
-              {t.remaining}: <b>{status?.remainingStarts ?? '—'}</b> {t.slots}
+              {t.started}: <b>{status?.startedToday ?? '—'}</b>
             </span>
             <span>
               {t.personal}: <b>{status?.remainingForIp ?? '—'}</b> {t.slots}

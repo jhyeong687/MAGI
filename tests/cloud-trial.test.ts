@@ -9,6 +9,10 @@ import {
   nextReset,
   validQuestion,
 } from '../cloudflare/policy.ts';
+import { providerFailure } from '../cloudflare/providerErrors.ts';
+import { nativeWriting } from '../shared/voice.ts';
+import { makePrompt } from '../server/orchestrator.ts';
+import { makeSynthesisPrompt } from '../server/synthesis.ts';
 import { freeSubscriptions, checkFreePlan } from '../cloudflare/billing.ts';
 import {
   cloudInput,
@@ -17,6 +21,7 @@ import {
   modelContent,
   personaPrompt,
   reportPrompt,
+  reportFormat,
   type Model,
   type ModelRequest,
 } from '../cloudflare/protocol.ts';
@@ -32,12 +37,12 @@ const assessment = (vote: Assessment['vote'] = 'APPROVE'): Assessment => ({
   confidence: 60,
 });
 const report = {
-  answer: 'Conditional approval. Verify first.',
+  answer: 'Approved. Verify it before launch.',
   keyReasons: ['MELCHIOR-1 requires evidence.'],
   conditions: ['Verify.'],
   disagreements: ['BALTHASAR-2 rejects without support.'],
   brief: {
-    conclusion: 'Conditional approval.',
+    conclusion: 'Approved. Verify it before launch.',
     nextSteps: ['Verify.'],
     keyObjection: 'BALTHASAR-2 rejects without support.',
   },
@@ -54,14 +59,19 @@ test('trial counters reserve the full run, never refund failures, enforce per-IP
   assert.throws(() => reserve(state, 'first', 'a', now), /duplicate/);
   reserve(state, 'first', 'c', now);
   delete state.active.c;
-  assert.throws(() => reserve(state, 'first', 'd', now), /client_limit/);
-  for (let i = 3; i < 20; i++) {
-    reserve(state, `ip-${i}`, `run-${i}`, now);
-    delete state.active[`run-${i}`];
+  for (let i = 2; i < TRIAL_POLICY.dailyRunsPerIp; i++) {
+    reserve(state, 'first', `extra-${i}`, now);
+    delete state.active[`extra-${i}`];
   }
-  assert.equal(state.used, 20);
-  assert.equal(quotaStatus(state, 'new', now).remainingStarts, 0);
-  assert.throws(() => reserve(state, 'new', 'x', now), /daily_limit/);
+  assert.throws(() => reserve(state, 'first', 'd', now), /client_limit/);
+  const ceiling = emptyQuota();
+  for (let i = 0; i < TRIAL_POLICY.dailyRuns; i++) {
+    reserve(ceiling, `ip-${i}`, `run-${i}`, now);
+    delete ceiling.active[`run-${i}`];
+  }
+  assert.equal(ceiling.used, TRIAL_POLICY.dailyRuns);
+  assert.equal(quotaStatus(ceiling, 'new', now).remainingStarts, 0);
+  assert.throws(() => reserve(ceiling, 'new', 'x', now), /daily_limit/);
   const closed = emptyQuota();
   closed.closed = true;
   assert.throws(() => reserve(closed, 'new', 'x', now), /provider_limit/);
@@ -264,4 +274,102 @@ test('Cloudflare transport uses explicit chat roles and an actual array schema, 
   assert.equal(input.messages[1].content, 'UNTRUSTED PROPOSAL /no_think');
   assert.equal('prompt' in input, false);
   assert.equal(input.max_tokens, 640);
+});
+
+test('v1.4 counters survive the expanded policy without resetting starts or pretending request slots are AI credits', () => {
+  const old = { used: 20, clients: { operator: 2 }, attempts: ['old-attempt'], active: {} };
+  const status = quotaStatus(old, 'operator');
+  assert.equal(status.available, true);
+  assert.equal(status.startedToday, 20);
+  assert.equal(status.remainingForIp, 8);
+  reserve(old, 'operator', 'next-attempt');
+  assert.equal(old.used, 21);
+  assert.throws(() => reserve(old, 'operator', 'old-attempt'), /duplicate/);
+  assert.equal(quotaStatus({ ...old, closed: true }, 'operator').code, 'provider_limit');
+});
+
+test('actual daily-neuron exhaustion latches closed while temporary 429 capacity remains recoverable', () => {
+  for (const error of [
+    { code: 3036 },
+    new Error('AiError: 3036: You have used up your daily free allocation of 10,000 neurons'),
+    new Error('Daily neuron limit exceeded'),
+  ])
+    assert.equal(providerFailure(error).code, 'provider_limit');
+  for (const error of [
+    { code: 3040 },
+    { status: 429 },
+    { statusCode: 429 },
+    new Error('AiError: 3040: Capacity temporarily exceeded, please try again.'),
+  ])
+    assert.equal(providerFailure(error).code, 'provider_busy');
+  assert.equal(providerFailure({ code: 3007 }).code, 'timeout');
+  assert.equal(providerFailure({ name: 'AbortError' }).code, 'disconnected');
+  assert.equal(providerFailure(new Error('bad schema')).code, 'model_error');
+});
+
+test('cloud and local personas and reports all receive native writing guidance without rewriting existing records', () => {
+  for (const locale of ['ko', 'en', 'zh', 'ja'] as const) {
+    const run = createTrialRun('A proposal', locale);
+    for (const p of PERSONAS) {
+      assert.ok(personaPrompt(run, p, 'independent', {}).includes(nativeWriting(locale, p)));
+      assert.ok(makePrompt(run, p, 'independent', 0, {}).includes(nativeWriting(locale, p)));
+      run.cores[p].latest = assessment();
+      run.cores[p].finalVote = 'APPROVE';
+      run.records.push({
+        persona: p,
+        phase: 'final-vote',
+        round: 1,
+        assessment: assessment(),
+        at: run.createdAt,
+        durationMs: 1,
+      });
+    }
+    run.verdict = { result: 'APPROVED', approve: 3, deny: 0, abstain: 0, ratio: 3, total: 3 };
+    const before = JSON.stringify(run);
+    assert.ok(reportPrompt(run).includes(nativeWriting(locale)));
+    assert.ok(makeSynthesisPrompt(run).includes(nativeWriting(locale)));
+    assert.equal(JSON.stringify(run), before);
+  }
+});
+
+test('synthesis schema and parser bind the opening to the recorded verdict and reject a contradictory report', async () => {
+  const run = createTrialRun('A proposal', 'ko');
+  await deliberate(
+    run,
+    async (request) => ({
+      response: request.prompt.includes('NOT a fourth voter')
+        ? {
+            ...report,
+            answer: '판단을 보류한다.',
+            brief: { ...report.brief, conclusion: '판단을 보류한다.' },
+          }
+        : assessment('DENY'),
+    }),
+    () => {},
+    new AbortController().signal,
+  );
+  assert.equal(run.verdict?.result, 'DENIED');
+  assert.equal(run.answer?.status, 'error');
+  for (const locale of ['ko', 'en', 'zh', 'ja'] as const) {
+    run.settings.locale = locale;
+    const schema = reportFormat(run);
+    assert.ok(schema.properties.answer.pattern.startsWith('^'));
+    assert.equal(
+      schema.properties.answer.pattern,
+      schema.properties.brief.properties.conclusion.pattern,
+    );
+  }
+  const writing = nativeWriting('ko', 'melchior');
+  const input = cloudInput({
+    prompt: `${writing}\nQUESTION DATA`,
+    writing,
+    max_tokens: 640,
+    temperature: 0.35,
+    response_format: { type: 'json_schema', json_schema: {} },
+  });
+  assert.ok(input.messages[0].content.startsWith(writing));
+  assert.equal(input.messages[1].content, '\nQUESTION DATA');
+  assert.equal('writing' in input, false);
+  assert.equal(input.chat_template_kwargs.enable_thinking, false);
+  assert.equal(input.response_format.json_schema.strict, true);
 });
