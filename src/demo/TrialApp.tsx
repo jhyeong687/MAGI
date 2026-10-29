@@ -61,7 +61,7 @@ export default function TrialApp({
   );
   const controller = useRef<AbortController | null>(null),
     locked = useRef(false),
-    answerTarget = useRef<HTMLDivElement>(null);
+    answerTarget = useRef<HTMLElement>(null);
   const opinionTarget = useRef<HTMLDivElement>(null);
   const motion = animations && !reduced;
   useEffect(() => {
@@ -379,6 +379,10 @@ export default function TrialApp({
         <section
           className={`demo-result ${run.verdict.result.toLowerCase()}`}
           data-testid="trial-verdict"
+          ref={answerTarget}
+          tabIndex={-1}
+          role="region"
+          aria-label={t.result}
         >
           <b>{run.verdict.result}</b>
           <div className="demo-vote-tally">
@@ -393,7 +397,7 @@ export default function TrialApp({
         </section>
       )}
       {run?.verdict && (
-        <div className="demo-answer" tabIndex={-1} ref={answerTarget}>
+        <div className="demo-answer">
           <FinalAnswer
             run={run}
             t={copy}

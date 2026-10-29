@@ -94,6 +94,8 @@ test('live question receives genuine stage snapshots and a final answer, with on
   await page.getByTestId('trial-start').click();
   await expect(page.getByTestId('trial-verdict')).toContainText('APPROVED');
   await expect(page.getByTestId('answer-text')).toBeVisible();
+  await expect(page.getByTestId('trial-verdict')).toBeFocused();
+  await expect(page.getByTestId('trial-verdict')).toBeInViewport();
   await expect(page.getByTestId('phase-response-count')).toHaveText('3 / 3');
   await expect(page.getByTestId('trial-transcript')).toContainText('12 / 12');
   await expect(page.getByTestId('demo-seek')).toHaveCount(0);
