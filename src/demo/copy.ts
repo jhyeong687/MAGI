@@ -1,5 +1,13 @@
 import type { Locale } from '../../shared/domain.ts';
 const en = {
+  recordedStart: 'TRY THE REAL SESSION · ~22s',
+  replayNote: 'Actual recording at 4× speed · original session 85.8s · no new AI calls.',
+  originalQuestion: 'Read the original English proposal',
+  questionSummary: 'Translated overview; original responses remain in English.',
+  localRequired: 'Your own questions require local installation and your ChatGPT/Codex account.',
+  installGuide: 'INSTALLATION & TROUBLESHOOTING',
+  illustrative: 'ILLUSTRATIVE EXAMPLES',
+  featured: 'FEATURED / ACTUAL RECORDING',
   watch: 'WATCH THE 25-SECOND DEMO',
   videoNote:
     'An actual Codex session, edited for time. The opening compares a brief TV reference with this fan recreation. No original audio is used.',
@@ -18,7 +26,7 @@ const en = {
     'Scripted interface examples. Playback only — no live AI calls, login or account usage.',
   choose: 'CHOOSE A PROPOSAL',
   question: 'DECISION PROPOSAL',
-  start: 'START EXPERIENCE',
+  start: 'TRY THIS EXAMPLE · ~20s',
   restart: 'REPLAY FROM START',
   pause: 'Pause',
   resume: 'Play',
@@ -29,7 +37,7 @@ const en = {
   empty: 'Start playback to reveal each public assessment as it arrives.',
   inspect: 'Select a MAGI core to inspect its public opinion.',
   waiting: 'Awaiting recorded assessment.',
-  own: 'USE YOUR OWN QUESTION',
+  own: 'ASK YOUR OWN QUESTION · INSTALL LOCALLY',
   source: 'SOURCE / GITHUB',
   install: 'Run MAGI locally with your own ChatGPT login.',
   usage:
@@ -44,6 +52,14 @@ const en = {
 };
 type DemoCopy = typeof en;
 const ja: DemoCopy = {
+  recordedStart: '実際の審議を体験 · 約22秒',
+  replayNote: '実記録を4倍速で再生・元の審議85.8秒・追加AI呼出しなし。',
+  originalQuestion: '英語の原議題を読む',
+  questionSummary: '議題と結論の要約は翻訳。実際の応答は英語原文を保持する。',
+  localRequired: '自分の質問にはローカルのインストールと、自分のChatGPT・Codex認証が必要。',
+  installGuide: 'インストール・トラブル対処',
+  illustrative: '説明用サンプル',
+  featured: '推奨 / 実際の審議記録',
   watch: '25秒の実演映像',
   videoNote:
     '実際のCodex審議を時間編集した映像。冒頭では短いTV参考画像から本作へ重ねて移行する。原作音声は使用しない。',
@@ -61,7 +77,7 @@ const ja: DemoCopy = {
   disclosure: '説明用に作成した例の再生。実時間AIの呼出し・ログイン・利用枠の消費はない。',
   choose: '審議事項を選択',
   question: '審議事項',
-  start: '体験を開始',
+  start: 'サンプルを体験 · 約20秒',
   restart: '最初から再生',
   pause: '一時停止',
   resume: '再生',
@@ -72,7 +88,7 @@ const ja: DemoCopy = {
   empty: '再生を開始すると、記録順に各人格の公開意見が現れる。',
   inspect: 'MAGIの人格パネルを選択し、公開意見を確認せよ。',
   waiting: '記録された応答を待機中。',
-  own: '自分の質問で使う',
+  own: '自分の質問で使う・ローカルに導入',
   source: 'ソース / GITHUB',
   install: '自分のChatGPTアカウントで、ローカルのMAGIを起動せよ。',
   usage: 'Node.js 22以上とCodexの利用権が必要。実際の基本審議は自分の利用枠で13回呼び出す。',
@@ -85,6 +101,14 @@ const ja: DemoCopy = {
   privacy: 'このサイトには個人の記録や認証情報を含まない。',
 };
 const ko: DemoCopy = {
+  recordedStart: '실제 심의 체험 · 약 22초',
+  replayNote: '실제 기록을 4배속으로 재생 · 원래 심의 85.8초 · 새 AI 호출 없음.',
+  originalQuestion: '원래 영어 질문 전문 보기',
+  questionSummary: '질문·결론 요약은 번역이며, 실제 응답은 영어 원문을 유지한다.',
+  localRequired: '내 질문을 실행하려면 로컬 설치와 본인의 ChatGPT·Codex 인증이 필요하다.',
+  installGuide: '설치·문제 해결 안내',
+  illustrative: '설명용 예시',
+  featured: '추천 / 실제 심의 기록',
   watch: '25초 시연 영상',
   videoNote:
     '실제 Codex 심의 기록을 시간 편집한 영상이다. 도입부는 짧은 TV 참고 프레임에서 이 팬 프로젝트로 겹쳐 전환한다. 원작 음원은 사용하지 않는다.',
@@ -102,7 +126,7 @@ const ko: DemoCopy = {
   disclosure: '설명용으로 작성한 예시 재생이다. 실시간 AI 호출·로그인·계정 사용량은 없다.',
   choose: '심의할 질문 선택',
   question: '심의 사항',
-  start: '체험 시작',
+  start: '예시 체험 · 약 20초',
   restart: '처음부터 재생',
   pause: '일시정지',
   resume: '재생',
@@ -113,7 +137,7 @@ const ko: DemoCopy = {
   empty: '재생을 시작하면 기록 순서대로 각 인격의 공개 의견이 나타난다.',
   inspect: 'MAGI 인격 패널을 눌러 공개 의견을 확인하라.',
   waiting: '기록된 응답 대기 중이다.',
-  own: '내 질문으로 사용하기',
+  own: '내 질문으로 사용 · 로컬 설치',
   source: '소스 / GITHUB',
   install: '자기 ChatGPT 계정으로 로컬 MAGI를 실행하라.',
   usage:
@@ -127,6 +151,14 @@ const ko: DemoCopy = {
   privacy: '이 사이트에는 개인 기록과 인증 정보가 포함되지 않는다.',
 };
 const zh: DemoCopy = {
+  recordedStart: '体验真实审议 · 约22秒',
+  replayNote: '实际记录以4倍速回放 · 原审议85.8秒 · 不产生新AI调用。',
+  originalQuestion: '阅读英文原始提案',
+  questionSummary: '问题和结论概述为译文，实际应答保留英文原文。',
+  localRequired: '提交自己的问题需要本地安装，并使用自己的ChatGPT与Codex账户。',
+  installGuide: '安装与故障排除',
+  illustrative: '说明用示例',
+  featured: '推荐 / 真实审议记录',
   watch: '25秒演示视频',
   videoNote:
     '对实际Codex审议记录进行时间剪辑。开头将短暂的TV参考画面叠化为本同人项目，不使用原作音频。',
@@ -144,7 +176,7 @@ const zh: DemoCopy = {
   disclosure: '播放为说明而编写的示例。无实时 AI 调用、登录或账户额度消耗。',
   choose: '选择提案',
   question: '审议提案',
-  start: '开始体验',
+  start: '体验示例 · 约20秒',
   restart: '从头播放',
   pause: '暂停',
   resume: '播放',
@@ -155,7 +187,7 @@ const zh: DemoCopy = {
   empty: '开始播放后，按记录顺序显示各人格的公开意见。',
   inspect: '选择 MAGI 人格面板，查看其公开意见。',
   waiting: '等待记录中的应答。',
-  own: '使用自己的问题',
+  own: '使用自己的问题 · 本地安装',
   source: '源码 / GITHUB',
   install: '使用自己的 ChatGPT 账户在本地运行 MAGI。',
   usage: '需要 Node.js 22 及以上与 Codex 使用权限。一次默认的实际审议会消耗你账户的13次调用。',

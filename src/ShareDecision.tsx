@@ -1,7 +1,8 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import type { Locale, Run } from '../shared/domain.ts';
 import MagiScreen from './MagiScreen.tsx';
-import { shareCopies, demoUrl } from './shareCopy.ts';
+import { shareCopies } from './shareCopy.ts';
+import { cardExcerpt, publicVerdictLink, type SharePresentation } from './sharePresentation.ts';
 import { createShareImage } from './shareImage.ts';
 
 export default function ShareDecision({
@@ -9,11 +10,13 @@ export default function ShareDecision({
   locale,
   example = false,
   recorded = false,
+  presentation,
 }: {
   run: Run;
   locale: Locale;
   example?: boolean;
   recorded?: boolean;
+  presentation?: SharePresentation;
 }) {
   const t = shareCopies[locale];
   const [open, setOpen] = useState(false);
@@ -28,6 +31,7 @@ export default function ShareDecision({
           locale={locale}
           example={example}
           recorded={recorded}
+          presentation={presentation}
           close={() => setOpen(false)}
         />
       )}
@@ -39,12 +43,14 @@ function ShareDialog({
   locale,
   example,
   recorded,
+  presentation,
   close,
 }: {
   run: Run;
   locale: Locale;
   example: boolean;
   recorded: boolean;
+  presentation?: SharePresentation;
   close: () => void;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
@@ -55,6 +61,13 @@ function ShareDialog({
     [answer, setAnswer] = useState(true);
   const [image, setImage] = useState<{ blob: Blob; url: string } | null>(null);
   const [notice, setNotice] = useState('');
+  const [headline, setHeadline] = useState(() =>
+    cardExcerpt(presentation?.title || run.question, 96),
+  );
+  const [summary, setSummary] = useState(() =>
+    cardExcerpt(presentation?.summary || run.answer?.content?.answer || '', 160),
+  );
+  const publicLink = publicVerdictLink(locale, presentation?.example);
   const [failed, setFailed] = useState(false);
   useEffect(() => {
     dialog.current?.showModal();
@@ -70,6 +83,9 @@ function ShareDialog({
       answer,
       example,
       recorded,
+      title: headline,
+      summary,
+      link: publicLink,
     })
       .then((blob) => {
         if (!alive) return;
@@ -83,7 +99,7 @@ function ShareDialog({
       alive = false;
       if (url) URL.revokeObjectURL(url);
     };
-  }, [run, locale, question, answer, example, recorded]);
+  }, [run, locale, question, answer, example, recorded, headline, summary, publicLink]);
   const filename = `MAGI-${run.verdict!.result.toLowerCase()}.png`;
   const file = image ? new File([image.blob], filename, { type: 'image/png' }) : null;
   const native =
@@ -99,8 +115,8 @@ function ShareDialog({
   }
   async function copyLink() {
     try {
-      await navigator.clipboard.writeText(demoUrl);
-      setNotice(t.copied);
+      await navigator.clipboard.writeText(publicLink);
+      setNotice(presentation ? t.publicCopied : t.copied);
     } catch {
       setNotice(t.copyFailed);
     }
@@ -142,6 +158,32 @@ function ShareDialog({
           {t.answer}
         </label>
       </div>
+      <div className="share-editor">
+        {question && (
+          <label>
+            {t.headline}
+            <input
+              data-testid="share-headline"
+              value={headline}
+              maxLength={96}
+              onChange={(event) => setHeadline(event.target.value)}
+            />
+          </label>
+        )}
+        {answer && (
+          <label>
+            {t.summary}
+            <textarea
+              data-testid="share-summary"
+              value={summary}
+              maxLength={160}
+              rows={3}
+              onChange={(event) => setSummary(event.target.value)}
+            />
+          </label>
+        )}
+        <small>{t.editorHelp}</small>
+      </div>
       <div ref={screen} className="share-render-source" aria-hidden="true" inert>
         <MagiScreen run={run} locale={locale} replay={false} motion={false} onSelect={() => {}} />
       </div>
@@ -172,11 +214,11 @@ function ShareDialog({
         </button>
         {native && <button onClick={() => void share()}>{t.native} ↗</button>}
         <button data-testid="copy-demo-link" onClick={() => void copyLink()}>
-          {t.link}
+          {presentation ? t.publicLink : t.link}
         </button>
       </div>
-      <a className="share-public-link" href={demoUrl} target="_blank" rel="noreferrer">
-        {demoUrl}
+      <a className="share-public-link" href={publicLink} target="_blank" rel="noreferrer">
+        {publicLink}
       </a>
       {notice && <p role="status">{notice}</p>}
     </dialog>

@@ -42,7 +42,7 @@ test('static demo defaults to Japanese, never calls a backend and keeps Japanese
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('./');
   await expect(page.getByTestId('locale-select')).toHaveValue('ja');
-  await expect(page.getByTestId('demo-disclosure')).toContainText('実時間AI');
+  await expect(page.getByTestId('demo-disclosure')).toContainText('実際');
   for (const locale of ['en', 'ko', 'zh', 'ja']) {
     await page.getByTestId('locale-select').selectOption(locale);
     await expect(page.locator('.screen-kanji text')).toHaveText(['提訴', '決議']);
@@ -119,7 +119,7 @@ test('share preview downloads a Japanese 1200×1600 PNG, can withhold content an
   const download = page.waitForEvent('download');
   await page.getByTestId('download-share').click();
   const file = await download;
-  expect(file.suggestedFilename()).toBe('MAGI-approved.png');
+  expect(file.suggestedFilename()).toBe('MAGI-denied.png');
   const bytes = await readFile((await file.path())!);
   expect(bytes.subarray(1, 4).toString()).toBe('PNG');
   expect(bytes.readUInt32BE(16)).toBe(1200);
@@ -128,4 +128,81 @@ test('share preview downloads a Japanese 1200×1600 PNG, can withhold content an
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toHaveCount(0);
   expect(uploads).toEqual([]);
+});
+
+test('featured real session has a visible labelled start, keeps 4:3 Japanese artwork and reveals a focused answer', async ({
+  page,
+}) => {
+  await page.goto('./');
+  await expect(page.getByTestId('example-recording')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByTestId('demo-start')).toBeInViewport();
+  await expect(page.getByTestId('demo-start')).toContainText('22');
+  await expect(page.getByRole('combobox', { name: '再生速度' })).toHaveValue('4');
+  expect(
+    await page.getByTestId('demo-start').evaluate((el) => el.getBoundingClientRect().height),
+  ).toBeGreaterThanOrEqual(44);
+  const ratio = await page.locator('.magi-display').evaluate((el) => {
+    const box = el.getBoundingClientRect();
+    return box.width / box.height;
+  });
+  expect(ratio).toBeCloseTo(4 / 3, 1);
+  await page.getByTestId('demo-start').click();
+  await page.getByTestId('demo-finish').click();
+  await expect(page.getByTestId('demo-answer-target')).toBeFocused();
+  await expect(page.getByTestId('answer-text')).toBeInViewport();
+  await expect(page.locator('.decision-reveal')).toHaveCount(0);
+  await expect(page.getByTestId('resolution-stamp')).toHaveText('否決');
+  await page.getByTestId('demo-finish').click();
+  await expect(page.getByTestId('answer-text')).toBeInViewport();
+});
+
+test('public verdict links reopen the same localized result and editable captions do not rewrite the report', async ({
+  page,
+}) => {
+  await page.goto('./?lang=ko&example=recording&view=result');
+  await expect(page.getByTestId('demo-answer-target')).toBeFocused();
+  await expect(page.getByTestId('locale-select')).toHaveValue('ko');
+  await expect(page.getByTestId('demo-result')).toContainText('DENIED');
+  const answer = await page.getByTestId('answer-text').textContent();
+  await page.getByTestId('share-verdict').click();
+  await expect(page.getByTestId('share-headline')).toHaveValue(
+    '시연까지 이틀. 새 기능을 하나 더 넣어도 될까?',
+  );
+  await expect(page.getByRole('dialog').locator('a')).toHaveAttribute(
+    'href',
+    'https://jhyeong687.github.io/MAGI/?lang=ko&example=recording&view=result',
+  );
+  const previous = await page.getByTestId('share-preview').getAttribute('src');
+  await page.getByTestId('share-headline').fill('내가 공유할 짧은 제목');
+  await expect(page.getByTestId('share-preview')).not.toHaveAttribute('src', previous!);
+  await page.keyboard.press('Escape');
+  await expect(page.getByTestId('answer-text')).toHaveText(answer!);
+});
+
+test('reduced motion also hands the shared result to the answer without a reveal overlay', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('./?lang=en&example=club&view=result');
+  await expect(page.getByTestId('demo-answer-target')).toBeFocused();
+  await expect(page.getByTestId('demo-result')).toContainText('APPROVED');
+  await expect(page.locator('.decision-reveal')).toHaveCount(0);
+});
+
+test('a real session finishes naturally at the advertised fast speed and hands focus to its answer', async ({
+  page,
+}) => {
+  await page.goto('./?lang=en&example=recording');
+  await page.getByTestId('demo-start').click();
+  await expect(page.getByTestId('demo-result')).toHaveCount(0);
+  await expect(page.getByTestId('demo-answer-target')).toBeFocused({ timeout: 28_000 });
+  await expect(page.getByTestId('demo-result')).toContainText('DENIED');
+  await expect(page.locator('.demo-transcript summary')).toContainText('12 / 12');
+  await expect(page.getByTestId('answer-text')).toBeInViewport();
+});
+
+test('unsupported locale values fall back safely to Japanese', async ({ page }) => {
+  await page.goto('./?lang=toString&example=recording');
+  await expect(page.getByTestId('locale-select')).toHaveValue('ja');
+  await expect(page.getByTestId('demo-start')).toBeVisible();
 });

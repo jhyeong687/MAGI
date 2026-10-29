@@ -1,63 +1,92 @@
-# 설치와 개인 계정 로그인
+# Installation and personal ChatGPT sign-in
 
-## 1. 실행 환경
+[English](./INSTALLATION.md) · [한국어](./INSTALLATION.ko.md) · [日本語 quick start](../README.ja.md#起動) · [中文 quick start](../README.zh-CN.md#开始使用)
 
-Node.js **22 이상**, npm, Git, 인터넷이 필요하다. macOS와 Linux에서는 터미널을 사용한다. Windows에서는 WSL2의 Linux 터미널에서 Node·Git을 설치하고 그 안에서 실행한다. native Windows의 프로세스 종료·CLI 탐지는 아직 검증하지 않았다.
+**Want to look around first? [Open the public demo](https://jhyeong687.github.io/MAGI/).** It replays one actual Codex session and three labelled illustrative examples, with no login or new model calls. Asking your own question requires the local app described here.
 
-Node 설치 후 `node --version`, `npm --version`, `git --version`으로 확인한다. [Node.js 공식 다운로드](https://nodejs.org/en/download)
+## 1. Before you start
 
-## 2. 내려받기
+You need **Node.js 22+**, npm, Git, internet access, and your own ChatGPT account/workspace with Codex access.
+
+| Platform | Where to run the commands                                                                                    |
+| -------- | ------------------------------------------------------------------------------------------------------------ |
+| macOS    | Terminal                                                                                                     |
+| Linux    | Your terminal                                                                                                |
+| Windows  | A **WSL2 Linux terminal** with Node.js and Git installed inside WSL2. Native Windows has not been validated. |
+
+Install Node.js from the [official download page](https://nodejs.org/en/download), then check:
+
+```sh
+node --version
+npm --version
+git --version
+```
+
+## 2. Download and install
 
 ```sh
 git clone https://github.com/jhyeong687/MAGI.git
 cd MAGI
 npm ci
-```
-
-Git을 쓰지 않으면 저장소의 **Code → Download ZIP**을 받아 압축을 풀고, 그 폴더에서 `npm ci`를 실행해도 된다. 공식 Codex CLI가 프로젝트 의존성으로 설치된다. 전역 Codex 설치·제작자의 인증 파일·API 키는 필요하지 않다.
-
-## 3. 처음 실행
-
-```sh
 npm run setup
 ```
 
-로그인하지 않았다면 공식 Codex가 브라우저 로그인 화면을 연다. 자신의 ChatGPT 계정과 Codex를 이용할 수 있는 워크스페이스를 선택해 완료한다. 로그인 후 빌드·서버 시작이 이어진다. 터미널의 로컬 주소를 열어 질문을 입력하라.
+Setup checks the official Codex CLI included in the project, starts official ChatGPT sign-in if needed, builds the interface, and starts the local server. No global Codex installation or API key is required.
 
-**다른 방법:** `npm start`로 먼저 서버를 시작하고 화면의 **ChatGPT로 로그인**을 누른다. 로그인 완료를 기다리면 연결 상태가 정상으로 바뀐다. 앱은 Codex의 로그인 프로세스를 시작하고 결과만 확인한다. 비밀번호·OAuth 코드·토큰을 자체 수집하거나 저장하는 기능은 없다.
+If you do not use Git, choose **Code → Download ZIP** on GitHub, unzip it, open a terminal in that folder, and run `npm ci` followed by `npm run setup`.
 
-두 방법 모두 Codex가 이 컴퓨터에 보관한 인증을 사용한다. 이미 다른 Codex 도구에서 ChatGPT 로그인했다면 재로그인하지 않을 수 있다. 서로 다른 사람이 같은 OS 계정과 같은 Codex 인증 저장소를 함께 쓰는 환경에서는 자동으로 사용자별 계정이 분리되지 않는다. 각자의 컴퓨터·OS 계정을 사용하라.
+## 3. Sign in and open MAGI
 
-## 언어 선택
+Complete the official browser sign-in with **your own ChatGPT account** and the workspace you intend to use. Open the local address shown in Terminal, normally **[http://127.0.0.1:5173](http://127.0.0.1:5173)**.
 
-처음 설치할 때의 기본 언어는 일본어다. 상단 **言語 / Language**에서 **English / 한국어 / 日本語 / 中文**를 고른다. 주변 UI와 새 심의 응답의 언어가 함께 설정된다. 중앙 MAGI의 일본어 표제·판정 인장·판정 연출은 언어를 바꿔도 유지한다. 중국어는 간체다. 저장된 과거 질문과 응답은 원문을 유지한다.
+You can also run `npm start` first and use the app's **Sign in with ChatGPT** button. MAGI starts the official Codex login process and checks its result; Codex handles credential storage and renewal. MAGI does not collect your password or send OAuth credentials to the browser UI. API-key authentication is disabled for this app.
 
-## 4. 다음부터 실행
+If this computer already has an official Codex ChatGPT login, it may be reused. People sharing the same OS account and Codex credential store are not automatically separated into different MAGI accounts; use your own computer/OS account.
+
+**Japanese is the first-launch language.** Use **言語** at the top to select **English / 한국어 / 日本語 / 中文**. Controls and new deliberations follow the selection. The central MAGI artwork, 提訴 / 決議, status stamps and verdict reveal stay Japanese. Saved responses retain their original text.
+
+## 4. Ask a question
+
+Write a question that MAGI can judge, then start the deliberation. The three personas independently analyze it, exchange objections, reconsider and vote. The main screen shows the result and a synthesized answer. Open a core or the transcript to inspect the public assessments.
+
+**A default deliberation uses 13 model calls against your account allowance.** Two/three discussion cycles use 19/25 calls. Sign-in alone does not guarantee model availability or unlimited access. Replay makes no new calls. Cancellation cannot undo completed usage, and there are no automatic retries.
+
+## 5. Next time, stop and update
 
 ```sh
 cd MAGI
 npm start
 ```
 
-기본 주소: [http://127.0.0.1:5173](http://127.0.0.1:5173). 종료: 실행 터미널에서 `Ctrl+C`. 새 버전으로 업데이트한 뒤에는 `npm ci`와 `npm run build`를 다시 실행한다. `.magi/`를 삭제하지 않으면 기록과 설정을 유지한다.
+Stop the server with **Ctrl+C** in its terminal. To update a Git checkout after stopping it:
 
-## 로그인 문제 해결
+```sh
+git pull --ff-only
+npm ci
+npm run build
+npm start
+```
 
-| 증상                                | 확인할 것                                                                                                                     |
-| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| 로그인 창이 열리지 않음             | 같은 폴더에서 `npm run login`을 실행하고 CLI가 출력하는 공식 주소를 연다.                                                     |
-| 브라우저 콜백이 막힘 / 원격 터미널  | `npm run login -- --device`. 기기 코드 로그인이 계정/관리자 설정에서 허용되어 있어야 한다.                                    |
-| 로그인했는데 연결 필요              | 화면의 연결 다시 확인 또는 `npm run doctor`. API 키 방식이 아닌 ChatGPT 방식인지 확인한다.                                    |
-| 로그인은 되지만 모델 실행 거절      | 계정의 Codex 사용 권한, 워크스페이스 정책, 사용량 제한을 확인한다. 로그인 성공만으로 사용 가능 모델·한도가 보장되지는 않는다. |
-| 설치 파일이 없거나 격리 옵션 미지원 | `npm ci`로 고정 의존성을 복구한다. CLI를 임의로 오래된 버전으로 바꾸지 않는다.                                                |
-| 사용량 제한 / 타임아웃              | 실제 오류를 확인하고 한도 복구를 기다리거나 다음 심의의 호출당 시간을 조정한다. 자동 재시도하지 않는다.                       |
-| 5173 포트 사용 중                   | 다른 MAGI 터미널을 닫거나 아래처럼 포트를 바꾼다.                                                                             |
+Your `.magi/` directory stores settings, questions and decision records. Keep that folder to preserve them. Requests still go through Codex to the online model; local execution is not offline inference.
 
-공식 [브라우저 로그인·기기 코드·인증 진단](https://learn.chatgpt.com/docs/auth)을 참고하라. 로그인 상태 확인 자체는 모델 호출을 사용하지 않는다.
+## Troubleshooting
 
-## 계정 변경
+| What happened?                                  | What to check                                                                                                     |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| The login browser did not open                  | Run `npm run login` in the project folder and open the official URL printed by Codex.                             |
+| The browser callback cannot reach this computer | Run `npm run login -- --device` if device-code login is enabled for your account/workspace.                       |
+| MAGI still asks you to connect                  | Use **Check connection again** or run `npm run doctor`. This app requires ChatGPT authentication, not an API key. |
+| Login succeeds, but a deliberation is rejected  | Check Codex access, workspace policy, model availability and account usage limits. Read the actual error.         |
+| Missing files or unsupported CLI capabilities   | Run `npm ci` to restore the pinned dependencies.                                                                  |
+| Usage limit or timeout                          | Wait for account limits to recover, or adjust the next run's per-call timeout. No retry happens automatically.    |
+| Port 5173 is occupied                           | Stop the other MAGI server, or use `PORT=5180 npm start`.                                                         |
+| The public demo will not accept a new question  | The public site is replay-only. Install the local app to run your own question.                                   |
 
-앱에서 심의를 마치고 서버를 종료한 뒤, 이 폴더에서 다음을 실행한다.
+`npm run doctor` checks CLI/auth/capabilities without making a model call. The [official authentication guide](https://learn.chatgpt.com/docs/auth) covers browser and device login.
+
+## Change accounts
+
+Finish the current deliberation and stop the server first, then run:
 
 ```sh
 npx --no-install codex logout
@@ -65,11 +94,11 @@ npm run login
 npm start
 ```
 
-Codex 로그아웃은 같은 OS 계정의 다른 Codex 도구에도 영향을 줄 수 있다. `.magi/`의 과거 질문과 기록은 계정 변경으로 자동 삭제되지 않는다. 인증 파일을 GitHub에 올리거나 다른 사람에게 보내지 않는다.
+Logging out of Codex can affect other Codex tools under the same OS account. Old MAGI records are not deleted when the account changes. Never share or upload Codex auth files or your `.magi/` folder.
 
-## 환경 변수
+## Optional configuration
 
-macOS/Linux/WSL의 예시다. 변경 후에는 서버를 다시 시작한다.
+macOS/Linux/WSL examples, applied on the next server start:
 
 ```sh
 PORT=5180 npm start
@@ -77,17 +106,8 @@ MAGI_DATA_DIR='/absolute/path/to/private-magi-data' npm start
 MAGI_CODEX_BIN='/absolute/path/to/compatible/codex' npm start
 ```
 
-- `PORT`: 로컬 포트. 기본 5173.
-- `MAGI_DATA_DIR`: 기록·설정 폴더. 기본 프로젝트의 `.magi/`.
-- `MAGI_CODEX_BIN`: 명시적인 CLI 경로. 기본은 프로젝트의 고정 Codex를 우선 확인한다.
-- Codex 자체의 인증 위치는 공식 Codex 설정을 따른다. MAGI는 다른 사람의 인증을 복사하지 않는다.
+- `PORT`: local port, default **5173**.
+- `MAGI_DATA_DIR`: settings/record directory, default the project's `.magi/`.
+- `MAGI_CODEX_BIN`: an explicit compatible CLI path; otherwise the pinned project Codex takes priority.
 
-프로젝트 밖 데이터 폴더를 쓰면 그 폴더는 이 저장소의 `.gitignore` 보호 대상이 아니므로 별도로 관리하라.
-
-## 공개 데모와 실제 실행의 차이
-
-[공개 데모](https://jhyeong687.github.io/MAGI/)는 별도로 빌드한 정적 재생 페이지다. 설명용 예시와 공개용 실제 기록을 읽기만 하며 로그인·실시간 모델 실행을 제공하지 않는다. 기존 로컬 서버와 연결하지 않는다. 자신의 새 질문을 심의하려면 위의 로컬 설치를 사용한다.
-
-## 공개 웹사이트로 운영하고 싶은 경우
-
-이 버전은 각자 PC에서 실행하는 앱이다. GitHub Pages/Vercel 정적 호스팅에 화면만 올려서는 로컬 Codex 프로세스를 실행할 수 없다. 공개 서버로 포워딩하면 같은 서버의 인증과 기록을 사용하는 구조가 된다. 여러 사용자 대상 호스팅은 별도 계정 인증·권한·격리 설계가 필요한 별도 작업이다.
+Data stored outside the repository is outside its `.gitignore` protection. The server binds to loopback and validates Host/Origin. It is a personal local app; hosting a shared multi-user AI backend needs separate authentication, authorization and account isolation.

@@ -351,3 +351,115 @@
   gap: 24px;
   padding-top: 16px;
 }
+
+/* Operator controls sit outside the unchanged 4:3 Japanese display. */
+.demo-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+  gap: 24px;
+  align-items: center;
+  border-top: 1px solid #5b482c;
+  border-bottom: 1px solid #5b482c;
+  padding: 18px 0;
+  margin-bottom: 8px;
+}
+.demo-entry small {
+  color: #87c8bd;
+  font: 11px/1.6 monospace;
+}
+.demo-entry h1 {
+  color: #efdfbe;
+  font-size: clamp(19px, 2.1vw, 27px);
+  text-wrap: balance;
+  line-height: 1.45;
+  margin: 6px 0;
+}
+.demo-entry p {
+  color: #c2ad89;
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 6px 0 0;
+}
+.demo-entry-actions {
+  display: grid;
+  gap: 8px;
+}
+.demo-entry-actions button,
+.demo-examples button,
+.demo-playback button,
+.demo-personas button {
+  min-height: 44px;
+}
+.demo-entry-actions .primary {
+  font-size: 13px;
+  padding: 12px;
+}
+.demo-entry-actions > small {
+  color: #baa887;
+  font-size: 10px;
+}
+.demo-entry-actions > a {
+  text-decoration: underline;
+}
+.demo-entry-actions > a,
+.demo-install > a {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+}
+.demo-install > a {
+  margin-right: 20px;
+}
+.demo-example-label {
+  padding-top: 12px;
+  color: #a58f6a;
+  font: 10px monospace;
+}
+.demo-featured {
+  border-color: #76ada2;
+}
+.demo-proposal details {
+  color: #bda989;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.demo-proposal summary {
+  cursor: pointer;
+}
+.demo-proposal details p {
+  overflow-wrap: anywhere;
+}
+.demo-local-note {
+  color: #bda989;
+  font-size: 11px;
+  line-height: 1.7;
+}
+.demo-answer {
+  scroll-margin-top: 20px;
+}
+.demo-answer:focus {
+  outline: 1px solid #9f783c;
+  outline-offset: 8px;
+}
+@media (max-width: 600px) {
+  .demo-entry {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 14px 0;
+  }
+  .demo-entry > div > p {
+    display: none;
+  }
+  .demo-entry-actions > a {
+    font-size: 10px;
+  }
+  .demo-playback button span {
+    display: inline;
+  }
+  .demo-playback button {
+    min-width: 74px;
+  }
+}
+.film-mode .demo-entry {
+  display: none;
+}

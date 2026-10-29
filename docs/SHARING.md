@@ -1,6 +1,7 @@
 # 공유 자료와 소개글
 
 - 공개 데모: https://jhyeong687.github.io/MAGI/
+- 실제 공개 판정 바로 보기: https://jhyeong687.github.io/MAGI/?lang=en&example=recording&view=result
 - 25초 실제 기록 시연: [가로형 MP4](./videos/magi-demo.mp4) · [세로형 MP4](./videos/magi-demo-vertical.mp4)
 - 판정 공유 이미지: [예시 PNG](./videos/share-card-example.png)
 - 저장소: https://github.com/jhyeong687/MAGI
@@ -9,11 +10,11 @@
 - 상세 화면: [INTERFACE.md](./INTERFACE.md)
 - 한글 설명: [README.ko.md](../README.ko.md)
 
-아래 글은 복사해 쓸 수 있는 **초안**이다. 자동 게시하거나 다른 계정에 메시지를 보내는 기능은 없다. 게시하는 커뮤니티의 자기 홍보·팬 프로젝트 규칙을 확인하고, GIF와 데모의 처음 세 항목은 설명용 예시다. 새 MP4와 네 번째 데모 항목은 공개용 실제 Codex 기록이다. 영상은 처리 시간을 편집했으며, 도입부에 짧은 원작 프레임 대조가 포함된다. 이 구분과 출처를 유지하라.
+아래 글은 복사해 쓸 수 있는 **초안**이다. 자동 게시하거나 다른 계정에 메시지를 보내는 기능은 없다. 게시하는 커뮤니티의 자기 홍보·팬 프로젝트 규칙을 확인하고, GIF와 데모의 처음 세 항목은 설명용 예시다. MP4와 기본 대표 데모는 공개용 실제 Codex 기록이다. 대표 데모는 4배속 약 22초이며 원래 심의는 약 85.8초다. 새 AI 호출은 없다. 영상은 처리 시간을 편집했으며, 도입부에 짧은 원작 프레임 대조가 포함된다. 이 구분과 출처를 유지하라.
 
 ## 짧은 영문 소개
 
-> I built a working Evangelion-style MAGI terminal. Three Codex personas independently analyze a question, debate, vote, then deliver one final answer. Runs locally with your own ChatGPT login. Open source. Try the no-login demo: https://jhyeong687.github.io/MAGI/ (scripted examples and a labelled real recording). Source: https://github.com/jhyeong687/MAGI
+> I built a working Evangelion-style MAGI terminal. Three Codex personas independently analyze a question, debate, vote, then deliver one final answer. Runs locally with your own ChatGPT login. Open source. The featured demo replays a real session at 4× speed in about 22 seconds. Try it without login: https://jhyeong687.github.io/MAGI/ (scripted examples and a labelled real recording). Source: https://github.com/jhyeong687/MAGI
 
 ## 짧은 한국어 소개
 
@@ -44,6 +45,8 @@ Default: 13 calls against the user's own allowance. Screenshots/GIF are authored
 ## GitHub 저장소 소개
 
 **Description:** A working Evangelion MAGI terminal. Three Codex personas debate, vote and answer — powered by your own ChatGPT login.
+
+판정 공유 카드는 짧은 제목·결론을 저장 전에 수정할 수 있다. 공개 예시의 링크는 같은 질문·언어·최종 결과를 열고, 로컬 개인 심의의 링크는 일반 공개 데모만 연다.
 
 소셜 미리보기 이미지는 저장소 Settings → General → Social preview에 `docs/social-preview.png`를 업로드해 사용할 수 있다. 그림은 로컬 자산으로 재생성한다.
 

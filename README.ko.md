@@ -4,7 +4,7 @@
 
 **에반게리온에서 영감을 받은 삼인격 의사결정 콘솔. 각자 자신의 ChatGPT 계정으로 실행한다.**
 
-[English](./README.md) · [日本語](./README.ja.md) · [中文](./README.zh-CN.md) · [설치·로그인](./docs/INSTALLATION.md) · [화면 둘러보기](./docs/INTERFACE.md) · [인격 설정](./docs/PERSONAS.md) · [검증](./docs/VERIFICATION.md)
+[English](./README.md) · [日本語](./README.ja.md) · [中文](./README.zh-CN.md) · [설치·로그인](./docs/INSTALLATION.ko.md) · [화면 둘러보기](./docs/INTERFACE.ko.md) · [인격 설정](./docs/PERSONAS.md) · [검증](./docs/VERIFICATION.md)
 
 **[▶ 공개 데모 — 로그인 없이 체험](https://jhyeong687.github.io/MAGI/)** · [25초 시연 영상](https://jhyeong687.github.io/MAGI/magi-demo.mp4) · [↓ 바로 시작하기](#바로-시작하기)
 
@@ -19,6 +19,8 @@ MELCHIOR-1, BALTHASAR-2, CASPER-3가 서로 분리된 Codex 세션에서 질문�
 [가로형 25초 영상](./docs/videos/magi-demo.mp4) · [세로형 영상](./docs/videos/magi-demo-vertical.mp4). 영상은 원작 참고 프레임과 앱을 겹쳐 전환한 뒤 실제 심의 기록을 시간 편집해 보여준다.
 
 완료된 답변의 **판정 공유**에서 이미지를 미리 확인하고 질문·답변 포함 여부를 선택한다. PNG 저장과 지원 브라우저의 이미지 공유를 제공한다. 개인 내용은 서버에 업로드하지 않는다. 새 질문의 실제 실행에는 아래 로컬 설치와 자기 계정 로그인이 필요하다.
+
+실제 심의가 기본 대표 체험이며 4배속 약 22초로 재생한다. 원래 심의는 약 85.8초다. 공개 판정 공유 링크는 같은 질문·언어·최종 결과를 바로 연다.
 
 ## 바로 시작하기
 
@@ -47,7 +49,7 @@ npm run login -- --device # 브라우저 콜백을 쓸 수 없는 환경의 기�
 npm run doctor            # CLI 버전·인증·필수 기능 점검 (모델 호출 없음)
 ```
 
-기기 코드 로그인은 계정/워크스페이스에서 허용되어 있어야 한다. 설치 오류·포트 변경·계정 변경은 [자세한 설치 가이드](./docs/INSTALLATION.md)를 참고하라.
+기기 코드 로그인은 계정/워크스페이스에서 허용되어 있어야 한다. 설치 오류·포트 변경·계정 변경은 [자세한 설치 가이드](./docs/INSTALLATION.ko.md)를 참고하라.
 
 **언어와 원작 화면:** 상단에서 English / 한국어 / 日本語 / 中文를 선택한다. 메뉴·설명·새 분석·토론·답변은 선택 언어를 따르며, 중앙 MAGI의 「提訴」「決議」와 대기·처리·판정 인장, 판정 연출·시스템 명판은 항상 일본어를 유지한다.
 
@@ -101,7 +103,7 @@ npm run doctor            # CLI 버전·인증·필수 기능 점검 (모델 호
 
 한국어 최종 보고는 **“조건부로 승인한다. 실행 전에 인력과 공간을 확보하라.”**처럼 판정을 통보한다. 단호한 말투가 불확실성이나 소수 의견을 생략한다는 뜻은 아니다.
 
-[화면 가이드](./docs/INTERFACE.md)에 로그인, 독립 분석, 토론, 인격별 근거, 설정, 모바일, 전체 화면을 모두 실었다. [전체 데스크톱 화면](./docs/screenshots/desktop-full.png)도 볼 수 있다.
+[화면 가이드](./docs/INTERFACE.ko.md)에 로그인, 독립 분석, 토론, 인격별 근거, 설정, 모바일, 전체 화면을 모두 실었다. [전체 데스크톱 화면](./docs/screenshots/desktop-full.png)도 볼 수 있다.
 
 ## 조작 안내
 

@@ -32,24 +32,24 @@ The front-facing **4:3 display**, Japanese lettering, irregular blue processing 
 
 **[Watch 25 seconds →](https://jhyeong687.github.io/MAGI/magi-demo.mp4)** · [Portrait version](https://jhyeong687.github.io/MAGI/magi-demo-vertical.mp4) · [Replay the actual session](https://jhyeong687.github.io/MAGI/?lang=en&example=recording)
 
-The video opens with a brief TV-reference dissolve into the app, then replays a real, purpose-made Codex session with edited timing. The original session took about **85.8 seconds**. The public demo also includes **three labelled illustrative examples**; it makes no new model calls and needs no login. To ask your own questions, install the local app below. [Recording and media provenance](./docs/videos/README.md)
+The video opens with a brief TV-reference dissolve into the app, then replays a real, purpose-made Codex session with edited timing. The original session took about **85.8 seconds**. The actual recording is the featured first experience, played at **4× speed (about 22 seconds)**. The public demo also includes **three labelled illustrative examples**; it makes no new model calls and needs no login. To ask your own questions, install the local app below. [Recording and media provenance](./docs/videos/README.md)
 
 ## Inside the console
 
 <table>
 <tr>
-<td width="50%"><a href="./docs/screenshots/debate.png"><img src="./docs/screenshots/debate.png" alt="Japanese MAGI console during cross-examination" width="100%" /></a><br /><strong>01 / THE COUNCIL</strong><br />Fixed Japanese artwork. Response-driven core states.</td>
-<td width="50%"><a href="./docs/screenshots/debate-transcript.png"><img src="./docs/screenshots/debate-transcript.png" alt="Public assessments and objections in the discussion transcript" width="100%" /></a><br /><strong>02 / THE DEBATE</strong><br />Read what each persona said and challenged.</td>
+<td width="50%"><a href="./docs/screenshots/demo-debate.png"><img src="./docs/screenshots/demo-debate.png" alt="Japanese MAGI console during cross-examination" width="100%" /></a><br /><strong>01 / THE COUNCIL</strong><br />Fixed Japanese artwork. Response-driven core states.</td>
+<td width="50%"><a href="./docs/screenshots/demo-transcript.png"><img src="./docs/screenshots/demo-transcript.png" alt="Public assessments and objections in the discussion transcript" width="100%" /></a><br /><strong>02 / THE DEBATE</strong><br />Read what each persona said and challenged.</td>
 </tr>
 <tr>
-<td width="50%"><a href="./docs/screenshots/answer.png"><img src="./docs/screenshots/answer.png" alt="The final answer with reasons, conditions and dissent" width="100%" /></a><br /><strong>03 / THE ANSWER</strong><br />A usable conclusion, with the vote and remaining concerns.</td>
-<td width="50%"><a href="./docs/screenshots/share-preview.png"><img src="./docs/screenshots/share-preview.png" alt="Reviewing a Japanese MAGI verdict card before saving it" width="100%" /></a><br /><strong>04 / THE VERDICT CARD</strong><br />Choose what to include, then save a PNG or share it.</td>
+<td width="50%"><a href="./docs/screenshots/demo-recorded.png"><img src="./docs/screenshots/demo-recorded.png" alt="The final answer with reasons, conditions and dissent" width="100%" /></a><br /><strong>03 / THE ANSWER</strong><br />A usable conclusion, with the vote and remaining concerns.</td>
+<td width="50%"><a href="./docs/screenshots/share-preview.png"><img src="./docs/screenshots/share-preview.png" alt="Reviewing a Japanese MAGI verdict card before saving it" width="100%" /></a><br /><strong>04 / THE VERDICT CARD</strong><br />Edit a short caption, save a PNG or reopen the same public verdict.</td>
 </tr>
 </table>
 
-<sub>Console, debate and answer gallery images use authored documentation examples. The verdict-card preview uses the public recorded session. These images are interface previews, not inference-speed measurements.</sub>
+<sub>The four gallery panels use the actual purpose-made public recording. The central Japanese artwork is fixed; original responses remain in English. Localized titles and share-card summaries are editorial translations. Playback timing is not an inference-speed measurement.</sub>
 
-[Full visual walkthrough](./docs/INTERFACE.md) · [Desktop](./docs/screenshots/desktop-full.png) · [Mobile](./docs/screenshots/demo-mobile.png) · [Language previews](./docs/INTERFACE.md#언어-선택)
+[Full visual walkthrough](./docs/INTERFACE.md) · [Desktop](./docs/screenshots/desktop-full.png) · [Mobile](./docs/screenshots/demo-mobile.png) · [Language previews](./docs/INTERFACE.md#language-motion-and-keyboard-controls)
 
 ## Three perspectives, one recorded decision
 
@@ -115,7 +115,7 @@ Replay consumes no new calls. Report-only generation, voice refresh and manual r
 - **Inspect the reasoning:** open a core for its public assessment, priorities, risks and objections.
 - **Revisit a decision:** search the archive, then replay with pause, seek and speed controls.
 - **Take the answer with you:** copy the result or save a Markdown report.
-- **Share the verdict:** review a Japanese 1200×1600 card, omit the question or answer, then save/share it. No content is uploaded; shared links lead to the public demo.
+- **Share the verdict:** review a Japanese 1200×1600 card, omit the question or answer, then save/share it. No content is uploaded. Public-demo links retain the example, language and result; local records link to the generic demo.
 - **Tune the console:** change discussion cycles, persona prompts, animation and optional synthesized audio. Reduced motion and keyboard controls are supported.
 
 ## Build with MAGI

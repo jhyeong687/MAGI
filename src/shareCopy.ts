@@ -1,11 +1,17 @@
 import type { Locale } from '../shared/domain.ts';
 
 const en = {
+  headline: 'Card headline',
+  summary: 'Short conclusion',
+  editorHelp:
+    'Edit the card caption before sharing. Your original question and full report stay unchanged.',
+  publicLink: 'COPY THIS VERDICT LINK',
+  publicCopied: 'Link to this public verdict and language copied.',
   open: 'SHARE VERDICT',
   title: 'MAGI / SHARE IMAGE',
   close: 'Close',
   privacy:
-    'Review the image before saving or sharing. Nothing is uploaded by MAGI. The link opens the public demo, not your private record.',
+    'Review the image before saving or sharing. Nothing is uploaded by MAGI. Public verdict links keep the selected example and language. Local decisions link to the public demo, never your private record.',
   question: 'Include question',
   answer: 'Include answer',
   hidden: 'QUESTION WITHHELD',
@@ -25,11 +31,16 @@ const en = {
 };
 type ShareCopy = typeof en;
 const ko: ShareCopy = {
+  headline: '카드 제목',
+  summary: '짧은 결론',
+  editorHelp: '공유할 문구를 다듬어라. 원래 질문과 전체 보고서는 바뀌지 않는다.',
+  publicLink: '이 판정 링크 복사',
+  publicCopied: '같은 공개 판정과 언어로 연결되는 링크를 복사했다.',
   open: '판정 공유',
   title: 'MAGI / 공유 이미지',
   close: '닫기',
   privacy:
-    '저장·공유 전에 이미지를 확인하라. MAGI는 내용을 업로드하지 않는다. 링크는 개인 기록이 아닌 공개 데모로 연결된다.',
+    '저장·공유 전에 이미지를 확인하라. MAGI는 내용을 업로드하지 않는다. 공개 판정 링크는 같은 예시와 언어를 연다. 로컬 심의는 개인 기록 대신 공개 데모로 연결된다.',
   question: '질문 포함',
   answer: '답변 포함',
   hidden: '질문 비공개',
@@ -48,11 +59,16 @@ const ko: ShareCopy = {
   preview: '공유 이미지 미리보기',
 };
 const ja: ShareCopy = {
+  headline: 'カードの見出し',
+  summary: '短い結論',
+  editorHelp: '共有する文面を調整せよ。元の議題と完全な報告書は変更しない。',
+  publicLink: 'この決議へのリンクをコピー',
+  publicCopied: '同じ公開決議と言語を開くリンクをコピーした。',
   open: '決議を共有',
   title: 'MAGI / 共有画像',
   close: '閉じる',
   privacy:
-    '保存・共有前に画像を確認せよ。MAGIは内容をアップロードしない。リンク先は個人の記録ではなく公開デモである。',
+    '保存・共有前に画像を確認せよ。MAGIは内容をアップロードしない。公開決議のリンクは同じ例と言語を開く。ローカル審議は個人の記録ではなく公開デモへ接続する。',
   question: '質問を含める',
   answer: '回答を含める',
   hidden: '質問非公開',
@@ -71,10 +87,16 @@ const ja: ShareCopy = {
   preview: '共有画像のプレビュー',
 };
 const zh: ShareCopy = {
+  headline: '卡片标题',
+  summary: '简短结论',
+  editorHelp: '分享前可以修改卡片文案。原始问题和完整报告保持不变。',
+  publicLink: '复制此决议链接',
+  publicCopied: '已复制打开同一公开决议与语言的链接。',
   open: '分享决议',
   title: 'MAGI / 分享图片',
   close: '关闭',
-  privacy: '保存或分享前检查图片。MAGI 不会上传内容。链接打开公开演示，而非你的私人记录。',
+  privacy:
+    '保存或分享前检查图片。MAGI 不会上传内容。公开决议链接保留同一示例和语言。本地审议链接打开公开演示，不公开你的私人记录。',
   question: '包含问题',
   answer: '包含答复',
   hidden: '问题已隐藏',

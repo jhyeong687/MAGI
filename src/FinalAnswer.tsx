@@ -12,6 +12,7 @@ import { serviceCopies } from './serviceCopy.ts';
 import { reportText } from './report.ts';
 import { displayCopies } from './displayCopy.ts';
 import ShareDecision from './ShareDecision.tsx';
+import type { SharePresentation } from './sharePresentation.ts';
 import './share.css';
 export default function FinalAnswer({
   run,
@@ -22,6 +23,7 @@ export default function FinalAnswer({
   replay,
   example = false,
   recorded = false,
+  presentation,
 }: {
   run: Run;
   t: Copy;
@@ -31,6 +33,7 @@ export default function FinalAnswer({
   replay: boolean;
   example?: boolean;
   recorded?: boolean;
+  presentation?: SharePresentation;
 }) {
   const generation = run.answer;
   const content =
@@ -70,7 +73,7 @@ export default function FinalAnswer({
         </div>
         <span>{t.councilSynthesis}</span>
       </header>
-      <p className="answer-question">{run.question}</p>
+      <p className="answer-question">{presentation?.title || run.question}</p>
       {generation?.status === 'generating' ? (
         <p role="status" className="answer-pending">
           {t.answerGenerating}
@@ -142,7 +145,13 @@ export default function FinalAnswer({
             <span>FILE / {run.id.slice(0, 8).toUpperCase()}</span>
             <div>
               {generation?.status === 'completed' && (
-                <ShareDecision run={run} locale={locale} example={example} recorded={recorded} />
+                <ShareDecision
+                  run={run}
+                  locale={locale}
+                  example={example}
+                  recorded={recorded}
+                  presentation={presentation}
+                />
               )}
               <button data-testid="copy-report" onClick={() => void copyReport()}>
                 {ui.copy}

@@ -1,5 +1,6 @@
 import { PERSONAS, personaInfo, type Locale, type Run } from '../shared/domain.ts';
 import { shareCopies, demoUrl } from './shareCopy.ts';
+import { cardExcerpt } from './sharePresentation.ts';
 
 export function wrapText(
   context: CanvasRenderingContext2D,
@@ -95,7 +96,15 @@ export async function createShareImage(
   run: Run,
   svg: SVGSVGElement,
   locale: Locale,
-  options: { question: boolean; answer: boolean; example: boolean; recorded?: boolean },
+  options: {
+    question: boolean;
+    answer: boolean;
+    example: boolean;
+    recorded?: boolean;
+    title?: string;
+    summary?: string;
+    link?: string;
+  },
 ) {
   if (!run.verdict || run.answer?.status !== 'completed')
     throw new Error('A completed decision is required.');
@@ -121,10 +130,13 @@ export async function createShareImage(
   context.font = '18px Arial, sans-serif';
   context.fillText(options.recorded ? t.recorded : options.example ? t.example : t.local, 64, 157);
   context.fillStyle = '#ebdfc8';
-  context.font = '600 30px Arial, "Hiragino Kaku Gothic ProN", sans-serif';
-  wrapText(context, options.question ? run.question : t.hidden, 1072, 3).forEach((line, index) =>
-    context.fillText(line, 64, 214 + index * 40),
-  );
+  context.font = '600 32px Arial, "Hiragino Kaku Gothic ProN", sans-serif';
+  wrapText(
+    context,
+    options.question ? (options.title ?? cardExcerpt(run.question, 96)) : t.hidden,
+    1072,
+    3,
+  ).forEach((line, index) => context.fillText(line, 64, 214 + index * 40));
   // The exact same 4:3 Japanese SVG used on the terminal, with computed styles embedded.
   context.drawImage(screen, 40, 306, 1120, 840);
   const verdict = run.verdict;
@@ -143,10 +155,13 @@ export async function createShareImage(
   );
   if (options.answer) {
     context.fillStyle = '#ebdfc8';
-    context.font = '25px Arial, "Hiragino Kaku Gothic ProN", sans-serif';
-    wrapText(context, run.answer.content?.answer || '', 1072, 5).forEach((line, index) =>
-      context.fillText(line, 64, 1285 + index * 36),
-    );
+    context.font = '30px Arial, "Hiragino Kaku Gothic ProN", sans-serif';
+    wrapText(
+      context,
+      options.summary ?? cardExcerpt(run.answer.content?.answer || '', 160),
+      1072,
+      5,
+    ).forEach((line, index) => context.fillText(line, 64, 1285 + index * 36));
   }
   context.strokeStyle = '#70512e';
   context.lineWidth = 1;
@@ -155,8 +170,8 @@ export async function createShareImage(
   context.lineTo(1136, 1490);
   context.stroke();
   context.fillStyle = '#bda477';
-  context.font = '18px monospace';
-  context.fillText(demoUrl, 64, 1524);
+  context.font = '15px monospace';
+  context.fillText(options.link || demoUrl, 64, 1524);
   context.font = '15px Arial, sans-serif';
   context.fillText('UNOFFICIAL FAN PROJECT · github.com/jhyeong687/MAGI', 64, 1554);
   const blob = await new Promise<Blob>((resolve, reject) =>

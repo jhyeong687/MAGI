@@ -17,6 +17,7 @@ import { repoUrl } from '../shareCopy.ts';
 import { demoCopies } from './copy.ts';
 import { recordedRun } from './recording.ts';
 import { createExample, exampleIds, exampleTitle, type ExampleId } from './catalog.ts';
+import { demoPresentation, recordingContext } from './presentation.ts';
 
 const phases: Phase[] = [
   'independent',
@@ -28,14 +29,14 @@ const phases: Phase[] = [
 function initialLocale(): Locale {
   const value =
     new URLSearchParams(location.search).get('lang') || localStorage.getItem('magi-demo-locale');
-  return value && value in localeNames ? (value as Locale) : 'ja';
+  return value && Object.hasOwn(localeNames, value) ? (value as Locale) : 'ja';
 }
 export default function DemoApp() {
   const [locale, setLocale] = useState<Locale>(initialLocale);
   const [selected, setSelected] = useState<ExampleId | 'recording'>(() => {
     const id = new URLSearchParams(location.search).get('example');
     if (id === 'recording') return id;
-    return exampleIds.includes(id as ExampleId) ? (id as ExampleId) : 'club';
+    return exampleIds.includes(id as ExampleId) ? (id as ExampleId) : 'recording';
   });
   const [started, setStarted] = useState(false),
     [persona, setPersona] = useState<Persona>('melchior');
@@ -49,9 +50,11 @@ export default function DemoApp() {
   const t = demoCopies[locale],
     copy = copies[locale];
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const [reveal, setReveal] = useState(false);
+  const [reveal, setReveal] = useState<'idle' | 'showing' | 'done'>('idle');
+  const [answerRequested, setAnswerRequested] = useState(false);
+  const answerTarget = useRef<HTMLDivElement>(null);
+  const sharedEntry = useRef(new URLSearchParams(location.search).get('view') === 'result');
   const revealed = useRef(false);
-  const stage = useRef<HTMLDivElement>(null);
   const film = new URLSearchParams(location.search).has('film');
   useEffect(() => {
     document.documentElement.lang = locale === 'zh' ? 'zh-Hans' : locale;
@@ -59,35 +62,70 @@ export default function DemoApp() {
     const url = new URL(location.href);
     url.searchParams.set('lang', locale);
     url.searchParams.set('example', selected);
+    if (started && view?.answer?.status === 'completed') url.searchParams.set('view', 'result');
+    else url.searchParams.delete('view');
     history.replaceState(null, '', url);
-  }, [locale, selected]);
+  }, [locale, selected, started, view?.answer?.status]);
   useEffect(() => {
     if (!started || !view?.verdict) {
       revealed.current = false;
-      setReveal(false);
+      setReveal('idle');
       return;
     }
-    if (revealed.current || reduced) return;
+    if (revealed.current) return;
     revealed.current = true;
-    setReveal(true);
-    const timer = setTimeout(() => setReveal(false), 1500);
+    if (reduced) {
+      setReveal('done');
+      return;
+    }
+    setReveal('showing');
+    const timer = setTimeout(() => setReveal('done'), 1500);
     return () => clearTimeout(timer);
   }, [Boolean(view?.verdict), started, reduced]);
-  function start() {
+  useEffect(() => {
+    replay.setSpeed(recorded ? 4 : 1);
+  }, [selected]);
+  useEffect(() => {
+    if (!sharedEntry.current) return;
     setStarted(true);
+    replay.play();
+    replay.seek(replay.duration);
+  }, []);
+  const completed =
+    started && view?.answer?.status === 'completed' && replay.position >= replay.duration;
+  useEffect(() => {
+    if (completed) setAnswerRequested(true);
+  }, [completed]);
+  useEffect(() => {
+    if (!answerRequested || !completed || reveal !== 'done') return;
+    const target = answerTarget.current;
+    if (target?.getClientRects().length) {
+      target.focus({ preventScroll: true });
+      target.scrollIntoView({ behavior: reduced ? 'instant' : 'smooth', block: 'start' });
+    }
+    setAnswerRequested(false);
+  }, [answerRequested, completed, reveal, reduced]);
+  function start() {
+    if (!started) replay.setSpeed(recorded ? 4 : 1);
+    setStarted(true);
+    setAnswerRequested(false);
     revealed.current = false;
+    setReveal('idle');
     replay.play();
   }
   function changeLocale(value: Locale) {
     setStarted(false);
+    setAnswerRequested(false);
     replay.stop();
     setLocale(value);
   }
   function changeExample(value: ExampleId | 'recording') {
     setStarted(false);
+    setAnswerRequested(false);
     replay.stop();
     setSelected(value);
   }
+  const presentation = demoPresentation(run, locale, selected);
   const record = view?.records.findLast((item) => item.persona === persona);
   return (
     <div
@@ -129,8 +167,33 @@ export default function DemoApp() {
         <strong>{recorded ? t.recordedBadge : t.badge}</strong>
         <span>{recorded ? t.recordedDisclosure : t.disclosure}</span>
       </div>
+      <section className="demo-entry" aria-labelledby="demo-question-title">
+        <div>
+          <small>{recorded ? t.featured : t.example}</small>
+          <h1 id="demo-question-title">{presentation.title}</h1>
+          {recorded && <p>{recordingContext(locale)}</p>}
+        </div>
+        <div className="demo-entry-actions">
+          <button className="primary" data-testid="demo-start" onClick={start}>
+            ▶ {started ? t.restart : recorded ? t.recordedStart : t.start}
+          </button>
+          {started && (
+            <button
+              data-testid="demo-finish"
+              onClick={() => {
+                setAnswerRequested(true);
+                replay.seek(replay.duration);
+              }}
+            >
+              {t.finish} ↓
+            </button>
+          )}
+          <small>{recorded ? t.replayNote : t.disclosure}</small>
+          <a href="#install">{t.own} ↓</a>
+        </div>
+      </section>
       <main className="demo-main">
-        <section className="demo-stage" ref={stage}>
+        <section className="demo-stage">
           <MagiScreen
             run={view}
             locale={locale}
@@ -150,13 +213,22 @@ export default function DemoApp() {
           <div className="demo-playback">
             <button
               data-testid="demo-play"
+              aria-label={
+                !started
+                  ? recorded
+                    ? t.recordedStart
+                    : t.start
+                  : replay.playing
+                    ? t.pause
+                    : t.resume
+              }
               onClick={() => {
                 if (!started) start();
                 else replay.toggle();
               }}
             >
               {!started ? '▶' : replay.playing ? 'Ⅱ' : '▶'}{' '}
-              <span>{!started ? t.start : replay.playing ? t.pause : t.resume}</span>
+              <span>{!started ? t.resume : replay.playing ? t.pause : t.resume}</span>
             </button>
             <input
               type="range"
@@ -189,6 +261,16 @@ export default function DemoApp() {
         <aside className="demo-sidebar">
           <p className="demo-kicker">{t.choose}</p>
           <div className="demo-examples">
+            <button
+              className="demo-featured"
+              data-testid="example-recording"
+              aria-pressed={recorded}
+              onClick={() => changeExample('recording')}
+            >
+              <small>01</small>
+              {t.recordedTitle}
+            </button>
+            <small className="demo-example-label">{t.illustrative}</small>
             {exampleIds.map((id, index) => (
               <button
                 key={id}
@@ -196,35 +278,21 @@ export default function DemoApp() {
                 aria-pressed={selected === id}
                 onClick={() => changeExample(id)}
               >
-                <small>0{index + 1}</small>
+                <small>0{index + 2}</small>
                 {exampleTitle(id, locale)}
               </button>
             ))}
-            <button
-              data-testid="example-recording"
-              aria-pressed={recorded}
-              onClick={() => changeExample('recording')}
-            >
-              <small>04</small>
-              {t.recordedTitle}
-            </button>
           </div>
           <div className="demo-proposal">
-            <small>{t.question}</small>
-            <h1>{run.question}</h1>
             <p>{t.intro}</p>
-            <button className="primary" data-testid="demo-start" onClick={start}>
-              ▶ {started ? t.restart : t.start}
-            </button>
-            {started && (
-              <button
-                data-testid="demo-finish"
-                onClick={() => {
-                  replay.seek(replay.duration);
-                }}
-              >
-                {t.finish} ↓
-              </button>
+            {recorded && (
+              <>
+                <p>{t.questionSummary}</p>
+                <details data-testid="original-proposal">
+                  <summary>{t.originalQuestion}</summary>
+                  <p lang="en">{run.question}</p>
+                </details>
+              </>
             )}
           </div>
           <div className="demo-inspector">
@@ -247,6 +315,7 @@ export default function DemoApp() {
           <a className="demo-install-link" href="#install">
             {t.own} ↗
           </a>
+          <p className="demo-local-note">{t.localRequired}</p>
         </aside>
       </main>
       {view?.verdict && (
@@ -263,7 +332,12 @@ export default function DemoApp() {
         </section>
       )}
       {view?.verdict && (
-        <div className="demo-answer">
+        <div
+          className="demo-answer"
+          ref={answerTarget}
+          tabIndex={-1}
+          data-testid="demo-answer-target"
+        >
           <FinalAnswer
             run={view}
             t={copy}
@@ -273,6 +347,7 @@ export default function DemoApp() {
             onGenerate={() => {}}
             example={!recorded}
             recorded={recorded}
+            presentation={presentation}
           />
         </div>
       )}
@@ -320,6 +395,7 @@ export default function DemoApp() {
         <span>MAGI / LOCAL EXECUTION</span>
         <h2>{t.own}</h2>
         <p>{t.install}</p>
+        <p>{t.localRequired}</p>
         <pre>
           git clone https://github.com/jhyeong687/MAGI.git{'\n'}cd MAGI{'\n'}npm ci{'\n'}npm run
           setup
@@ -328,12 +404,19 @@ export default function DemoApp() {
         <a href={`${repoUrl}#quick-start`} target="_blank" rel="noreferrer">
           {t.source} ↗
         </a>
+        <a
+          href={`${repoUrl}/blob/main/docs/INSTALLATION${locale === 'ko' ? '.ko' : ''}.md`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {t.installGuide} ↗
+        </a>
       </section>
       <footer className="demo-footer">
         <span>{t.privacy}</span>
         <a href={`${repoUrl}/blob/main/THIRD_PARTY_NOTICES.md`}>UNOFFICIAL FAN PROJECT / CREDITS</a>
       </footer>
-      {reveal && view?.verdict && (
+      {reveal === 'showing' && view?.verdict && (
         <div className={`decision-reveal ${view.verdict.result.toLowerCase()}`} aria-hidden="true">
           <span>MAGI SYSTEM / 決議終了</span>
           <b lang="ja">
