@@ -17,6 +17,8 @@ import { localeNames } from '../displayCopy.ts';
 import { screenCopy } from '../screenCopy.ts';
 import { repoUrl } from '../shareCopy.ts';
 import { demoCopies } from './copy.ts';
+import { trialCopies } from './trialCopy.ts';
+import './trial.css';
 import { recordedRun } from './recording.ts';
 import { createExample, exampleIds, exampleTitle, type ExampleId } from './catalog.ts';
 import { demoPresentation, recordingContext } from './presentation.ts';
@@ -33,7 +35,7 @@ function initialLocale(): Locale {
     new URLSearchParams(location.search).get('lang') || localStorage.getItem('magi-demo-locale');
   return value && Object.hasOwn(localeNames, value) ? (value as Locale) : 'ja';
 }
-export default function DemoApp() {
+export default function DemoApp({ onTry }: { onTry: () => void }) {
   const [locale, setLocale] = useState<Locale>(initialLocale);
   const [selected, setSelected] = useState<ExampleId | 'recording'>(() => {
     const id = new URLSearchParams(location.search).get('example');
@@ -211,6 +213,14 @@ export default function DemoApp() {
         <strong>{recorded ? t.recordedBadge : t.badge}</strong>
         <span>{recorded ? t.recordedDisclosure : t.disclosure}</span>
       </div>
+      {!film && (
+        <section className="demo-trial-cta">
+          <button data-testid="open-trial" className="primary" onClick={onTry}>
+            {trialCopies[locale].open} ↗
+          </button>
+          <p>{trialCopies[locale].intro}</p>
+        </section>
+      )}
       <section className="demo-entry" aria-labelledby="demo-question-title">
         <div>
           <small>{recorded ? t.featured : t.example}</small>

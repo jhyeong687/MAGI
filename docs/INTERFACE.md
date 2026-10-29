@@ -56,11 +56,11 @@ Public-demo links reopen the same public example, selected language and result. 
 
 The **Prepare a question** helper offers Project, Career and Everyday decision templates. Edit the situation, decision and priorities, then explicitly add them to your question. Existing text is preserved, repeated application avoids duplication and the 6,000-character limit is enforced. Applying a draft never starts a deliberation. Helper fields survive reloads in this browser.
 
-The public demo provides the same helper for local drafting and copying only. It never submits your draft, changes the selected recorded proposal or inserts draft text into shared URLs. Use the local app to deliberate on that question.
+The public demo provides the same helper for local drafting and copying only. It never submits your draft, changes the selected recorded proposal or inserts draft text into shared URLs. Use the separate free cloud trial or the local app to deliberate on that question.
 
 ![Editable question helper in the public demo](./screenshots/demo-question-guide.png)
 
-The public site is replay-only. **Ask your own question · install locally** leads to installation instructions and the [English installation/troubleshooting guide](./INSTALLATION.md). Each person uses their own computer and ChatGPT/Codex account. Official Codex handles sign-in and credential storage.
+The recorded-demo mode is replay-only. A separate **Try your own question — free** screen submits new questions to Cloudflare Qwen without login, with shared daily limits and honest availability. [Trial limits and privacy](./CLOUD_TRIAL.md). **Ask your own question · install locally** leads to installation instructions and the [English installation/troubleshooting guide](./INSTALLATION.md). Each person uses their own computer and ChatGPT/Codex account. Official Codex handles sign-in and credential storage.
 
 ![Local app sign-in](./screenshots/login.png)
 

@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "magi-free-trial",
+  "main": "cloudflare/worker.ts",
+  "compatibility_date": "2026-10-28",
+  "workers_dev": true,
+  "preview_urls": false,
+  "ai": { "binding": "AI" },
+  "durable_objects": { "bindings": [{ "name": "QUOTA", "class_name": "DailyTrial" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["DailyTrial"] }],
+  "vars": {
+    "TRIAL_ENABLED": "false",
+    "ALLOWED_ORIGIN": "https://jhyeong687.github.io",
+    "CF_ACCOUNT_ID": "",
+  },
+  "observability": { "enabled": false },
+}

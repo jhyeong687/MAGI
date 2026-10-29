@@ -11,3 +11,6 @@ playwright-report/
 *.log
 .codex/
 docs/evidence/
+
+.wrangler/
+.dev.vars*

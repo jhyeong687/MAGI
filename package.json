@@ -1,6 +1,6 @@
 {
   "name": "magi-local-council",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -23,7 +23,9 @@
     "build:demo": "tsc --noEmit && vite build --mode demo && tsx scripts/package-demo.ts",
     "preview:demo": "vite preview --mode demo --host 127.0.0.1 --port 5190 --strictPort",
     "test:demo": "playwright test --config playwright.demo.config.ts",
-    "video:demo": "tsx scripts/capture-video.ts"
+    "video:demo": "tsx scripts/capture-video.ts",
+    "check:cloud": "tsc --noEmit -p cloudflare/tsconfig.json && wrangler deploy --dry-run",
+    "deploy:cloud": "tsx scripts/deploy-cloud.ts"
   },
   "dependencies": {
     "@openai/codex": "0.165.0",
@@ -33,6 +35,7 @@
     "zod": "^4.1.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261029.1",
     "@playwright/test": "^1.56.0",
     "@types/express": "^5.0.0",
     "@types/node": "^24.0.0",
@@ -42,7 +45,8 @@
     "prettier": "^3.9.10",
     "tsx": "^4.20.0",
     "typescript": "^5.9.0",
-    "vite": "^7.1.0"
+    "vite": "^7.1.0",
+    "wrangler": "^4.155.0"
   },
   "description": "Evangelion-inspired MAGI council with three real Codex personas and your own ChatGPT login",
   "license": "MIT",

@@ -73,16 +73,16 @@ Your `.magi/` directory stores settings, questions and decision records. Keep th
 
 ## Troubleshooting
 
-| What happened?                                  | What to check                                                                                                     |
-| ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| The login browser did not open                  | Run `npm run login` in the project folder and open the official URL printed by Codex.                             |
-| The browser callback cannot reach this computer | Run `npm run login -- --device` if device-code login is enabled for your account/workspace.                       |
-| MAGI still asks you to connect                  | Use **Check connection again** or run `npm run doctor`. This app requires ChatGPT authentication, not an API key. |
-| Login succeeds, but a deliberation is rejected  | Check Codex access, workspace policy, model availability and account usage limits. Read the actual error.         |
-| Missing files or unsupported CLI capabilities   | Run `npm ci` to restore the pinned dependencies.                                                                  |
-| Usage limit or timeout                          | Wait for account limits to recover, or adjust the next run's per-call timeout. No retry happens automatically.    |
-| Port 5173 is occupied                           | Stop the other MAGI server, or use `PORT=5180 npm start`.                                                         |
-| The public demo will not accept a new question  | The public site is replay-only. Install the local app to run your own question.                                   |
+| What happened?                                  | What to check                                                                                                            |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| The login browser did not open                  | Run `npm run login` in the project folder and open the official URL printed by Codex.                                    |
+| The browser callback cannot reach this computer | Run `npm run login -- --device` if device-code login is enabled for your account/workspace.                              |
+| MAGI still asks you to connect                  | Use **Check connection again** or run `npm run doctor`. This app requires ChatGPT authentication, not an API key.        |
+| Login succeeds, but a deliberation is rejected  | Check Codex access, workspace policy, model availability and account usage limits. Read the actual error.                |
+| Missing files or unsupported CLI capabilities   | Run `npm ci` to restore the pinned dependencies.                                                                         |
+| Usage limit or timeout                          | Wait for account limits to recover, or adjust the next run's per-call timeout. No retry happens automatically.           |
+| Port 5173 is occupied                           | Stop the other MAGI server, or use `PORT=5180 npm start`.                                                                |
+| The public trial will not accept a new question | Check the shared/per-IP quota and availability. Recorded playback is separate. See [Free cloud trial](./CLOUD_TRIAL.md). |
 
 `npm run doctor` checks CLI/auth/capabilities without making a model call. The [official authentication guide](https://learn.chatgpt.com/docs/auth) covers browser and device login.
 

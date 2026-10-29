@@ -10,7 +10,9 @@
 
 Three Codex personas analyze, debate and vote — then MAGI gives you an answer.
 
-**Browser demo:** replay a real session in ~22 seconds, no login. **Your own questions:** install the local app and use your own ChatGPT/Codex account.
+**[Ask your own question in the free web trial →](https://jhyeong687.github.io/MAGI/?lang=en&mode=trial)** No login or installation. **20 shared starts/day · 2 per IP/day.** Uses Cloudflare Qwen, with a hard stop at the free limit. [Limits and privacy](./docs/CLOUD_TRIAL.md)
+
+**Recorded demo:** a real Codex session in ~22 seconds. **Local edition:** your own ChatGPT/Codex account.
 
 <p align="center">
   <a href="https://jhyeong687.github.io/MAGI/"><img src="./docs/media/open-demo.svg" alt="Try the public demo — no login" height="46" /></a>
@@ -24,7 +26,7 @@ Three Codex personas analyze, debate and vote — then MAGI gives you an answer.
 
 </div>
 
-MAGI is an **Evangelion-inspired decision console** that runs with your own ChatGPT account through official Codex. Ask a question, watch three perspectives challenge each other, and read a final answer alongside the vote, conditions and dissent.
+MAGI is an **Evangelion-inspired decision console**. Run the full local edition with your own ChatGPT account through official Codex, or try a bounded Cloudflare Qwen edition in the browser. Ask a question, watch three perspectives challenge each other, and read a final answer alongside the vote, conditions and dissent.
 
 The front-facing **4:3 display**, Japanese lettering, irregular blue processing lights and decision stamps stay central. The surrounding controls and new answers support **English, Japanese, Korean and Simplified Chinese**. First launch is Japanese; the MAGI artwork stays Japanese in every language.
 
@@ -34,7 +36,7 @@ The front-facing **4:3 display**, Japanese lettering, irregular blue processing 
 
 **[Watch 25 seconds →](https://jhyeong687.github.io/MAGI/magi-demo.mp4)** · [Portrait version](https://jhyeong687.github.io/MAGI/magi-demo-vertical.mp4) · [Replay the actual session](https://jhyeong687.github.io/MAGI/?lang=en&example=recording)
 
-The video opens with a brief TV-reference dissolve into the app, then replays a real, purpose-made Codex session with edited timing. The original session took about **85.8 seconds**. The actual recording is the featured first experience, played at **4× speed (about 22 seconds)**. The public demo also includes **three labelled illustrative examples**; it makes no new model calls and needs no login. To ask your own questions, install the local app below. [Recording and media provenance](./docs/videos/README.md)
+The video opens with a brief TV-reference dissolve into the app, then replays a real, purpose-made Codex session with edited timing. The original session took about **85.8 seconds**. The actual recording is the featured first experience, played at **4× speed (about 22 seconds)**. The public demo also includes **three labelled illustrative examples**; recorded playback makes no new model calls and needs no login. For new questions use the separate free cloud trial or install the local app below. [Recording and media provenance](./docs/videos/README.md)
 
 ## Inside the console
 
@@ -86,13 +88,13 @@ Setup checks the bundled official Codex CLI, opens official ChatGPT sign-in when
 
 **初期言語：日本語。** Use **言語** at the top to switch to English, 한국어 or 中文. New deliberations use your chosen language; saved records keep their original text.
 
-| Public demo                                     | Local app                                       |
-| ----------------------------------------------- | ----------------------------------------------- |
-| Explore examples and one real recorded session. | Ask your own questions with your own account.   |
-| No installation, login or new model calls.      | Official Codex handles sign-in and credentials. |
-| Runs on GitHub Pages.                           | Runs on your computer at `127.0.0.1:5173`.      |
+| Recorded demo                               | Free cloud trial                          | Local app                           |
+| ------------------------------------------- | ----------------------------------------- | ----------------------------------- |
+| Replay one real Codex session and examples. | Submit a new question to Cloudflare Qwen. | Use your own ChatGPT/Codex account. |
+| No login or new calls.                      | No login; shared daily limits.            | Your account allowance applies.     |
+| Static GitHub Pages.                        | Pages + a Free-only Worker.               | Your computer at `127.0.0.1:5173`.  |
 
-**Your account allowance applies.** One default deliberation uses **13 model calls**: 12 persona assessments and one final report. Two/three discussion cycles use 19/25 calls. Open source does not mean unlimited model access. [Installation, login and troubleshooting](./docs/INSTALLATION.md)
+**In the local edition, your account allowance applies.** One default deliberation uses **13 model calls**: 12 persona assessments and one final report. Two/three discussion cycles use 19/25 calls. Open source does not mean unlimited model access. [Installation, login and troubleshooting](./docs/INSTALLATION.md)
 
 <details>
 <summary><strong>Login commands, data and execution details</strong></summary>
