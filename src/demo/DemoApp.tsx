@@ -49,13 +49,29 @@ export default function DemoApp() {
   const view = started ? replay.view : null;
   const t = demoCopies[locale],
     copy = copies[locale];
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const [reduced, setReduced] = useState(
+    () => matchMedia('(prefers-reduced-motion: reduce)').matches,
+  );
+  const [animations, setAnimations] = useState(
+    () => localStorage.getItem('magi-demo-animations') !== 'off',
+  );
+  const motion = animations && !reduced;
   const [reveal, setReveal] = useState<'idle' | 'showing' | 'done'>('idle');
   const [answerRequested, setAnswerRequested] = useState(false);
   const answerTarget = useRef<HTMLDivElement>(null);
+  const inspectorTarget = useRef<HTMLDivElement>(null);
   const sharedEntry = useRef(new URLSearchParams(location.search).get('view') === 'result');
   const revealed = useRef(false);
   const film = new URLSearchParams(location.search).has('film');
+  useEffect(() => {
+    const media = matchMedia('(prefers-reduced-motion: reduce)');
+    const update = () => setReduced(media.matches);
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+  useEffect(() => {
+    localStorage.setItem('magi-demo-animations', animations ? 'on' : 'off');
+  }, [animations]);
   useEffect(() => {
     document.documentElement.lang = locale === 'zh' ? 'zh-Hans' : locale;
     localStorage.setItem('magi-demo-locale', locale);
@@ -72,16 +88,17 @@ export default function DemoApp() {
       setReveal('idle');
       return;
     }
-    if (revealed.current) return;
-    revealed.current = true;
-    if (reduced) {
+    if (!motion) {
+      revealed.current = true;
       setReveal('done');
       return;
     }
+    if (revealed.current) return;
+    revealed.current = true;
     setReveal('showing');
     const timer = setTimeout(() => setReveal('done'), 1500);
     return () => clearTimeout(timer);
-  }, [Boolean(view?.verdict), started, reduced]);
+  }, [Boolean(view?.verdict), started, motion]);
   useEffect(() => {
     replay.setSpeed(recorded ? 4 : 1);
   }, [selected]);
@@ -106,7 +123,13 @@ export default function DemoApp() {
       target.scrollIntoView({ behavior: 'instant', block: 'start' });
     }
     setAnswerRequested(false);
-  }, [answerRequested, completed, reveal, reduced]);
+  }, [answerRequested, completed, reveal]);
+  function inspectCore(value: Persona) {
+    setPersona(value);
+    const target = inspectorTarget.current;
+    target?.focus({ preventScroll: true });
+    target?.scrollIntoView({ behavior: 'instant', block: 'center' });
+  }
   function start() {
     if (!started) replay.setSpeed(recorded ? 4 : 1);
     setStarted(true);
@@ -129,9 +152,15 @@ export default function DemoApp() {
   }
   const presentation = demoPresentation(run, locale, selected);
   const record = view?.records.findLast((item) => item.persona === persona);
+  const resultLabel =
+    view?.verdict?.result === 'APPROVED'
+      ? t.approved
+      : view?.verdict?.result === 'DENIED'
+        ? t.denied
+        : t.noMajority;
   return (
     <div
-      className={`demo-shell anime-terminal ${film ? 'film-mode' : ''} ${started && !replay.playing ? 'motion-paused' : ''}`}
+      className={`demo-shell anime-terminal ${film ? 'film-mode' : ''} ${!motion ? 'motion-off' : ''} ${started && !replay.playing ? 'motion-paused' : ''}`}
       data-locale={locale}
     >
       <header className="demo-header">
@@ -148,6 +177,17 @@ export default function DemoApp() {
           <a href={repoUrl} target="_blank" rel="noreferrer">
             {t.source} ↗
           </a>
+          <button
+            className="demo-effects"
+            data-testid="demo-effects"
+            aria-label={copy.animations}
+            aria-pressed={motion}
+            disabled={reduced}
+            title={reduced ? t.reducedMotion : undefined}
+            onClick={() => setAnimations((value) => !value)}
+          >
+            {t.effects} {motion ? 'ON' : 'OFF'}
+          </button>
           <label className="language-control">
             {t.language}
             <select
@@ -201,8 +241,8 @@ export default function DemoApp() {
             locale={locale}
             replay={started}
             position={started ? replay.position : undefined}
-            motion={!reduced}
-            onSelect={setPersona}
+            motion={motion}
+            onSelect={inspectCore}
           />
           <ol className="sequence-strip">
             {phases.map((phase, index) => (
@@ -297,7 +337,15 @@ export default function DemoApp() {
               </>
             )}
           </div>
-          <div className="demo-inspector">
+          <div
+            className="demo-inspector"
+            data-testid="demo-inspector"
+            ref={inspectorTarget}
+            tabIndex={-1}
+            role="region"
+            aria-labelledby="demo-opinion-title"
+          >
+            <h2 id="demo-opinion-title">{personaInfo[persona].name}</h2>
             <div className="demo-personas">
               {PERSONAS.map((p) => (
                 <button key={p} aria-pressed={persona === p} onClick={() => setPersona(p)}>
@@ -321,16 +369,24 @@ export default function DemoApp() {
         </aside>
       </main>
       {view?.verdict && (
-        <section className="demo-result" data-testid="demo-result">
+        <section
+          className={`demo-result ${view.verdict.result.toLowerCase()}`}
+          data-testid="demo-result"
+          aria-label={copy.report}
+        >
           <b>
-            {view.verdict.result === 'APPROVED'
-              ? t.approved
-              : view.verdict.result === 'DENIED'
-                ? t.denied
-                : t.noMajority}{' '}
-            <em>{view.verdict.result}</em>
+            {resultLabel}
+            {resultLabel !== view.verdict.result && <em>{view.verdict.result}</em>}
           </b>
-          <span>{view.verdict.ratio} / 3</span>
+          <div className="demo-vote-tally">
+            <span>
+              {copy.votes}: {view.verdict.ratio} / 3
+            </span>
+            <small data-testid="demo-vote-counts">
+              {view.verdict.approve} {copy.approve} / {view.verdict.deny} {copy.deny} /{' '}
+              {view.verdict.abstain} {copy.abstain}
+            </small>
+          </div>
         </section>
       )}
       {view?.verdict && (

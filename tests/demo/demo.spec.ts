@@ -61,10 +61,10 @@ test('examples replay each phase without future opinions and produce approve, de
   page,
 }) => {
   await page.goto('./?lang=en');
-  for (const [id, result] of [
-    ['club', 'APPROVED'],
-    ['feature', 'DENIED'],
-    ['meeting', 'INCONCLUSIVE'],
+  for (const [id, result, color, counts] of [
+    ['club', 'APPROVED', 'rgb(83, 243, 156)', '2 APPROVE / 1 DENY / 0 ABSTAIN'],
+    ['feature', 'DENIED', 'rgb(243, 119, 105)', '1 APPROVE / 2 DENY / 0 ABSTAIN'],
+    ['meeting', 'INCONCLUSIVE', 'rgb(237, 182, 83)', '1 APPROVE / 1 DENY / 1 ABSTAIN'],
   ]) {
     await page.getByTestId(`example-${id}`).click();
     await expect(page.getByTestId('demo-result')).toHaveCount(0);
@@ -74,6 +74,7 @@ test('examples replay each phase without future opinions and produce approve, de
     const slider = page.getByTestId('demo-seek');
     await slider.press('Home');
     await expect(page.getByTestId('core-melchior')).toHaveAttribute('data-state', 'ANALYZING');
+    await expect(page.locator('.diagnostic-ring')).toHaveCount(1);
     await expect(page.getByTestId('demo-result')).toHaveCount(0);
     for (const [offset, phase] of [
       [4500, 'cross-examination'],
@@ -89,11 +90,24 @@ test('examples replay each phase without future opinions and produce approve, de
         input.dispatchEvent(new Event('change', { bubbles: true }));
       }, offset);
       await expect(page.locator('.reference-plane')).toHaveAttribute('data-phase', phase);
+      await expect(page.locator('.magi-display circle')).toHaveCount(0);
+      await expect(page.locator('.screen-connections path')).toHaveCount(1);
       await expect(page.getByTestId('demo-result')).toHaveCount(0);
+      if (phase === 'cross-examination') {
+        await page.getByTestId('core-casper').click();
+        await expect(page.getByTestId('demo-inspector')).toBeFocused();
+        await expect(page.getByTestId('demo-opinion')).toBeInViewport();
+        await expect(page.getByTestId('demo-opinion')).not.toContainText('Awaiting');
+        await expect(page.locator('#demo-opinion-title')).toHaveText('CASPER-3');
+      }
     }
     await slider.press('End');
     await expect(page.getByTestId('answer-text')).toBeVisible();
     await expect(page.getByTestId('demo-result')).toContainText(result);
+    await expect(page.getByTestId('demo-result')).toHaveCSS('color', color);
+    await expect(page.getByTestId('demo-vote-counts')).toHaveText(counts);
+    if (result !== 'INCONCLUSIVE')
+      await expect(page.getByTestId('demo-result').locator('em')).toHaveCount(0);
     await expect(page.locator('.decision-reveal')).toHaveCount(0, { timeout: 4000 });
   }
 });
@@ -208,4 +222,35 @@ test('unsupported locale values fall back safely to Japanese', async ({ page }) 
   await page.goto('./?lang=toString&example=recording');
   await expect(page.getByTestId('locale-select')).toHaveValue('ja');
   await expect(page.getByTestId('demo-start')).toBeVisible();
+});
+
+test('effects preferences persist and system reduced motion can interrupt a reveal without losing the answer', async ({
+  page,
+}) => {
+  await page.goto('./?lang=en&example=club');
+  const effects = page.getByTestId('demo-effects');
+  await expect(effects).toHaveAttribute('aria-pressed', 'true');
+  await effects.click();
+  await expect(page.locator('.demo-shell')).toHaveClass(/motion-off/);
+  await page.reload();
+  await expect(effects).toHaveAttribute('aria-pressed', 'false');
+  await page.getByTestId('demo-start').click();
+  await expect(page.getByTestId('demo-play')).toHaveText('Ⅱ Pause');
+  await expect(page.locator('.magi-screen')).toHaveAttribute('data-motion-time', '0');
+  await page.getByTestId('demo-finish').click();
+  await expect(page.getByTestId('demo-answer-target')).toBeFocused();
+  await expect(page.locator('.decision-reveal')).toHaveCount(0);
+  await effects.click();
+  await page.getByTestId('demo-start').click();
+  await page.getByTestId('demo-finish').click();
+  await expect(page.locator('.decision-reveal')).toBeVisible();
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(effects).toBeDisabled();
+  await expect(effects).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.locator('.decision-reveal')).toHaveCount(0);
+  await expect(page.getByTestId('demo-answer-target')).toBeFocused();
+  await expect(page.getByTestId('answer-text')).toBeInViewport();
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await expect(effects).toBeEnabled();
+  await expect(effects).toHaveAttribute('aria-pressed', 'true');
 });

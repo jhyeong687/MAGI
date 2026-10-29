@@ -1,4 +1,4 @@
-import { chromium } from '@playwright/test';
+import { chromium, expect } from '@playwright/test';
 import { spawn, execFile } from 'node:child_process';
 import { mkdirSync, writeFileSync, existsSync, rmSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -64,7 +64,8 @@ try {
   await page.getByTestId('demo-start').click();
   await page.getByTestId('demo-play').click();
   await page.getByTestId('demo-seek').press('End');
-  await page.locator('.decision-reveal').waitFor({ state: 'hidden' });
+  await expect(page.getByTestId('demo-answer-target')).toBeFocused();
+  await expect(page.locator('.decision-reveal')).toHaveCount(0);
   await page.getByTestId('share-verdict').click();
   await page.getByTestId('share-preview').waitFor();
   const download = page.waitForEvent('download');

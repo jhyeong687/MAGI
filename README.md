@@ -10,6 +10,8 @@
 
 Three Codex personas analyze, debate and vote — then MAGI gives you an answer.
 
+**Browser demo:** replay a real session in ~22 seconds, no login. **Your own questions:** install the local app and use your own ChatGPT/Codex account.
+
 <p align="center">
   <a href="https://jhyeong687.github.io/MAGI/"><img src="./docs/media/open-demo.svg" alt="Try the public demo — no login" height="46" /></a>
   <a href="https://jhyeong687.github.io/MAGI/magi-demo.mp4"><img src="./docs/media/watch-video.svg" alt="Watch the 25-second video" height="46" /></a>

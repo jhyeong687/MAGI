@@ -19,6 +19,9 @@
   justify-content: end;
   gap: 24px;
 }
+.demo-effects {
+  min-height: 44px;
+}
 .demo-shell a {
   color: #ddad68;
   text-decoration: none;
@@ -134,6 +137,16 @@
   border-top: 1px solid #624b2d;
   margin-top: 24px;
   padding-top: 18px;
+  scroll-margin: 24px;
+}
+.demo-inspector:focus {
+  outline: 1px solid #9f783c;
+  outline-offset: 8px;
+}
+.demo-inspector h2 {
+  font: bold 13px monospace;
+  color: #edc88d;
+  margin-bottom: 12px;
 }
 .demo-personas {
   display: flex;
@@ -162,13 +175,31 @@
 }
 .demo-result {
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
   align-items: center;
   padding: 18px 0;
-  color: #86dcb6;
+  color: #edb653;
   font: bold 24px monospace;
   border-top: 1px solid #786039;
   margin-top: 25px;
+}
+.demo-result.approved {
+  color: #53f39c;
+}
+.demo-result.denied {
+  color: #f37769;
+}
+.demo-vote-tally {
+  display: grid;
+  gap: 8px;
+}
+.demo-vote-tally > span {
+  font-size: 15px;
+}
+.demo-vote-tally > small {
+  color: #cbb694;
+  font: 11px/1.7 monospace;
 }
 .demo-result em {
   font-size: 12px;
@@ -292,8 +323,11 @@
   }
   .demo-links {
     flex-direction: column;
-    gap: 9px;
+    gap: 6px;
     align-items: flex-end;
+  }
+  .demo-effects {
+    padding: 6px 9px;
   }
   .demo-links > a {
     font-size: 9px;

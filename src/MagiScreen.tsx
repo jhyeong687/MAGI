@@ -139,18 +139,6 @@ export default function MagiScreen({
                 <path d="M273 265L254.5 283.5M431 265L449.5 283.5M302 368H402" />
               )}
             </g>
-            {!diagnostics && run?.status === 'running' && run.phase !== 'final-vote' && motion && (
-              <g className="signal-packets" aria-hidden="true">
-                {[
-                  [273, 265, 254.5, 283.5],
-                  [431, 265, 449.5, 283.5],
-                  [302, 368, 402, 368],
-                ].map(([x1, y1, x2, y2], i) => {
-                  const f = (clock / (run.phase === 'reconsideration' ? 1800 : 1100) + i / 3) % 1;
-                  return <circle key={i} cx={x1 + (x2 - x1) * f} cy={y1 + (y2 - y1) * f} r="3" />;
-                })}
-              </g>
-            )}
           </g>
           {PERSONAS.map((persona, index) => {
             const shape = coreGeometry[persona],

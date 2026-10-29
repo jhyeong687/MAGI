@@ -22,7 +22,7 @@ Each core analyzes the question before seeing the others' assessments. Diagnosti
 
 ## Cross-examination and reconsideration
 
-Select a persona to read its latest public assessment and response to the others. Expand **Public debate** for the complete chronological public transcript. This is not a display of private internal reasoning.
+Select a core to bring its latest public assessment and response to the others into view, including on mobile. Connections remain still; there are no travelling circular markers. Expand **Public debate** for the complete chronological public transcript. This is not a display of private internal reasoning.
 
 ![Actual recorded cross-examination](./screenshots/demo-debate.png)
 
@@ -33,6 +33,8 @@ Select a persona to read its latest public assessment and response to the others
 MELCHIOR approves with conditions, while BALTHASAR and CASPER deny the public demonstration proposal. The recorded result is **2–1 DENIED**; no conflict or vote was forced. **Show final answer** ends playback, plays the Japanese decision reveal, then moves keyboard focus and the viewport to the answer. Natural completion also brings the answer into view.
 
 The report preserves the result, reasons, next steps and remaining differences. The report writer does not cast a fourth vote.
+
+The public result uses green for approval, red for denial and amber for no majority. Approval, denial and abstention counts appear beside the ratio.
 
 ![Actual final answer, after the decision reveal](./screenshots/demo-recorded.png)
 
@@ -59,3 +61,5 @@ A default new deliberation uses **13 calls** against the signed-in account's all
 The MAGI artwork always keeps **提訴 / 決議 / 待機 / 審議中 / 可決 / 否決 / 保留**, including the final reveal. Switching the surrounding language does not translate saved records. Chinese UI uses Simplified Chinese.
 
 The console maintains its 4:3 ratio at small sizes. The primary start and playback controls retain text labels and touch targets. The app supports visible keyboard focus, Escape to close dialogs, reduced motion and animations OFF. Synthesized audio is optional and OFF by default.
+
+Use **Effects ON/OFF** in the public-demo header to disable visual effects without stopping playback. The choice survives reloads. System reduced-motion preferences take priority and update while the page is open; turning motion off during the decision reveal still brings the final answer into view.

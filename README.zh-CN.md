@@ -8,6 +8,8 @@
 
 **[▶ 公开演示 — 无需登录](https://jhyeong687.github.io/MAGI/)** · [25秒演示视频](https://jhyeong687.github.io/MAGI/magi-demo.mp4) · [↓ 开始使用](#开始使用)
 
+**浏览器公开演示回放约22秒的实际记录。提交自己的问题需要安装本地版，并使用自己的ChatGPT与Codex账户。**
+
 ## 公开演示、视频与分享
 
 [公开交互演示](https://jhyeong687.github.io/MAGI/)无需安装或登录，明确区分三个说明用示例和一次为公开展示而运行的实际Codex审议。实际记录保留英文原文，并已移除私人会话标识和账户用量。MAGI主画面始终保留日语。

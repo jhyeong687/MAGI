@@ -1,5 +1,7 @@
 import type { Locale } from '../../shared/domain.ts';
 const en = {
+  effects: 'Effects',
+  reducedMotion: 'Reduced motion follows your system preference.',
   recordedStart: 'TRY THE REAL SESSION · ~22s',
   replayNote: 'Actual recording at 4× speed · original session 85.8s · no new AI calls.',
   originalQuestion: 'Read the original English proposal',
@@ -52,6 +54,8 @@ const en = {
 };
 type DemoCopy = typeof en;
 const ja: DemoCopy = {
+  effects: '演出',
+  reducedMotion: '端末の「視差効果を減らす」設定に従い、演出を停止中。',
   recordedStart: '実際の審議を体験 · 約22秒',
   replayNote: '実記録を4倍速で再生・元の審議85.8秒・追加AI呼出しなし。',
   originalQuestion: '英語の原議題を読む',
@@ -101,6 +105,8 @@ const ja: DemoCopy = {
   privacy: 'このサイトには個人の記録や認証情報を含まない。',
 };
 const ko: DemoCopy = {
+  effects: '연출',
+  reducedMotion: '기기의 동작 줄이기 설정에 따라 연출을 껐다.',
   recordedStart: '실제 심의 체험 · 약 22초',
   replayNote: '실제 기록을 4배속으로 재생 · 원래 심의 85.8초 · 새 AI 호출 없음.',
   originalQuestion: '원래 영어 질문 전문 보기',
@@ -151,6 +157,8 @@ const ko: DemoCopy = {
   privacy: '이 사이트에는 개인 기록과 인증 정보가 포함되지 않는다.',
 };
 const zh: DemoCopy = {
+  effects: '演出',
+  reducedMotion: '根据设备的减少动态效果设置，已关闭演出。',
   recordedStart: '体验真实审议 · 约22秒',
   replayNote: '实际记录以4倍速回放 · 原审议85.8秒 · 不产生新AI调用。',
   originalQuestion: '阅读英文原始提案',

@@ -76,6 +76,35 @@ test('reference capture landmarks, 4:3 display and replay motion remain consiste
   }
 });
 
+test('deliberation connectors stay fixed without travelling circles while recorded progress changes', async ({
+  page,
+}) => {
+  await page.addInitScript(() => sessionStorage.setItem('magi-booted', '1'));
+  await page.goto(`/?run=${fixtureIds.approved}`);
+  await page.getByTestId('replay-start').click();
+  const controls = page.getByTestId('replay-controls');
+  await controls.locator('button').first().click();
+  for (const [position, phase] of [
+    [1100, 'cross-examination'],
+    [2100, 'reconsideration'],
+  ] as const) {
+    await controls.getByRole('slider').evaluate((input: HTMLInputElement, value) => {
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(
+        input,
+        String(value),
+      );
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    }, position);
+    await expect(page.locator('.reference-plane')).toHaveAttribute('data-phase', phase);
+    await expect(page.locator('.magi-display circle')).toHaveCount(0);
+    await expect(page.locator('.screen-connections path')).toHaveAttribute(
+      'd',
+      'M273 265L254.5 283.5M431 265L449.5 283.5M302 368H402',
+    );
+  }
+});
+
 test('reduced motion freezes diagnostics and opt-in sound settings persist without starting a model', async ({
   page,
   request,
