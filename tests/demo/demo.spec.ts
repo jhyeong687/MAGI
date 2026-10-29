@@ -152,8 +152,11 @@ test('featured real session has a visible labelled start, keeps 4:3 Japanese art
   await expect(page.getByTestId('answer-text')).toBeInViewport();
   await expect(page.locator('.decision-reveal')).toHaveCount(0);
   await expect(page.getByTestId('resolution-stamp')).toHaveText('否決');
-  await page.getByTestId('demo-finish').click();
-  await expect(page.getByTestId('answer-text')).toBeInViewport();
+  for (let repeat = 0; repeat < 3; repeat++) {
+    await page.getByTestId('demo-finish').click();
+    await expect(page.getByTestId('demo-answer-target')).toBeFocused();
+    await expect(page.getByTestId('answer-text')).toBeInViewport();
+  }
 });
 
 test('public verdict links reopen the same localized result and editable captions do not rewrite the report', async ({

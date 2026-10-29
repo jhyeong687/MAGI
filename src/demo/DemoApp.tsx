@@ -101,7 +101,9 @@ export default function DemoApp() {
     const target = answerTarget.current;
     if (target?.getClientRects().length) {
       target.focus({ preventScroll: true });
-      target.scrollIntoView({ behavior: reduced ? 'instant' : 'smooth', block: 'start' });
+      // The reveal supplies the motion. An immediate handoff also remains reliable
+      // when an operator clicks the result control again during a previous scroll.
+      target.scrollIntoView({ behavior: 'instant', block: 'start' });
     }
     setAnswerRequested(false);
   }, [answerRequested, completed, reveal, reduced]);
